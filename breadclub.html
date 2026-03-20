@@ -379,15 +379,34 @@ Phone: 682-250-3052
 <script src="assets/js/main.js"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
   const FUNCTION_URL = "https://wbhedqwubgmsqgcugimf.supabase.co/functions/v1/create-breadclub-subscription";
+
+  const SQUARE_APP_ID = "sq0idp-7pAIehxXOmEZV0HxnW48bg";
+  const SQUARE_LOCATION_ID = "L1KAC6DSKSQ9M";
 
   const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   const form = document.getElementById("breadclub-form");
   const statusEl = document.getElementById("breadclub-status");
+
+  let card;
+
+  try {
+    if (!window.Square) {
+      throw new Error("Square.js failed to load.");
+    }
+
+    const payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
+    card = await payments.card();
+    await card.attach("#card-container");
+  } catch (err) {
+    console.error("Square card load error:", err);
+    statusEl.textContent = "Could not load secure card form. Open browser console.";
+    return;
+  }
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
