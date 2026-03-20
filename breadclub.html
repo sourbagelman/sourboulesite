@@ -326,6 +326,8 @@ This order will repeat every week. Weekly members save $0.25 per loaf. Changes c
 
 </div>
 
+<div id="breadclub-status" style="font-size:.92rem; color:#eadfc9; margin-top:8px;"></div>
+
 <button type="submit" class="btn breadclub-cta">
 Save Bread Club Signup
 </button>
@@ -365,44 +367,53 @@ Phone: 682-250-3052
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-const supabase = window.supabase.createClient(
-  "https://wbhedqwubgmsqgcugimf.supabase.co",
-  "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_"
-);
-</script>
-
 <script src="assets/js/main.js"></script>
 
 <script>
-document.getElementById("breadclub-form").addEventListener("submit", async function(e) {
-  e.preventDefault();
+const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
 
-  const data = {
-    full_name: document.getElementById("bc-full-name").value,
-    email: document.getElementById("bc-email").value,
-    phone: "",
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    pickup_day: document.querySelector(".breadclub-darkpill.active").innerText,
-    frequency: document.getElementById("bc-frequency").value,
-    start_date: document.getElementById("bc-start-date").value,
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("breadclub-form");
+  const statusEl = document.getElementById("breadclub-status");
 
-    plain_qty: parseInt(document.getElementById("bc-plain").value),
-    rosemary_qty: parseInt(document.getElementById("bc-rosemary").value),
-    jalapeno_qty: parseInt(document.getElementById("bc-jalapeno").value),
-  };
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-  const { error } = await supabase
-    .from("bread_club_members")
-    .insert([data]);
+    statusEl.textContent = "Saving signup...";
 
-  if (error) {
-    alert("Error saving order. Check console.");
-    console.error(error);
-  } else {
-    alert("Bread Club signup saved!");
-  }
+    const data = {
+      full_name: document.getElementById("bc-full-name").value.trim(),
+      email: document.getElementById("bc-email").value.trim(),
+      phone: "",
+      pickup_day: document.querySelector(".breadclub-darkpill.active").innerText.trim(),
+      frequency: document.getElementById("bc-frequency").value,
+      start_date: document.getElementById("bc-start-date").value,
+      plain_qty: parseInt(document.getElementById("bc-plain").value, 10) || 0,
+      rosemary_qty: parseInt(document.getElementById("bc-rosemary").value, 10) || 0,
+      jalapeno_qty: parseInt(document.getElementById("bc-jalapeno").value, 10) || 0
+    };
+
+    try {
+      const { error } = await supabaseClient
+        .from("bread_club_members")
+        .insert([data]);
+
+      if (error) {
+        console.error("Supabase insert error:", error);
+        statusEl.textContent = "Error saving signup. Open browser console.";
+        return;
+      }
+
+      statusEl.textContent = "Bread Club signup saved successfully!";
+      form.reset();
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      statusEl.textContent = "Unexpected error. Open browser console.";
+    }
+  });
 });
 </script>
 
