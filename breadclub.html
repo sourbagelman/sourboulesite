@@ -44,7 +44,7 @@ Site preview for The Sour Boule • built to replace expensive platform clutter
 
 <div class="nav-actions">
 <a class="btn secondary" href="menu.html">Menu</a>
-<a class="btn primary" href="https://squareup.com" target="_blank">Order Now</a>
+<a class="btn primary" href="https://cash.app/$thesourboule" target="_blank">Order Now</a>
 </div>
 
 </div>
@@ -127,18 +127,18 @@ Live Preview
 Join the Bread Club
 </h2>
 
-
+<form id="breadclub-form" style="display:grid; gap:18px;">
 
 <div class="breadclub-formgrid">
 
 <div class="breadclub-field">
 <label for="bc-full-name">Full Name</label>
-<input id="bc-full-name" class="breadclub-input" type="text" placeholder="Oscar the Dough">
+<input id="bc-full-name" class="breadclub-input" type="text" placeholder="Oscar the Dough" required>
 </div>
 
 <div class="breadclub-field">
 <label for="bc-email">Email</label>
-<input id="bc-email" class="breadclub-input" type="email" placeholder="oscar@thesourboule.com">
+<input id="bc-email" class="breadclub-input" type="email" placeholder="oscar@thesourboule.com" required>
 </div>
 
 </div>
@@ -326,9 +326,11 @@ This order will repeat every week. Weekly members save $0.25 per loaf. Changes c
 
 </div>
 
-<a class="btn breadclub-cta" href="https://checkout.square.site/merchant/ML8K52T7ZGWWR/checkout/LMGIDHI5SCCWOX4RNK7BCHIV" target="_blank" rel="noreferrer">
-Continue to Subscription Setup
-</a>
+<button type="submit" class="btn breadclub-cta">
+Save Bread Club Signup
+</button>
+
+</form>
 
 </section>
 
@@ -362,7 +364,47 @@ Phone: 682-250-3052
 
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const supabase = window.supabase.createClient(
+  "https://wbhedqwubgmsqgcugimf.supabase.co",
+  "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_"
+);
+</script>
+
 <script src="assets/js/main.js"></script>
+
+<script>
+document.getElementById("breadclub-form").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const data = {
+    full_name: document.getElementById("bc-full-name").value,
+    email: document.getElementById("bc-email").value,
+    phone: "",
+
+    pickup_day: document.querySelector(".breadclub-darkpill.active").innerText,
+    frequency: document.getElementById("bc-frequency").value,
+    start_date: document.getElementById("bc-start-date").value,
+
+    plain_qty: parseInt(document.getElementById("bc-plain").value),
+    rosemary_qty: parseInt(document.getElementById("bc-rosemary").value),
+    jalapeno_qty: parseInt(document.getElementById("bc-jalapeno").value),
+  };
+
+  const { error } = await supabase
+    .from("bread_club_members")
+    .insert([data]);
+
+  if (error) {
+    alert("Error saving order. Check console.");
+    console.error(error);
+  } else {
+    alert("Bread Club signup saved!");
+  }
+});
+</script>
 
 </body>
 </html>
