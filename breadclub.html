@@ -370,12 +370,12 @@ Phone: 682-250-3052
 <script src="assets/js/main.js"></script>
 
 <script>
-const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
-
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 document.addEventListener("DOMContentLoaded", function () {
+  const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
+
+  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
   const form = document.getElementById("breadclub-form");
   const statusEl = document.getElementById("breadclub-status");
 
@@ -384,11 +384,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     statusEl.textContent = "Saving signup...";
 
+    const activePickupButton = document.querySelector(".breadclub-darkpill.active");
+
     const data = {
       full_name: document.getElementById("bc-full-name").value.trim(),
       email: document.getElementById("bc-email").value.trim(),
       phone: "",
-      pickup_day: document.querySelector(".breadclub-darkpill.active").innerText.trim(),
+      pickup_day: activePickupButton ? activePickupButton.innerText.trim() : "Thursday",
       frequency: document.getElementById("bc-frequency").value,
       start_date: document.getElementById("bc-start-date").value,
       plain_qty: parseInt(document.getElementById("bc-plain").value, 10) || 0,
@@ -397,7 +399,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     try {
-      const { error } = await supabaseClient
+      const { error } = await client
         .from("bread_club_members")
         .insert([data]);
 
