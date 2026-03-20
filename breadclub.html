@@ -373,6 +373,7 @@ Phone: 682-250-3052
 document.addEventListener("DOMContentLoaded", function () {
   const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
+  const FUNCTION_URL = "https://wbhedqwubgmsqgcugimf.supabase.co/functions/v1/create-breadclub-subscription";
 
   const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -405,11 +406,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (error) {
         console.error("Supabase insert error:", error);
-        statusEl.textContent = "Error saving signup. Open browser console.";
+        statusEl.textContent = "Error saving signup to database. Open browser console.";
         return;
       }
 
-      statusEl.textContent = "Bread Club signup saved successfully!";
+      const fnResponse = await fetch(FUNCTION_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+        },
+        body: JSON.stringify(data)
+      });
+
+      const fnResult = await fnResponse.json();
+      console.log("Function response:", fnResult);
+
+      if (!fnResponse.ok) {
+        statusEl.textContent = "Saved to database, but backend function returned an error.";
+        return;
+      }
+
+      statusEl.textContent = "Bread Club signup saved and backend function received it!";
       form.reset();
     } catch (err) {
       console.error("Unexpected error:", err);
