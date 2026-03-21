@@ -428,6 +428,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
 
     try {
+      const tokenResult = await card.tokenize();
+
+      if (tokenResult.status !== "OK") {
+        console.error("Square tokenization error:", tokenResult);
+        statusEl.textContent = "Card details could not be verified. Check the card form.";
+        return;
+      }
+
+      data.card_token = tokenResult.token;
+
       const { error } = await client
         .from("bread_club_members")
         .insert([data]);
@@ -455,8 +465,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
       }
 
-      statusEl.textContent = "Bread Club signup saved and backend function received it!";
+      statusEl.textContent = "Bread Club signup, card token, and backend request all worked!";
       form.reset();
+      await card.destroy();
+
+      const payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
+      card = await payments.card();
+      await card.attach("#card-container");
     } catch (err) {
       console.error("Unexpected error:", err);
       statusEl.textContent = "Unexpected error. Open browser console.";
