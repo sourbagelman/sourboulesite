@@ -380,6 +380,7 @@ Phone: 682-250-3052
 
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
+
   const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
   const FUNCTION_URL = "https://wbhedqwubgmsqgcugimf.supabase.co/functions/v1/create-breadclub-subscription";
@@ -394,6 +395,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   let card;
 
+  // ==============================
+  // LOAD SQUARE CARD FORM
+  // ==============================
   try {
     if (!window.Square) {
       throw new Error("Square.js failed to load.");
@@ -402,16 +406,20 @@ document.addEventListener("DOMContentLoaded", async function () {
     const payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
     card = await payments.card();
     await card.attach("#card-container");
+
   } catch (err) {
-    console.error("Square card load error:", err);
-    statusEl.textContent = "Could not load secure card form. Open browser console.";
+    console.error("Square load error:", err);
+    statusEl.textContent = "Could not load card form.";
     return;
   }
 
+  // ==============================
+  // FORM SUBMIT
+  // ==============================
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    statusEl.textContent = "Saving signup...";
+    statusEl.textContent = "Processing signup...";
 
     const activePickupButton = document.querySelector(".breadclub-darkpill.active");
 
@@ -428,55 +436,72 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
 
     try {
+      // ==============================
+      // TOKENIZE CARD
+      // ==============================
       const tokenResult = await card.tokenize();
 
       if (tokenResult.status !== "OK") {
-        console.error("Square tokenization error:", tokenResult);
-        statusEl.textContent = "Card details could not be verified. Check the card form.";
+        console.error("Token error:", tokenResult);
+        statusEl.textContent = "Card error. Check details.";
         return;
       }
 
-      data.card_token = tokenResult.token;
+      const card_token = tokenResult.token;
 
+      // ==============================
+      // SAVE TO DATABASE (NO CARD TOKEN)
+      // ==============================
       const { error } = await client
         .from("bread_club_members")
         .insert([data]);
 
       if (error) {
-        console.error("Supabase insert error:", error);
-        statusEl.textContent = "Error saving signup to database. Open browser console.";
+        console.error("Supabase error:", error);
+        statusEl.textContent = "Database error.";
         return;
       }
 
+      // ==============================
+      // SEND TO BACKEND (WITH TOKEN)
+      // ==============================
       const fnResponse = await fetch(FUNCTION_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          ...data,
+          card_token
+        })
       });
 
       const fnResult = await fnResponse.json();
-      console.log("Function response:", fnResult);
+      console.log("Backend:", fnResult);
 
       if (!fnResponse.ok) {
-        statusEl.textContent = "Saved to database, but backend function returned an error.";
+        statusEl.textContent = "Saved, but backend failed.";
         return;
       }
 
-      statusEl.textContent = "Bread Club signup, card token, and backend request all worked!";
-      form.reset();
-      await card.destroy();
+      statusEl.textContent = "Signup complete + card saved!";
 
+      // Reset form
+      form.reset();
+
+      // Reset card UI
+      await card.destroy();
       const payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
       card = await payments.card();
       await card.attach("#card-container");
+
     } catch (err) {
       console.error("Unexpected error:", err);
-      statusEl.textContent = "Unexpected error. Open browser console.";
+      statusEl.textContent = "Something broke. Check console.";
     }
   });
+
 });
 </script>
 
