@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bread Club Admin</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body style="font-family: Arial; padding:20px; background:#111; color:#fff;">
+
+<h1 style="margin-bottom:20px;">Bread Club Members</h1>
+
+<table border="1" cellpadding="10" id="table" style="border-collapse:collapse; width:100%;">
+  <thead style="background:#222;">
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Status</th>
+      <th>Subscription ID</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
+
+const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+async function loadMembers() {
+  const { data, error } = await client
+    .from("bread_club_members")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    alert("Error loading data");
+    return;
+  }
+
+  const tbody = document.querySelector("tbody");
+  tbody.innerHTML = "";
+
+  data.forEach(row => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${row.full_name || ""}</td>
+      <td>${row.email || ""}</td>
+      <td>${row.status || ""}</td>
+      <td>${row.square_subscription_id || ""}</td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
+
+loadMembers();
+</script>
+
+</body>
+</html>
