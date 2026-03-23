@@ -33,9 +33,9 @@ const MANAGE_FUNCTION_URL = "https://wbhedqwubgmsqgcugimf.supabase.co/functions/
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const statusEl = document.getElementById("status");
 
-async function cancelSubscription(memberId, subscriptionId) {
+async function cancelSubscription(subscriptionId, memberId) {
   if (!subscriptionId) {
-    alert("No subscription ID on this row.");
+    alert("No Square subscription ID found on this row.");
     return;
   }
 
@@ -52,14 +52,14 @@ async function cancelSubscription(memberId, subscriptionId) {
         "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
       },
       body: JSON.stringify({
-        action: "cancel",
-        member_id: memberId,
-        subscription_id: subscriptionId
+        subscription_id: subscriptionId,
+        member_id: memberId
       })
     });
 
     const result = await response.json();
-    console.log("Manage subscription response:", result);
+    console.log("Manage subscription response:");
+    console.log(JSON.stringify(result, null, 2));
 
     if (!response.ok) {
       statusEl.textContent = "Cancel failed. Check browser console.";
@@ -81,7 +81,7 @@ async function loadMembers() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error(error);
+    console.error("Supabase load error:", error);
     statusEl.textContent = "Error loading data.";
     return;
   }
@@ -92,18 +92,20 @@ async function loadMembers() {
   data.forEach(row => {
     const tr = document.createElement("tr");
 
-    const cancelDisabled = !row.square_subscription_id || row.status === "canceled";
+    const squareSubscriptionId = row.square_subscription_id || "";
+    const memberId = row.id || "";
+    const cancelDisabled = !squareSubscriptionId || row.status === "canceled";
 
     tr.innerHTML = `
       <td>${row.full_name || ""}</td>
       <td>${row.email || ""}</td>
       <td>${row.status || ""}</td>
-      <td>${row.square_subscription_id || ""}</td>
+      <td>${squareSubscriptionId}</td>
       <td>
         <button
           ${cancelDisabled ? "disabled" : ""}
-          data-member-id="${row.id}"
-          data-subscription-id="${row.square_subscription_id || ""}"
+          data-member-id="${memberId}"
+          data-subscription-id="${squareSubscriptionId}"
           style="padding:8px 12px; cursor:${cancelDisabled ? "not-allowed" : "pointer"};"
         >
           Cancel
@@ -116,7 +118,10 @@ async function loadMembers() {
 
   document.querySelectorAll("button[data-member-id]").forEach(btn => {
     btn.addEventListener("click", () => {
-      cancelSubscription(btn.dataset.memberId, btn.dataset.subscriptionId);
+      cancelSubscription(
+        btn.dataset.subscriptionId,
+        btn.dataset.memberId
+      );
     });
   });
 }
