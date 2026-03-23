@@ -10,6 +10,8 @@
 
 <h1 style="margin-bottom:20px;">Bread Club Members</h1>
 
+<p id="status" style="margin-bottom:20px; color:#f0cf6e;"></p>
+
 <table border="1" cellpadding="10" id="table" style="border-collapse:collapse; width:100%;">
   <thead style="background:#222;">
     <tr>
@@ -17,6 +19,7 @@
       <th>Email</th>
       <th>Status</th>
       <th>Subscription ID</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody></tbody>
@@ -24,9 +27,52 @@
 
 <script>
 const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
+const SUPABASE_ANON_KEY = "PASTE_YOUR_KEY_HERE";
+const MANAGE_FUNCTION_URL = "https://wbhedqwubgmsqgcugimf.supabase.co/functions/v1/manage-breadclub-subscription";
 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const statusEl = document.getElementById("status");
+
+async function cancelSubscription(memberId, subscriptionId) {
+  if (!subscriptionId) {
+    alert("No subscription ID on this row.");
+    return;
+  }
+
+  const confirmed = confirm("Cancel this Bread Club subscription?");
+  if (!confirmed) return;
+
+  statusEl.textContent = "Canceling subscription...";
+
+  try {
+    const response = await fetch(MANAGE_FUNCTION_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+      },
+      body: JSON.stringify({
+        action: "cancel",
+        member_id: memberId,
+        subscription_id: subscriptionId
+      })
+    });
+
+    const result = await response.json();
+    console.log("Manage subscription response:", result);
+
+    if (!response.ok) {
+      statusEl.textContent = "Cancel failed. Check browser console.";
+      return;
+    }
+
+    statusEl.textContent = "Subscription canceled.";
+    await loadMembers();
+  } catch (err) {
+    console.error(err);
+    statusEl.textContent = "Cancel failed. Check browser console.";
+  }
+}
 
 async function loadMembers() {
   const { data, error } = await client
@@ -36,7 +82,7 @@ async function loadMembers() {
 
   if (error) {
     console.error(error);
-    alert("Error loading data");
+    statusEl.textContent = "Error loading data.";
     return;
   }
 
@@ -46,14 +92,32 @@ async function loadMembers() {
   data.forEach(row => {
     const tr = document.createElement("tr");
 
+    const cancelDisabled = !row.square_subscription_id || row.status === "canceled";
+
     tr.innerHTML = `
       <td>${row.full_name || ""}</td>
       <td>${row.email || ""}</td>
       <td>${row.status || ""}</td>
       <td>${row.square_subscription_id || ""}</td>
+      <td>
+        <button
+          ${cancelDisabled ? "disabled" : ""}
+          data-member-id="${row.id}"
+          data-subscription-id="${row.square_subscription_id || ""}"
+          style="padding:8px 12px; cursor:${cancelDisabled ? "not-allowed" : "pointer"};"
+        >
+          Cancel
+        </button>
+      </td>
     `;
 
     tbody.appendChild(tr);
+  });
+
+  document.querySelectorAll("button[data-member-id]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      cancelSubscription(btn.dataset.memberId, btn.dataset.subscriptionId);
+    });
   });
 }
 
