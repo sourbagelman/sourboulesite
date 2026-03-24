@@ -14,11 +14,12 @@
       --muted: #aaa;
       --line: #333;
       --accent: #d7b46a;
+      --danger: #ff8a8a;
     }
 
     body {
       margin: 0;
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
     }
@@ -37,7 +38,9 @@
       border: 1px solid var(--line);
     }
 
-    .hidden { display: none; }
+    .hidden {
+      display: none;
+    }
 
     input {
       width: 100%;
@@ -64,15 +67,25 @@
       border: 1px solid var(--line);
       color: white;
     }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .error {
+      color: var(--danger);
+      white-space: pre-wrap;
+    }
   </style>
 </head>
-
 <body>
   <div class="wrap">
 
     <!-- LOADING -->
     <div id="loadingView" class="card">
-      Checking access...
+      <h2 style="margin-top:0;">Checking access...</h2>
+      <div id="loadingStatus" class="muted">Starting auth check...</div>
+      <div id="loadingError" class="error" style="margin-top:12px;"></div>
     </div>
 
     <!-- LOGIN -->
@@ -80,7 +93,7 @@
       <h2>Admin Login</h2>
       <form id="loginForm">
         <input id="email" type="email" placeholder="lance@thesourboule.com" required />
-        <button type="submit">Send Login Link</button>
+        <button id="loginBtn" type="submit">Send Login Link</button>
       </form>
       <div id="status" style="margin-top:12px;color:var(--muted);"></div>
     </div>
@@ -94,10 +107,9 @@
 
     <!-- ADMIN -->
     <div id="adminView" class="hidden">
-
       <div class="card">
         <h2>Bread Club Admin</h2>
-        <div id="adminEmail"></div>
+        <div id="adminEmail" class="muted"></div>
         <button id="logout" class="secondary" type="button">Sign Out</button>
       </div>
 
@@ -107,7 +119,6 @@
         <button id="refreshBtn" class="secondary" type="button">Refresh Access Check</button>
         <div id="adminTestStatus" style="margin-top:12px;color:var(--muted);"></div>
       </div>
-
     </div>
 
   </div>
@@ -118,65 +129,129 @@
     const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
 
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    });
 
     const loadingView = document.getElementById("loadingView");
     const loginView = document.getElementById("loginView");
     const unauthorizedView = document.getElementById("unauthorizedView");
     const adminView = document.getElementById("adminView");
+
+    const loadingStatus = document.getElementById("loadingStatus");
+    const loadingError = document.getElementById("loadingError");
+
+    const loginForm = document.getElementById("loginForm");
+    const loginBtn = document.getElementById("loginBtn");
+    const emailInput = document.getElementById("email");
+    const status = document.getElementById("status");
+
+    const logoutBtn = document.getElementById("logout");
+    const logoutBadBtn = document.getElementById("logoutBad");
+    const adminEmail = document.getElementById("adminEmail");
     const refreshBtn = document.getElementById("refreshBtn");
     const adminTestStatus = document.getElementById("adminTestStatus");
 
     function show(view) {
-      [loadingView, loginView, unauthorizedView, adminView].forEach(v => v.classList.add("hidden"));
+      [loadingView, loginView, unauthorizedView, adminView].forEach((v) => v.classList.add("hidden"));
       view.classList.remove("hidden");
     }
 
-    async function checkAccess() {
-      show(loadingView);
-
-      const { data, error } = await supabase.auth.getUser();
-
-      if (error || !data?.user) {
-        show(loginView);
-        return;
-      }
-
-      const email = (data.user.email || "").toLowerCase().trim();
-
-      if (!email) {
-        show(loginView);
-        return;
-      }
-
-      const { data: admin, error: adminError } = await supabase
-        .from("breadclub_admins")
-        .select("email")
-        .eq("email", email)
-        .maybeSingle();
-
-      if (adminError) {
-        console.error(adminError);
-        show(unauthorizedView);
-        return;
-      }
-
-      if (!admin) {
-        show(unauthorizedView);
-        return;
-      }
-
-      document.getElementById("adminEmail").innerText = email;
-      show(adminView);
+    function setLoading(message, error = "") {
+      loadingStatus.textContent = message || "";
+      loadingError.textContent = error || "";
     }
 
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    async function finishAuthRedirectIfNeeded() {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+
+      if (code) {
+        setLoading("Finishing email login...");
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+        if (error) {
+          throw new Error("Auth redirect failed: " + error.message);
+        }
+
+        const cleanUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
+      }
+    }
+
+    async function checkAccess() {
+      try {
+        show(loadingView);
+        setLoading("Checking session...");
+
+        await finishAuthRedirectIfNeeded();
+
+        setLoading("Reading session...");
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+
+        if (sessionError) {
+          throw new Error("Session error: " + sessionError.message);
+        }
+
+        if (!sessionData?.session) {
+          show(loginView);
+          return;
+        }
+
+        setLoading("Validating user...");
+        const { data: userData, error: userError } = await supabase.auth.getUser();
+
+        if (userError) {
+          throw new Error("User lookup error: " + userError.message);
+        }
+
+        if (!userData?.user) {
+          show(loginView);
+          return;
+        }
+
+        const email = (userData.user.email || "").toLowerCase().trim();
+
+        if (!email) {
+          show(loginView);
+          return;
+        }
+
+        setLoading("Checking admin approval...");
+        const { data: admin, error: adminError } = await supabase
+          .from("breadclub_admins")
+          .select("email")
+          .eq("email", email)
+          .maybeSingle();
+
+        if (adminError) {
+          throw new Error("Admin table error: " + adminError.message);
+        }
+
+        if (!admin) {
+          show(unauthorizedView);
+          return;
+        }
+
+        adminEmail.textContent = email;
+        show(adminView);
+      } catch (err) {
+        console.error(err);
+        show(loadingView);
+        setLoading("Something broke during auth.", err?.message || String(err));
+      }
+    }
+
+    loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const email = document.getElementById("email").value.trim().toLowerCase();
-      const status = document.getElementById("status");
-
-      status.innerText = "Sending login link...";
+      const email = emailInput.value.trim().toLowerCase();
+      status.textContent = "Sending login link...";
+      loginBtn.disabled = true;
 
       const { error } = await supabase.auth.signInWithOtp({
         email,
@@ -185,33 +260,35 @@
         }
       });
 
+      loginBtn.disabled = false;
+
       if (error) {
-        status.innerText = error.message || "Could not send login link.";
+        status.textContent = error.message || "Could not send login link.";
         return;
       }
 
-      status.innerText = "Check your email.";
+      status.textContent = "Check your email and click the login link.";
     });
 
-    document.getElementById("logout").onclick = async () => {
+    logoutBtn.onclick = async () => {
       await supabase.auth.signOut();
       show(loginView);
     };
 
-    document.getElementById("logoutBad").onclick = async () => {
+    logoutBadBtn.onclick = async () => {
       await supabase.auth.signOut();
       show(loginView);
     };
 
-    if (refreshBtn) {
-      refreshBtn.onclick = async () => {
-        adminTestStatus.innerText = "Re-checking access...";
-        await checkAccess();
-        adminTestStatus.innerText = "Access check complete.";
-      };
-    }
+    refreshBtn.onclick = async () => {
+      adminTestStatus.textContent = "Re-checking access...";
+      await checkAccess();
+      adminTestStatus.textContent = "Access check complete.";
+    };
 
-    supabase.auth.onAuthStateChange(checkAccess);
+    supabase.auth.onAuthStateChange(() => {
+      checkAccess();
+    });
 
     checkAccess();
   </script>
