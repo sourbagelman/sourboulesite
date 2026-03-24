@@ -25,7 +25,7 @@
     }
 
     .wrap {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: auto;
       padding: 24px;
     }
@@ -54,7 +54,7 @@
 
     button {
       margin-top: 12px;
-      padding: 12px 16px;
+      padding: 10px 14px;
       border-radius: 8px;
       border: none;
       background: var(--accent);
@@ -75,6 +75,63 @@
     .error {
       color: var(--danger);
       white-space: pre-wrap;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .small {
+      font-size: 13px;
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 4px 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel-2);
+      font-size: 12px;
+    }
+
+    .danger-btn[disabled],
+    button[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed !important;
     }
   </style>
 </head>
@@ -108,16 +165,41 @@
     <!-- ADMIN -->
     <div id="adminView" class="hidden">
       <div class="card">
-        <h2>Bread Club Admin</h2>
-        <div id="adminEmail" class="muted"></div>
-        <button id="logout" class="secondary" type="button">Sign Out</button>
+        <div class="topbar">
+          <div>
+            <h2 style="margin:0 0 8px 0;">Bread Club Admin</h2>
+            <div id="adminEmail" class="muted"></div>
+          </div>
+
+          <div class="actions">
+            <button id="reloadMembersBtn" class="secondary" type="button">Reload Members</button>
+            <button id="logout" class="secondary" type="button">Sign Out</button>
+          </div>
+        </div>
       </div>
 
       <div class="card">
-        <h3>Protected Admin Area</h3>
-        <p>If you can see this, login worked and your email is approved.</p>
-        <button id="refreshBtn" class="secondary" type="button">Refresh Access Check</button>
-        <div id="adminTestStatus" style="margin-top:12px;color:var(--muted);"></div>
+        <h3 style="margin-top:0;">Bread Club Members</h3>
+        <div id="statusEl" class="muted">Loading members...</div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Member</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Square Subscription ID</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="membersTableBody">
+              <tr>
+                <td colspan="5" class="muted">Loading members...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -128,6 +210,10 @@
 
     const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
+
+    // If your table or function name differs, only change these two lines.
+    const MEMBERS_TABLE = "bread_club_members";
+    const MANAGE_SUBSCRIPTION_URL = `${SUPABASE_URL}/functions/v1/manage-breadclub-subscription`;
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
       auth: {
@@ -153,8 +239,9 @@
     const logoutBtn = document.getElementById("logout");
     const logoutBadBtn = document.getElementById("logoutBad");
     const adminEmail = document.getElementById("adminEmail");
-    const refreshBtn = document.getElementById("refreshBtn");
-    const adminTestStatus = document.getElementById("adminTestStatus");
+    const reloadMembersBtn = document.getElementById("reloadMembersBtn");
+    const statusEl = document.getElementById("statusEl");
+    const membersTableBody = document.getElementById("membersTableBody");
 
     function show(view) {
       [loadingView, loginView, unauthorizedView, adminView].forEach((v) => v.classList.add("hidden"));
@@ -164,6 +251,15 @@
     function setLoading(message, error = "") {
       loadingStatus.textContent = message || "";
       loadingError.textContent = error || "";
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
     }
 
     async function finishAuthRedirectIfNeeded() {
@@ -181,6 +277,139 @@
         const cleanUrl = window.location.origin + window.location.pathname;
         window.history.replaceState({}, document.title, cleanUrl);
       }
+    }
+
+    async function cancelSubscription(subscriptionId, memberId) {
+      if (!subscriptionId) {
+        alert("No Square subscription ID found on this row.");
+        return;
+      }
+
+      const confirmed = window.confirm("Cancel this Bread Club subscription?");
+      if (!confirmed) return;
+
+      statusEl.textContent = "Canceling subscription...";
+
+      try {
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+
+        if (sessionError) {
+          throw new Error(sessionError.message);
+        }
+
+        const accessToken = sessionData?.session?.access_token;
+
+        if (!accessToken) {
+          throw new Error("No active auth session found.");
+        }
+
+        const response = await fetch(MANAGE_SUBSCRIPTION_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${accessToken}`
+          },
+          body: JSON.stringify({
+            action: "cancel",
+            subscription_id: subscriptionId,
+            member_id: memberId
+          })
+        });
+
+        const result = await response.json().catch(() => ({}));
+
+        console.log("Manage subscription response:");
+        console.log(JSON.stringify(result, null, 2));
+
+        if (!response.ok) {
+          statusEl.textContent = "Cancel failed. Check browser console.";
+          return;
+        }
+
+        statusEl.textContent = "Subscription canceled successfully.";
+        await loadMembers();
+      } catch (err) {
+        console.error("Cancel error:", err);
+        statusEl.textContent = "Cancel failed. Check browser console.";
+      }
+    }
+
+    async function loadMembers() {
+      statusEl.textContent = "Loading members...";
+      membersTableBody.innerHTML = `
+        <tr>
+          <td colspan="5" class="muted">Loading members...</td>
+        </tr>
+      `;
+
+      const { data, error } = await supabase
+        .from(MEMBERS_TABLE)
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Supabase load error:", error);
+        statusEl.textContent = "Error loading data.";
+        membersTableBody.innerHTML = `
+          <tr>
+            <td colspan="5" class="error">Error loading data.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        statusEl.textContent = "No members found.";
+        membersTableBody.innerHTML = `
+          <tr>
+            <td colspan="5" class="muted">No members found.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      statusEl.textContent = `Loaded ${data.length} member(s).`;
+      membersTableBody.innerHTML = "";
+
+      data.forEach((row) => {
+        const tr = document.createElement("tr");
+
+        const fullName = row.full_name || "";
+        const email = row.email || "";
+        const statusValue = row.status || "";
+        const squareSubscriptionId = row.square_subscription_id || "";
+        const memberId = row.id || "";
+        const cancelDisabled = !squareSubscriptionId || statusValue === "canceled";
+
+        tr.innerHTML = `
+          <td>${escapeHtml(fullName)}</td>
+          <td>${escapeHtml(email)}</td>
+          <td><span class="status-pill">${escapeHtml(statusValue)}</span></td>
+          <td class="small">${escapeHtml(squareSubscriptionId)}</td>
+          <td>
+            <button
+              class="danger-btn"
+              ${cancelDisabled ? "disabled" : ""}
+              data-member-id="${escapeHtml(memberId)}"
+              data-subscription-id="${escapeHtml(squareSubscriptionId)}"
+              style="padding:8px 12px; cursor:${cancelDisabled ? "not-allowed" : "pointer"};"
+            >
+              Cancel
+            </button>
+          </td>
+        `;
+
+        membersTableBody.appendChild(tr);
+      });
+
+      document.querySelectorAll("button[data-member-id]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          cancelSubscription(
+            btn.dataset.subscriptionId,
+            btn.dataset.memberId
+          );
+        });
+      });
     }
 
     async function checkAccess() {
@@ -239,6 +468,7 @@
 
         adminEmail.textContent = email;
         show(adminView);
+        await loadMembers();
       } catch (err) {
         console.error(err);
         show(loadingView);
@@ -280,10 +510,8 @@
       show(loginView);
     };
 
-    refreshBtn.onclick = async () => {
-      adminTestStatus.textContent = "Re-checking access...";
-      await checkAccess();
-      adminTestStatus.textContent = "Access check complete.";
+    reloadMembersBtn.onclick = async () => {
+      await loadMembers();
     };
 
     supabase.auth.onAuthStateChange(() => {
