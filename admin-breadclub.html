@@ -1,133 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Bread Club Admin</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head>
 
-<body style="font-family: Arial; padding:20px; background:#111; color:#fff;">
-
-<h1 style="margin-bottom:20px;">Bread Club Members</h1>
-
-<p id="status" style="margin-bottom:20px; color:#f0cf6e;"></p>
-
-<table border="1" cellpadding="10" id="table" style="border-collapse:collapse; width:100%;">
-  <thead style="background:#222;">
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Status</th>
-      <th>Subscription ID</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
-
-<script>
-const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
-const MANAGE_FUNCTION_URL = "https://wbhedqwubgmsqgcugimf.supabase.co/functions/v1/manage-breadclub-subscription";
-
-const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-const statusEl = document.getElementById("status");
-
-async function cancelSubscription(subscriptionId, memberId) {
-  if (!subscriptionId) {
-    alert("No Square subscription ID found on this row.");
-    return;
-  }
-
-  const confirmed = confirm("Cancel this Bread Club subscription?");
-  if (!confirmed) return;
-
-  statusEl.textContent = "Canceling subscription...";
-
-  try {
-    const response = await fetch(MANAGE_FUNCTION_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
-      },
-      body: JSON.stringify({
-        subscription_id: subscriptionId,
-        member_id: memberId
-      })
-    });
-
-    const result = await response.json();
-    console.log("Manage subscription response:");
-    console.log(JSON.stringify(result, null, 2));
-
-    if (!response.ok) {
-      statusEl.textContent = "Cancel failed. Check browser console.";
-      return;
+  <style>
+    :root {
+      --bg: #111;
+      --panel: #1b1b1b;
+      --panel-2: #222;
+      --text: #f5f5f5;
+      --muted: #aaa;
+      --line: #333;
+      --accent: #d7b46a;
     }
 
-    statusEl.textContent = "Subscription canceled.";
-    await loadMembers();
-  } catch (err) {
-    console.error(err);
-    statusEl.textContent = "Cancel failed. Check browser console.";
-  }
-}
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: var(--bg);
+      color: var(--text);
+    }
 
-async function loadMembers() {
-  const { data, error } = await client
-    .from("bread_club_members")
-    .select("*")
-    .order("created_at", { ascending: false });
+    .wrap {
+      max-width: 1100px;
+      margin: auto;
+      padding: 24px;
+    }
 
-  if (error) {
-    console.error("Supabase load error:", error);
-    statusEl.textContent = "Error loading data.";
-    return;
-  }
+    .card {
+      background: var(--panel);
+      padding: 18px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      border: 1px solid var(--line);
+    }
 
-  const tbody = document.querySelector("tbody");
-  tbody.innerHTML = "";
+    .hidden { display: none; }
 
-  data.forEach(row => {
-    const tr = document.createElement("tr");
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: white;
+    }
 
-    const squareSubscriptionId = row.square_subscription_id || "";
-    const memberId = row.id || "";
-    const cancelDisabled = !squareSubscriptionId || row.status === "canceled";
+    button {
+      margin-top: 12px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: none;
+      background: var(--accent);
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-    tr.innerHTML = `
-      <td>${row.full_name || ""}</td>
-      <td>${row.email || ""}</td>
-      <td>${row.status || ""}</td>
-      <td>${squareSubscriptionId}</td>
-      <td>
-        <button
-          ${cancelDisabled ? "disabled" : ""}
-          data-member-id="${memberId}"
-          data-subscription-id="${squareSubscriptionId}"
-          style="padding:8px 12px; cursor:${cancelDisabled ? "not-allowed" : "pointer"};"
-        >
-          Cancel
-        </button>
-      </td>
-    `;
+    .secondary {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: white;
+    }
+  </style>
+</head>
 
-    tbody.appendChild(tr);
-  });
+<body>
+  <div class="wrap">
 
-  document.querySelectorAll("button[data-member-id]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      cancelSubscription(
-        btn.dataset.subscriptionId,
-        btn.dataset.memberId
-      );
+    <!-- LOADING -->
+    <div id="loadingView" class="card">
+      Checking access...
+    </div>
+
+    <!-- LOGIN -->
+    <div id="loginView" class="card hidden">
+      <h2>Admin Login</h2>
+      <form id="loginForm">
+        <input id="email" type="email" placeholder="lance@thesourboule.com" required />
+        <button type="submit">Send Login Link</button>
+      </form>
+      <div id="status" style="margin-top:12px;color:var(--muted);"></div>
+    </div>
+
+    <!-- UNAUTHORIZED -->
+    <div id="unauthorizedView" class="card hidden">
+      <h2>Not Authorized</h2>
+      <p>Your email signed in, but it is not approved for admin access.</p>
+      <button id="logoutBad" class="secondary" type="button">Sign Out</button>
+    </div>
+
+    <!-- ADMIN -->
+    <div id="adminView" class="hidden">
+
+      <div class="card">
+        <h2>Bread Club Admin</h2>
+        <div id="adminEmail"></div>
+        <button id="logout" class="secondary" type="button">Sign Out</button>
+      </div>
+
+      <div class="card">
+        <h3>Protected Admin Area</h3>
+        <p>If you can see this, login worked and your email is approved.</p>
+        <button id="refreshBtn" class="secondary" type="button">Refresh Access Check</button>
+        <div id="adminTestStatus" style="margin-top:12px;color:var(--muted);"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const loadingView = document.getElementById("loadingView");
+    const loginView = document.getElementById("loginView");
+    const unauthorizedView = document.getElementById("unauthorizedView");
+    const adminView = document.getElementById("adminView");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const adminTestStatus = document.getElementById("adminTestStatus");
+
+    function show(view) {
+      [loadingView, loginView, unauthorizedView, adminView].forEach(v => v.classList.add("hidden"));
+      view.classList.remove("hidden");
+    }
+
+    async function checkAccess() {
+      show(loadingView);
+
+      const { data, error } = await supabase.auth.getUser();
+
+      if (error || !data?.user) {
+        show(loginView);
+        return;
+      }
+
+      const email = (data.user.email || "").toLowerCase().trim();
+
+      if (!email) {
+        show(loginView);
+        return;
+      }
+
+      const { data: admin, error: adminError } = await supabase
+        .from("breadclub_admins")
+        .select("email")
+        .eq("email", email)
+        .maybeSingle();
+
+      if (adminError) {
+        console.error(adminError);
+        show(unauthorizedView);
+        return;
+      }
+
+      if (!admin) {
+        show(unauthorizedView);
+        return;
+      }
+
+      document.getElementById("adminEmail").innerText = email;
+      show(adminView);
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim().toLowerCase();
+      const status = document.getElementById("status");
+
+      status.innerText = "Sending login link...";
+
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: window.location.href
+        }
+      });
+
+      if (error) {
+        status.innerText = error.message || "Could not send login link.";
+        return;
+      }
+
+      status.innerText = "Check your email.";
     });
-  });
-}
 
-loadMembers();
-</script>
+    document.getElementById("logout").onclick = async () => {
+      await supabase.auth.signOut();
+      show(loginView);
+    };
 
+    document.getElementById("logoutBad").onclick = async () => {
+      await supabase.auth.signOut();
+      show(loginView);
+    };
+
+    if (refreshBtn) {
+      refreshBtn.onclick = async () => {
+        adminTestStatus.innerText = "Re-checking access...";
+        await checkAccess();
+        adminTestStatus.innerText = "Access check complete.";
+      };
+    }
+
+    supabase.auth.onAuthStateChange(checkAccess);
+
+    checkAccess();
+  </script>
 </body>
 </html>
