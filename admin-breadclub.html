@@ -99,7 +99,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 900px;
+      min-width: 980px;
     }
 
     th, td {
@@ -126,6 +126,13 @@
       border-radius: 999px;
       background: var(--panel-2);
       font-size: 12px;
+      text-transform: capitalize;
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .danger-btn[disabled],
@@ -211,7 +218,6 @@
     const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
 
-    // If your table or function name differs, only change these two lines.
     const MEMBERS_TABLE = "bread_club_members";
     const MANAGE_SUBSCRIPTION_URL = `${SUPABASE_URL}/functions/v1/manage-breadclub-subscription`;
 
@@ -279,6 +285,44 @@
       }
     }
 
+    async function callManageSubscription(action, subscriptionId, memberId) {
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+
+      if (sessionError) {
+        throw new Error(sessionError.message);
+      }
+
+      const accessToken = sessionData?.session?.access_token;
+
+      if (!accessToken) {
+        throw new Error("No active auth session found.");
+      }
+
+      const response = await fetch(MANAGE_SUBSCRIPTION_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({
+          action,
+          subscription_id: subscriptionId,
+          member_id: memberId
+        })
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      console.log(`${action} response:`);
+      console.log(JSON.stringify(result, null, 2));
+
+      if (!response.ok) {
+        throw new Error(result?.error || `${action} failed.`);
+      }
+
+      return result;
+    }
+
     async function cancelSubscription(subscriptionId, memberId) {
       if (!subscriptionId) {
         alert("No Square subscription ID found on this row.");
@@ -291,46 +335,33 @@
       statusEl.textContent = "Canceling subscription...";
 
       try {
-        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-
-        if (sessionError) {
-          throw new Error(sessionError.message);
-        }
-
-        const accessToken = sessionData?.session?.access_token;
-
-        if (!accessToken) {
-          throw new Error("No active auth session found.");
-        }
-
-        const response = await fetch(MANAGE_SUBSCRIPTION_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${accessToken}`
-          },
-          body: JSON.stringify({
-            action: "cancel",
-            subscription_id: subscriptionId,
-            member_id: memberId
-          })
-        });
-
-        const result = await response.json().catch(() => ({}));
-
-        console.log("Manage subscription response:");
-        console.log(JSON.stringify(result, null, 2));
-
-        if (!response.ok) {
-          statusEl.textContent = "Cancel failed. Check browser console.";
-          return;
-        }
-
+        await callManageSubscription("cancel", subscriptionId, memberId);
         statusEl.textContent = "Subscription canceled successfully.";
         await loadMembers();
       } catch (err) {
         console.error("Cancel error:", err);
-        statusEl.textContent = "Cancel failed. Check browser console.";
+        statusEl.textContent = err?.message || "Cancel failed. Check browser console.";
+      }
+    }
+
+    async function pauseSubscription(subscriptionId, memberId) {
+      if (!subscriptionId) {
+        alert("No Square subscription ID found on this row.");
+        return;
+      }
+
+      const confirmed = window.confirm("Pause this Bread Club subscription?");
+      if (!confirmed) return;
+
+      statusEl.textContent = "Pausing subscription...";
+
+      try {
+        await callManageSubscription("pause", subscriptionId, memberId);
+        statusEl.textContent = "Subscription paused successfully.";
+        await loadMembers();
+      } catch (err) {
+        console.error("Pause error:", err);
+        statusEl.textContent = err?.message || "Pause failed. Check browser console.";
       }
     }
 
@@ -376,10 +407,12 @@
 
         const fullName = row.full_name || "";
         const email = row.email || "";
-        const statusValue = row.status || "";
+        const statusValue = (row.status || "").toLowerCase();
         const squareSubscriptionId = row.square_subscription_id || "";
         const memberId = row.id || "";
+
         const cancelDisabled = !squareSubscriptionId || statusValue === "canceled";
+        const pauseDisabled = !squareSubscriptionId || statusValue !== "active";
 
         tr.innerHTML = `
           <td>${escapeHtml(fullName)}</td>
@@ -387,15 +420,29 @@
           <td><span class="status-pill">${escapeHtml(statusValue)}</span></td>
           <td class="small">${escapeHtml(squareSubscriptionId)}</td>
           <td>
-            <button
-              class="danger-btn"
-              ${cancelDisabled ? "disabled" : ""}
-              data-member-id="${escapeHtml(memberId)}"
-              data-subscription-id="${escapeHtml(squareSubscriptionId)}"
-              style="padding:8px 12px; cursor:${cancelDisabled ? "not-allowed" : "pointer"};"
-            >
-              Cancel
-            </button>
+            <div class="row-actions">
+              <button
+                class="danger-btn"
+                ${pauseDisabled ? "disabled" : ""}
+                data-action="pause"
+                data-member-id="${escapeHtml(memberId)}"
+                data-subscription-id="${escapeHtml(squareSubscriptionId)}"
+                style="padding:8px 12px; cursor:${pauseDisabled ? "not-allowed" : "pointer"};"
+              >
+                Pause
+              </button>
+
+              <button
+                class="danger-btn"
+                ${cancelDisabled ? "disabled" : ""}
+                data-action="cancel"
+                data-member-id="${escapeHtml(memberId)}"
+                data-subscription-id="${escapeHtml(squareSubscriptionId)}"
+                style="padding:8px 12px; cursor:${cancelDisabled ? "not-allowed" : "pointer"};"
+              >
+                Cancel
+              </button>
+            </div>
           </td>
         `;
 
@@ -404,10 +451,18 @@
 
       document.querySelectorAll("button[data-member-id]").forEach((btn) => {
         btn.addEventListener("click", () => {
-          cancelSubscription(
-            btn.dataset.subscriptionId,
-            btn.dataset.memberId
-          );
+          const action = btn.dataset.action;
+          const subscriptionId = btn.dataset.subscriptionId;
+          const memberId = btn.dataset.memberId;
+
+          if (action === "pause") {
+            pauseSubscription(subscriptionId, memberId);
+            return;
+          }
+
+          if (action === "cancel") {
+            cancelSubscription(subscriptionId, memberId);
+          }
         });
       });
     }
