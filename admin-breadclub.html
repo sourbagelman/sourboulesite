@@ -99,7 +99,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 980px;
+      min-width: 1100px;
     }
 
     th, td {
@@ -135,7 +135,6 @@
       flex-wrap: wrap;
     }
 
-    .danger-btn[disabled],
     button[disabled] {
       opacity: 0.5;
       cursor: not-allowed !important;
@@ -145,14 +144,12 @@
 <body>
   <div class="wrap">
 
-    <!-- LOADING -->
     <div id="loadingView" class="card">
       <h2 style="margin-top:0;">Checking access...</h2>
       <div id="loadingStatus" class="muted">Starting auth check...</div>
       <div id="loadingError" class="error" style="margin-top:12px;"></div>
     </div>
 
-    <!-- LOGIN -->
     <div id="loginView" class="card hidden">
       <h2>Admin Login</h2>
       <form id="loginForm">
@@ -162,14 +159,12 @@
       <div id="status" style="margin-top:12px;color:var(--muted);"></div>
     </div>
 
-    <!-- UNAUTHORIZED -->
     <div id="unauthorizedView" class="card hidden">
       <h2>Not Authorized</h2>
       <p>Your email signed in, but it is not approved for admin access.</p>
       <button id="logoutBad" class="secondary" type="button">Sign Out</button>
     </div>
 
-    <!-- ADMIN -->
     <div id="adminView" class="hidden">
       <div class="card">
         <div class="topbar">
@@ -323,27 +318,6 @@
       return result;
     }
 
-    async function cancelSubscription(subscriptionId, memberId) {
-      if (!subscriptionId) {
-        alert("No Square subscription ID found on this row.");
-        return;
-      }
-
-      const confirmed = window.confirm("Cancel this Bread Club subscription?");
-      if (!confirmed) return;
-
-      statusEl.textContent = "Canceling subscription...";
-
-      try {
-        await callManageSubscription("cancel", subscriptionId, memberId);
-        statusEl.textContent = "Subscription canceled successfully.";
-        await loadMembers();
-      } catch (err) {
-        console.error("Cancel error:", err);
-        statusEl.textContent = err?.message || "Cancel failed. Check browser console.";
-      }
-    }
-
     async function pauseSubscription(subscriptionId, memberId) {
       if (!subscriptionId) {
         alert("No Square subscription ID found on this row.");
@@ -362,6 +336,48 @@
       } catch (err) {
         console.error("Pause error:", err);
         statusEl.textContent = err?.message || "Pause failed. Check browser console.";
+      }
+    }
+
+    async function resumeSubscription(subscriptionId, memberId) {
+      if (!subscriptionId) {
+        alert("No Square subscription ID found on this row.");
+        return;
+      }
+
+      const confirmed = window.confirm("Resume this Bread Club subscription?");
+      if (!confirmed) return;
+
+      statusEl.textContent = "Resuming subscription...";
+
+      try {
+        await callManageSubscription("resume", subscriptionId, memberId);
+        statusEl.textContent = "Subscription resumed successfully.";
+        await loadMembers();
+      } catch (err) {
+        console.error("Resume error:", err);
+        statusEl.textContent = err?.message || "Resume failed. Check browser console.";
+      }
+    }
+
+    async function cancelSubscription(subscriptionId, memberId) {
+      if (!subscriptionId) {
+        alert("No Square subscription ID found on this row.");
+        return;
+      }
+
+      const confirmed = window.confirm("Cancel this Bread Club subscription?");
+      if (!confirmed) return;
+
+      statusEl.textContent = "Canceling subscription...";
+
+      try {
+        await callManageSubscription("cancel", subscriptionId, memberId);
+        statusEl.textContent = "Subscription canceled successfully.";
+        await loadMembers();
+      } catch (err) {
+        console.error("Cancel error:", err);
+        statusEl.textContent = err?.message || "Cancel failed. Check browser console.";
       }
     }
 
@@ -411,8 +427,9 @@
         const squareSubscriptionId = row.square_subscription_id || "";
         const memberId = row.id || "";
 
-        const cancelDisabled = !squareSubscriptionId || statusValue === "canceled";
         const pauseDisabled = !squareSubscriptionId || statusValue !== "active";
+        const resumeDisabled = !squareSubscriptionId || statusValue !== "paused";
+        const cancelDisabled = !squareSubscriptionId || statusValue === "canceled";
 
         tr.innerHTML = `
           <td>${escapeHtml(fullName)}</td>
@@ -422,7 +439,6 @@
           <td>
             <div class="row-actions">
               <button
-                class="danger-btn"
                 ${pauseDisabled ? "disabled" : ""}
                 data-action="pause"
                 data-member-id="${escapeHtml(memberId)}"
@@ -433,7 +449,16 @@
               </button>
 
               <button
-                class="danger-btn"
+                ${resumeDisabled ? "disabled" : ""}
+                data-action="resume"
+                data-member-id="${escapeHtml(memberId)}"
+                data-subscription-id="${escapeHtml(squareSubscriptionId)}"
+                style="padding:8px 12px; cursor:${resumeDisabled ? "not-allowed" : "pointer"};"
+              >
+                Resume
+              </button>
+
+              <button
                 ${cancelDisabled ? "disabled" : ""}
                 data-action="cancel"
                 data-member-id="${escapeHtml(memberId)}"
@@ -457,6 +482,11 @@
 
           if (action === "pause") {
             pauseSubscription(subscriptionId, memberId);
+            return;
+          }
+
+          if (action === "resume") {
+            resumeSubscription(subscriptionId, memberId);
             return;
           }
 
