@@ -264,6 +264,8 @@ main {
 
 .hero-side {
   min-height: 560px;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(180deg, #ffffff 0%, #fafaf7 100%);
   align-content: start;
 }
