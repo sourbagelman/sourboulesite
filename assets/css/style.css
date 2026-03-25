@@ -269,7 +269,7 @@ main {
 }
 
 .story-scroll {
-  max-height: 496px;
+  max-height: 516px;
   overflow-y: auto;
   padding-right: 10px;
   padding-bottom: 18px;
