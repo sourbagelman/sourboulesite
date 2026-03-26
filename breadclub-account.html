@@ -33,6 +33,56 @@
       box-shadow: 0 14px 34px rgba(0,0,0,.35);
     }
 
+    .account-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .account-field {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .account-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #a9a9a9;
+      margin-bottom: 8px;
+    }
+
+    .account-value {
+      color: #fff;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .account-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .account-status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(215,180,106,0.14);
+      color: #f0cf6e;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: capitalize;
+      border: 1px solid rgba(240,207,110,0.24);
+    }
+
     input {
       width: 100%;
       padding: 12px;
@@ -61,18 +111,44 @@
 
     .danger {
       background: #ff6b6b;
+      color: #111;
     }
 
     .muted {
       color: #aaa;
       font-size: .9rem;
     }
+
+    .account-note {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border: 1px solid rgba(240,207,110,0.18);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      color: #eadfc9;
+      font-size: .92rem;
+    }
+
+    .account-error {
+      color: #ff9b9b;
+      margin-top: 12px;
+      font-size: .92rem;
+    }
+
+    @media (max-width: 700px) {
+      .account-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
 <body>
 
-<!-- SAME HEADER AS SITE -->
+<div class="topbar">
+Site preview for The Sour Boule • built to replace expensive platform clutter
+</div>
+
 <header>
   <div class="container nav">
 
@@ -93,13 +169,21 @@
 
     <div class="nav-actions">
       <a class="btn secondary" href="menu.html">Menu</a>
-      <a class="btn primary" href="#">Order Now</a>
+      <a class="btn primary" href="https://cash.app/$thesourboule" target="_blank">Order Now</a>
     </div>
 
   </div>
 </header>
 
 <main class="account-shell">
+
+  <div class="account-card">
+    <p class="breadclub-kicker">The Sour Boule</p>
+    <h1 class="breadclub-title" style="margin-bottom:10px;">Bread Club Account</h1>
+    <p class="muted" style="font-size:1rem;">
+      Log in with your Bread Club email to view and manage your subscription.
+    </p>
+  </div>
 
   <!-- LOGIN -->
   <div id="loginView" class="account-card">
@@ -112,56 +196,186 @@
     </form>
 
     <div id="status" class="muted"></div>
+    <div class="account-note">
+      After you log in, you can review your subscription details and pause, resume, or cancel your membership.
+    </div>
+  </div>
+
+  <!-- NO ACCOUNT -->
+  <div id="noAccountView" class="account-card" style="display:none;">
+    <h2>No Bread Club Account Found</h2>
+    <p class="muted">
+      You are signed in, but we could not find a Bread Club membership for this email address.
+    </p>
+
+    <div class="account-actions">
+      <a class="btn secondary" href="breadclub.html">Back to Bread Club</a>
+      <button id="signOutNoAccountBtn" class="secondary" type="button">Sign Out</button>
+    </div>
   </div>
 
   <!-- ACCOUNT -->
   <div id="accountView" class="account-card" style="display:none;">
-    <h2>Your Bread Club</h2>
+    <div style="display:flex; justify-content:space-between; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+      <div>
+        <h2 style="margin-bottom:8px;">Your Bread Club</h2>
+        <p id="accountEmail" class="muted"></p>
+      </div>
 
-    <p id="accountEmail" class="muted"></p>
+      <div>
+        <button id="logoutBtn" class="secondary" style="margin-top:0;">Sign Out</button>
+      </div>
+    </div>
 
-    <div id="subscriptionData" class="muted" style="margin-top:12px;"></div>
+    <div class="account-grid">
+      <div class="account-field">
+        <div class="account-label">Status</div>
+        <div class="account-value">
+          <span id="statusPill" class="account-status-pill">—</span>
+        </div>
+      </div>
 
-    <div style="margin-top:18px;">
+      <div class="account-field">
+        <div class="account-label">Pickup Day</div>
+        <div id="pickupDay" class="account-value">—</div>
+      </div>
+
+      <div class="account-field">
+        <div class="account-label">Frequency</div>
+        <div id="frequency" class="account-value">—</div>
+      </div>
+
+      <div class="account-field">
+        <div class="account-label">Start Date</div>
+        <div id="startDate" class="account-value">—</div>
+      </div>
+
+      <div class="account-field">
+        <div class="account-label">Plain Sourdough</div>
+        <div id="plainQty" class="account-value">—</div>
+      </div>
+
+      <div class="account-field">
+        <div class="account-label">Rosemary Garlic</div>
+        <div id="rosemaryQty" class="account-value">—</div>
+      </div>
+
+      <div class="account-field">
+        <div class="account-label">Jalapeño Cheddar</div>
+        <div id="jalapenoQty" class="account-value">—</div>
+      </div>
+
+      <div class="account-field">
+        <div class="account-label">Notes</div>
+        <div id="notes" class="account-value">—</div>
+      </div>
+    </div>
+
+    <div class="account-actions">
       <button id="pauseBtn" class="secondary">Pause</button>
       <button id="resumeBtn" class="secondary">Resume</button>
       <button id="cancelBtn" class="danger">Cancel</button>
+      <button id="reloadBtn" class="secondary">Reload</button>
     </div>
 
-    <button id="logoutBtn" class="secondary" style="margin-top:18px;">Sign Out</button>
+    <div id="actionStatus" class="muted" style="margin-top:12px;"></div>
+
+    <div class="account-note">
+      Need to make a new signup or review plan details? Go back to the main Bread Club page.
+      <br><br>
+      <a href="breadclub.html" style="color:#f0cf6e; font-weight:700; text-decoration:none;">← Back to Bread Club</a>
+    </div>
   </div>
 
 </main>
+
+<footer>
+  <div class="container footer-grid">
+    <div>
+      <strong>© The Sour Boule</strong>
+      <p class="small">
+        3801 Southwest Blvd • Fort Worth, TX 76116<br>
+        Phone: 682-250-3052
+      </p>
+    </div>
+
+    <div class="footer-links small">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="breadclub.html">Bread Club</a>
+      <a href="catering.html">Catering</a>
+      <a href="events.html">Events</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
-const FUNCTION_URL = "https://wbhedqwubgmsqgcugimf.supabase.co/functions/v1/manage-breadclub-subscription";
+const FUNCTION_URL = "https://wbhedqwubgmsqgcugimf.supabase.co/functions/v1/customer-manage-breadclub-subscription";
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const loginView = document.getElementById("loginView");
+const noAccountView = document.getElementById("noAccountView");
 const accountView = document.getElementById("accountView");
 
 const loginForm = document.getElementById("loginForm");
 const status = document.getElementById("status");
 
 const accountEmail = document.getElementById("accountEmail");
-const subscriptionData = document.getElementById("subscriptionData");
+const statusPill = document.getElementById("statusPill");
+const pickupDay = document.getElementById("pickupDay");
+const frequency = document.getElementById("frequency");
+const startDate = document.getElementById("startDate");
+const plainQty = document.getElementById("plainQty");
+const rosemaryQty = document.getElementById("rosemaryQty");
+const jalapenoQty = document.getElementById("jalapenoQty");
+const notes = document.getElementById("notes");
 
 const pauseBtn = document.getElementById("pauseBtn");
 const resumeBtn = document.getElementById("resumeBtn");
 const cancelBtn = document.getElementById("cancelBtn");
+const reloadBtn = document.getElementById("reloadBtn");
 const logoutBtn = document.getElementById("logoutBtn");
+const signOutNoAccountBtn = document.getElementById("signOutNoAccountBtn");
+const actionStatus = document.getElementById("actionStatus");
 
 let currentMember = null;
+
+function showView(view) {
+  loginView.style.display = "none";
+  noAccountView.style.display = "none";
+  accountView.style.display = "none";
+
+  if (view) {
+    view.style.display = "block";
+  }
+}
+
+async function finishAuthRedirectIfNeeded() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("code");
+
+  if (!code) return;
+
+  const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+  if (error) {
+    throw error;
+  }
+
+  const cleanUrl = window.location.origin + window.location.pathname;
+  window.history.replaceState({}, document.title, cleanUrl);
+}
 
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const email = document.getElementById("email").value;
+  const email = document.getElementById("email").value.trim().toLowerCase();
 
   status.textContent = "Sending login link...";
 
@@ -179,66 +393,134 @@ loginForm.addEventListener("submit", async (e) => {
   }
 });
 
+function fillAccount(member) {
+  currentMember = member;
+
+  accountEmail.textContent = member.email || "";
+  statusPill.textContent = member.status || "—";
+  pickupDay.textContent = member.pickup_day || "—";
+  frequency.textContent = member.frequency || "—";
+  startDate.textContent = member.start_date || "—";
+  plainQty.textContent = String(member.plain_qty ?? 0);
+  rosemaryQty.textContent = String(member.rosemary_qty ?? 0);
+  jalapenoQty.textContent = String(member.jalapeno_qty ?? 0);
+  notes.textContent = member.notes || "—";
+
+  const statusValue = (member.status || "").toLowerCase();
+  const hasSubscription = !!member.square_subscription_id;
+
+  pauseBtn.disabled = !hasSubscription || statusValue !== "active";
+  resumeBtn.disabled = !hasSubscription || statusValue !== "paused";
+  cancelBtn.disabled = !hasSubscription || statusValue === "canceled";
+}
+
 async function loadAccount() {
-  const { data } = await supabase.auth.getUser();
+  const { data, error } = await supabase.auth.getUser();
 
-  if (!data.user) return;
+  if (error || !data.user) {
+    showView(loginView);
+    return;
+  }
 
-  const email = data.user.email;
+  const email = data.user.email?.toLowerCase().trim();
+  if (!email) {
+    showView(loginView);
+    return;
+  }
 
-  accountEmail.textContent = email;
-
-  const { data: member } = await supabase
+  const { data: member, error: memberError } = await supabase
     .from("bread_club_members")
     .select("*")
     .eq("email", email)
     .order("created_at", { ascending: false })
     .limit(1)
-    .single();
+    .maybeSingle();
 
-  if (!member) return;
+  if (memberError) {
+    status.textContent = "Could not load account.";
+    showView(loginView);
+    return;
+  }
 
-  currentMember = member;
+  if (!member) {
+    showView(noAccountView);
+    return;
+  }
 
-  subscriptionData.innerHTML = `
-    Status: ${member.status}<br>
-    Pickup: ${member.pickup_day}<br>
-    Frequency: ${member.frequency}
-  `;
-
-  loginView.style.display = "none";
-  accountView.style.display = "block";
+  fillAccount(member);
+  showView(accountView);
 }
 
 async function manage(action) {
   if (!currentMember) return;
 
-  await fetch(FUNCTION_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
-    },
-    body: JSON.stringify({
-      action,
-      subscription_id: currentMember.square_subscription_id,
-      member_id: currentMember.id
-    })
-  });
+  actionStatus.textContent = `${action.charAt(0).toUpperCase() + action.slice(1)}ing subscription...`;
 
-  loadAccount();
+  try {
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+
+    if (sessionError) {
+      throw sessionError;
+    }
+
+    const accessToken = sessionData?.session?.access_token;
+    if (!accessToken) {
+      throw new Error("No active auth session.");
+    }
+
+    const response = await fetch(FUNCTION_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`
+      },
+      body: JSON.stringify({
+        action,
+        subscription_id: currentMember.square_subscription_id,
+        member_id: currentMember.id
+      })
+    });
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(result?.error || `${action} failed.`);
+    }
+
+    actionStatus.textContent = `${action.charAt(0).toUpperCase() + action.slice(1)} complete.`;
+    await loadAccount();
+  } catch (err) {
+    console.error(err);
+    actionStatus.textContent = err?.message || `${action} failed.`;
+  }
 }
 
 pauseBtn.onclick = () => manage("pause");
 resumeBtn.onclick = () => manage("resume");
 cancelBtn.onclick = () => manage("cancel");
+reloadBtn.onclick = () => loadAccount();
 
 logoutBtn.onclick = async () => {
   await supabase.auth.signOut();
+  currentMember = null;
   location.reload();
 };
 
-loadAccount();
+signOutNoAccountBtn.onclick = async () => {
+  await supabase.auth.signOut();
+  currentMember = null;
+  location.reload();
+};
+
+(async function boot() {
+  try {
+    await finishAuthRedirectIfNeeded();
+  } catch (err) {
+    console.error(err);
+  }
+
+  await loadAccount();
+})();
 </script>
 
 </body>
