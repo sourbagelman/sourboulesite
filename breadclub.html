@@ -1,244 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bread Club Account | The Sour Boule</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<title>Bread Club | The Sour Boule</title>
 
-  <link rel="stylesheet" href="assets/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <style>
-    body {
-      background: #0f0f0f;
-      color: #f5f5f5;
-      font-family: Inter, sans-serif;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
-    .account-shell {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 40px 20px 60px;
-    }
-
-    .account-card {
-      background: #171717;
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 20px;
-      padding: 22px;
-      margin-bottom: 18px;
-      box-shadow: 0 14px 34px rgba(0,0,0,.35);
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.15);
-      background: #222;
-      color: white;
-      margin-top: 6px;
-    }
-
-    button {
-      margin-top: 12px;
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: none;
-      background: #d7b46a;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .secondary {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.2);
-      color: white;
-    }
-
-    .danger {
-      background: #ff6b6b;
-    }
-
-    .muted {
-      color: #aaa;
-      font-size: .9rem;
-    }
-  </style>
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="https://web.squarecdn.com/v1/square.js"></script>
 </head>
 
 <body>
 
-<!-- SAME HEADER AS SITE -->
+<div class="topbar">
+Site preview for The Sour Boule • built to replace expensive platform clutter
+</div>
+
 <header>
-  <div class="container nav">
+<div class="container nav">
 
-    <div class="brand">
-      <img src="images/logo.png" class="brand-mark">
-      <span>The Sour Boule</span>
-    </div>
+<div class="brand">
+<img src="images/logo.png" class="brand-mark">
+<span>The Sour Boule</span>
+</div>
 
-    <nav class="nav-links">
-      <a class="nav-link" href="index.html">Home</a>
-      <a class="nav-link active" href="breadclub.html">Bread Club</a>
-      <a class="nav-link" href="about.html">About</a>
-      <a class="nav-link" href="catering.html">Catering</a>
-      <a class="nav-link" href="events.html">Private Events</a>
-      <a class="nav-link" href="gallery.html">Gallery</a>
-      <a class="nav-link" href="contact.html">Contact</a>
-    </nav>
+<nav class="nav-links">
+<a class="nav-link" href="index.html">Home</a>
+<a class="nav-link active" href="breadclub.html">Bread Club</a>
+<a class="nav-link" href="about.html">About</a>
+<a class="nav-link" href="catering.html">Catering</a>
+<a class="nav-link" href="events.html">Private Events</a>
+<a class="nav-link" href="gallery.html">Gallery</a>
+<a class="nav-link" href="contact.html">Contact</a>
+</nav>
 
-    <div class="nav-actions">
-      <a class="btn secondary" href="menu.html">Menu</a>
-      <a class="btn primary" href="#">Order Now</a>
-    </div>
+<div class="nav-actions">
+<a class="btn secondary" href="menu.html">Menu</a>
+<a class="btn primary" href="https://cash.app/$thesourboule" target="_blank">Order Now</a>
+</div>
 
-  </div>
+</div>
 </header>
 
-<main class="account-shell">
+<main>
+<div class="container stack">
 
-  <!-- LOGIN -->
-  <div id="loginView" class="account-card">
-    <h2>Bread Club Login</h2>
-    <p class="muted">Use your Bread Club email to access your account.</p>
+<section class="breadclub-wrap">
 
-    <form id="loginForm">
-      <input id="email" type="email" placeholder="oscar@thesourboule.com" required />
-      <button type="submit">Email Me a Login Link</button>
-    </form>
+<!-- LEFT SIDE -->
+<section class="breadclub-left">
 
-    <div id="status" class="muted"></div>
-  </div>
+<p class="breadclub-kicker">The Sour Boule</p>
+<h1 class="breadclub-title">Bread Club</h1>
 
-  <!-- ACCOUNT -->
-  <div id="accountView" class="account-card" style="display:none;">
-    <h2>Your Bread Club</h2>
+<p style="max-width:620px; font-size:1.1rem;">
+Set your bread order once, choose your pickup schedule, and let it run on autopilot.
+</p>
 
-    <p id="accountEmail" class="muted"></p>
+<!-- ACCOUNT LINK (THIS STAYS HERE ONLY) -->
+<div style="margin-top:20px; padding:18px; border-radius:16px; background:#f3efe9;">
+<p style="margin-bottom:10px;">
+<strong>Already a member?</strong><br>
+Manage your subscription here.
+</p>
+<a href="breadclub-account.html" class="btn secondary">
+Manage Bread Club Account
+</a>
+</div>
 
-    <div id="subscriptionData" class="muted" style="margin-top:12px;"></div>
+</section>
 
-    <div style="margin-top:18px;">
-      <button id="pauseBtn" class="secondary">Pause</button>
-      <button id="resumeBtn" class="secondary">Resume</button>
-      <button id="cancelBtn" class="danger">Cancel</button>
-    </div>
+<!-- RIGHT SIDE -->
+<section class="breadclub-right">
 
-    <button id="logoutBtn" class="secondary" style="margin-top:18px;">Sign Out</button>
-  </div>
+<h2>Join the Bread Club</h2>
 
+<form id="breadclub-form">
+
+<input id="bc-full-name" type="text" placeholder="Oscar the Dough" required>
+<input id="bc-email" type="email" placeholder="oscar@thesourboule.com" required>
+
+<select id="bc-plain">
+<option value="0">0 Plain</option>
+<option value="1">1 Plain</option>
+<option value="2">2 Plain</option>
+</select>
+
+<select id="bc-rosemary">
+<option value="0">0 Rosemary</option>
+<option value="1">1 Rosemary</option>
+</select>
+
+<select id="bc-jalapeno">
+<option value="0">0 Jalapeño</option>
+<option value="1">1 Jalapeño</option>
+</select>
+
+<select id="bc-frequency">
+<option>Weekly</option>
+<option>Every 2 Weeks</option>
+<option>Monthly</option>
+</select>
+
+<select id="bc-start-date">
+<option>Thu, Mar 27, 2026</option>
+<option>Thu, Apr 3, 2026</option>
+</select>
+
+<!-- CARD -->
+<div id="card-container"></div>
+
+<div id="breadclub-status"></div>
+
+<button type="submit">Start Subscription</button>
+
+</form>
+
+</section>
+
+</section>
+
+</div>
 </main>
+
+<footer>
+<div class="container">
+© The Sour Boule
+</div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
-const FUNCTION_URL = "https://wbhedqwubgmsqgcugimf.supabase.co/functions/v1/manage-breadclub-subscription";
+document.addEventListener("DOMContentLoaded", async function () {
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
+  const FUNCTION_URL = "https://wbhedqwubgmsqgcugimf.supabase.co/functions/v1/create-breadclub-subscription";
 
-const loginView = document.getElementById("loginView");
-const accountView = document.getElementById("accountView");
+  const SQUARE_APP_ID = "sq0idp-7pAIehxXOmEZV0HxnW48bg";
+  const SQUARE_LOCATION_ID = "L1KAC6DSKSQ9M";
 
-const loginForm = document.getElementById("loginForm");
-const status = document.getElementById("status");
+  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const accountEmail = document.getElementById("accountEmail");
-const subscriptionData = document.getElementById("subscriptionData");
+  const form = document.getElementById("breadclub-form");
+  const statusEl = document.getElementById("breadclub-status");
 
-const pauseBtn = document.getElementById("pauseBtn");
-const resumeBtn = document.getElementById("resumeBtn");
-const cancelBtn = document.getElementById("cancelBtn");
-const logoutBtn = document.getElementById("logoutBtn");
+  let card;
 
-let currentMember = null;
+  const payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
+  card = await payments.card();
+  await card.attach("#card-container");
 
-loginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-  const email = document.getElementById("email").value;
+    statusEl.textContent = "Processing...";
 
-  status.textContent = "Sending login link...";
+    const data = {
+      full_name: document.getElementById("bc-full-name").value,
+      email: document.getElementById("bc-email").value,
+      plain_qty: parseInt(document.getElementById("bc-plain").value),
+      rosemary_qty: parseInt(document.getElementById("bc-rosemary").value),
+      jalapeno_qty: parseInt(document.getElementById("bc-jalapeno").value),
+      frequency: document.getElementById("bc-frequency").value,
+      start_date: document.getElementById("bc-start-date").value,
+      status: "pending"
+    };
 
-  const { error } = await supabase.auth.signInWithOtp({
-    email,
-    options: {
-      emailRedirectTo: window.location.href
+    const tokenResult = await card.tokenize();
+
+    if (tokenResult.status !== "OK") {
+      statusEl.textContent = "Card error";
+      return;
     }
+
+    const verification = await payments.verifyBuyer(tokenResult.token, {
+      intent: "STORE"
+    });
+
+    await client.from("bread_club_members").insert([data]);
+
+    const response = await fetch(FUNCTION_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+      },
+      body: JSON.stringify({
+        ...data,
+        card_token: tokenResult.token,
+        verification_token: verification.token
+      })
+    });
+
+    if (!response.ok) {
+      statusEl.textContent = "Error completing signup";
+      return;
+    }
+
+    statusEl.innerHTML = `
+      Signup complete!<br>
+      <a href="breadclub-account.html">Go to your account</a>
+    `;
+
+    form.reset();
   });
 
-  if (error) {
-    status.textContent = error.message;
-  } else {
-    status.textContent = "Check your email.";
-  }
 });
-
-async function loadAccount() {
-  const { data } = await supabase.auth.getUser();
-
-  if (!data.user) return;
-
-  const email = data.user.email;
-
-  accountEmail.textContent = email;
-
-  const { data: member } = await supabase
-    .from("bread_club_members")
-    .select("*")
-    .eq("email", email)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .single();
-
-  if (!member) return;
-
-  currentMember = member;
-
-  subscriptionData.innerHTML = `
-    Status: ${member.status}<br>
-    Pickup: ${member.pickup_day}<br>
-    Frequency: ${member.frequency}
-  `;
-
-  loginView.style.display = "none";
-  accountView.style.display = "block";
-}
-
-async function manage(action) {
-  if (!currentMember) return;
-
-  await fetch(FUNCTION_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
-    },
-    body: JSON.stringify({
-      action,
-      subscription_id: currentMember.square_subscription_id,
-      member_id: currentMember.id
-    })
-  });
-
-  loadAccount();
-}
-
-pauseBtn.onclick = () => manage("pause");
-resumeBtn.onclick = () => manage("resume");
-cancelBtn.onclick = () => manage("cancel");
-
-logoutBtn.onclick = async () => {
-  await supabase.auth.signOut();
-  location.reload();
-};
-
-loadAccount();
 </script>
 
 </body>
