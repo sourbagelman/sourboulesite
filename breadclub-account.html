@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>My Bread Club | The Sour Boule</title>
+  <title>Bread Club Account | The Sour Boule</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,10 +12,16 @@
   <link rel="stylesheet" href="assets/css/style.css">
 
   <style>
+    body {
+      background: #0f0f0f;
+      color: #f5f5f5;
+      font-family: Inter, sans-serif;
+    }
+
     .account-shell {
       max-width: 1000px;
       margin: 0 auto;
-      padding: 32px 20px 60px;
+      padding: 40px 20px 60px;
     }
 
     .account-card {
@@ -24,128 +30,49 @@
       border-radius: 20px;
       padding: 22px;
       margin-bottom: 18px;
-      color: #f5f5f5;
-      box-shadow: 0 14px 34px rgba(0,0,0,0.22);
+      box-shadow: 0 14px 34px rgba(0,0,0,.35);
     }
 
-    .account-hidden {
-      display: none;
-    }
-
-    .account-input {
+    input {
       width: 100%;
-      padding: 14px 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
       background: #222;
-      color: #fff;
-      font-size: 15px;
+      color: white;
+      margin-top: 6px;
     }
 
-    .account-muted {
-      color: #b7b7b7;
+    button {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      background: #d7b46a;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    .account-error {
-      color: #ff9d9d;
-      white-space: pre-wrap;
-    }
-
-    .account-topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .account-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .account-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .account-field {
-      background: #202020;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      padding: 14px;
-    }
-
-    .account-label {
-      font-size: 12px;
-      color: #aaa;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .account-value {
-      font-size: 15px;
-      color: #fff;
-    }
-
-    .account-status-pill {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #262626;
-      border: 1px solid rgba(255,255,255,0.10);
-      font-size: 13px;
-      text-transform: capitalize;
-    }
-
-    .account-button-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .account-btn-danger {
+    .secondary {
       background: transparent;
-      border: 1px solid rgba(255,120,120,0.45);
-      color: #ffb3b3;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
     }
 
-    .account-btn[disabled],
-    .account-btn-danger[disabled] {
-      opacity: 0.5;
-      cursor: not-allowed !important;
+    .danger {
+      background: #ff6b6b;
     }
 
-    .account-hero {
-      margin-bottom: 20px;
-    }
-
-    .account-hero h1 {
-      margin-bottom: 10px;
-    }
-
-    .account-hero p {
-      max-width: 700px;
-      color: #d1c6bc;
-    }
-
-    @media (max-width: 700px) {
-      .account-grid {
-        grid-template-columns: 1fr;
-      }
+    .muted {
+      color: #aaa;
+      font-size: .9rem;
     }
   </style>
 </head>
 
 <body>
 
-<div class="topbar">
-Site preview for The Sour Boule • built to replace expensive platform clutter
-</div>
-
+<!-- SAME HEADER AS SITE -->
 <header>
   <div class="container nav">
 
@@ -156,8 +83,7 @@ Site preview for The Sour Boule • built to replace expensive platform clutter
 
     <nav class="nav-links">
       <a class="nav-link" href="index.html">Home</a>
-      <a class="nav-link" href="breadclub.html">Bread Club</a>
-      <a class="nav-link active" href="breadclub-account.html">My Bread Club</a>
+      <a class="nav-link active" href="breadclub.html">Bread Club</a>
       <a class="nav-link" href="about.html">About</a>
       <a class="nav-link" href="catering.html">Catering</a>
       <a class="nav-link" href="events.html">Private Events</a>
@@ -167,482 +93,152 @@ Site preview for The Sour Boule • built to replace expensive platform clutter
 
     <div class="nav-actions">
       <a class="btn secondary" href="menu.html">Menu</a>
-      <a class="btn primary" href="https://cash.app/$thesourboule" target="_blank">Order Now</a>
+      <a class="btn primary" href="#">Order Now</a>
     </div>
 
   </div>
 </header>
 
-<main>
-  <div class="container stack">
-    <section class="account-shell">
+<main class="account-shell">
 
-      <div class="account-hero">
-        <p class="breadclub-kicker">The Sour Boule</p>
-        <h1 class="breadclub-title">My Bread Club</h1>
-        <p>
-          Log in with your Bread Club email to view your membership details and manage your subscription.
-        </p>
-      </div>
+  <!-- LOGIN -->
+  <div id="loginView" class="account-card">
+    <h2>Bread Club Login</h2>
+    <p class="muted">Use your Bread Club email to access your account.</p>
 
-      <div id="loadingView" class="account-card">
-        <h2 style="margin-top:0;">Checking your account...</h2>
-        <div id="loadingStatus" class="account-muted">Starting account check...</div>
-        <div id="loadingError" class="account-error" style="margin-top:12px;"></div>
-      </div>
+    <form id="loginForm">
+      <input id="email" type="email" placeholder="oscar@thesourboule.com" required />
+      <button type="submit">Email Me a Login Link</button>
+    </form>
 
-      <div id="loginView" class="account-card account-hidden">
-        <h2>Bread Club Login</h2>
-        <p class="account-muted">Use your Bread Club email to access your account.</p>
-        <form id="loginForm">
-          <input id="email" class="account-input" type="email" placeholder="oscar@thesourboule.com" required />
-          <button id="loginBtn" class="btn breadclub-cta" type="submit">Email Me a Login Link</button>
-        </form>
-        <div id="loginStatus" style="margin-top:12px;color:#b7b7b7;"></div>
-      </div>
-
-      <div id="noAccountView" class="account-card account-hidden">
-        <h2>No Bread Club Account Found</h2>
-        <p class="account-muted">
-          You are signed in, but we could not find a Bread Club membership tied to this email.
-        </p>
-        <div class="account-actions">
-          <button id="signOutNoAccountBtn" class="btn secondary" type="button">Sign Out</button>
-          <a class="btn secondary" href="breadclub.html">Go to Bread Club Signup</a>
-        </div>
-      </div>
-
-      <div id="accountView" class="account-hidden">
-        <div class="account-card">
-          <div class="account-topbar">
-            <div>
-              <h2 style="margin:0 0 8px 0;">My Bread Club Account</h2>
-              <div id="customerEmail" class="account-muted"></div>
-            </div>
-
-            <div class="account-actions">
-              <button id="reloadAccountBtn" class="btn secondary" type="button">Reload</button>
-              <button id="signOutBtn" class="btn secondary" type="button">Sign Out</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="account-card">
-          <h3 style="margin-top:0;">Membership Details</h3>
-
-          <div class="account-grid">
-            <div class="account-field">
-              <div class="account-label">Full Name</div>
-              <div id="fullName" class="account-value"></div>
-            </div>
-
-            <div class="account-field">
-              <div class="account-label">Status</div>
-              <div class="account-value"><span id="statusPill" class="account-status-pill"></span></div>
-            </div>
-
-            <div class="account-field">
-              <div class="account-label">Pickup Day</div>
-              <div id="pickupDay" class="account-value"></div>
-            </div>
-
-            <div class="account-field">
-              <div class="account-label">Frequency</div>
-              <div id="frequency" class="account-value"></div>
-            </div>
-
-            <div class="account-field">
-              <div class="account-label">Start Date</div>
-              <div id="startDate" class="account-value"></div>
-            </div>
-
-            <div class="account-field">
-              <div class="account-label">Phone</div>
-              <div id="phone" class="account-value"></div>
-            </div>
-
-            <div class="account-field">
-              <div class="account-label">Plain Loaves</div>
-              <div id="plainQty" class="account-value"></div>
-            </div>
-
-            <div class="account-field">
-              <div class="account-label">Rosemary Garlic Loaves</div>
-              <div id="rosemaryQty" class="account-value"></div>
-            </div>
-
-            <div class="account-field">
-              <div class="account-label">Jalapeño Cheddar Loaves</div>
-              <div id="jalapenoQty" class="account-value"></div>
-            </div>
-
-            <div class="account-field">
-              <div class="account-label">Notes</div>
-              <div id="notes" class="account-value"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="account-card">
-          <h3 style="margin-top:0;">Manage Subscription</h3>
-          <p class="account-muted">
-            Pause, resume, or cancel your Bread Club subscription below.
-          </p>
-
-          <div class="account-button-row">
-            <button id="pauseBtn" class="btn breadclub-cta account-btn" type="button">Pause</button>
-            <button id="resumeBtn" class="btn secondary account-btn" type="button">Resume</button>
-            <button id="cancelBtn" class="account-btn-danger" type="button">Cancel</button>
-          </div>
-
-          <div id="actionStatus" style="margin-top:14px;color:#b7b7b7;"></div>
-        </div>
-      </div>
-
-    </section>
+    <div id="status" class="muted"></div>
   </div>
+
+  <!-- ACCOUNT -->
+  <div id="accountView" class="account-card" style="display:none;">
+    <h2>Your Bread Club</h2>
+
+    <p id="accountEmail" class="muted"></p>
+
+    <div id="subscriptionData" class="muted" style="margin-top:12px;"></div>
+
+    <div style="margin-top:18px;">
+      <button id="pauseBtn" class="secondary">Pause</button>
+      <button id="resumeBtn" class="secondary">Resume</button>
+      <button id="cancelBtn" class="danger">Cancel</button>
+    </div>
+
+    <button id="logoutBtn" class="secondary" style="margin-top:18px;">Sign Out</button>
+  </div>
+
 </main>
 
-<footer>
-  <div class="container footer-grid">
-    <div>
-      <strong>© The Sour Boule</strong>
-      <p class="small">
-        3801 Southwest Blvd • Fort Worth, TX 76116<br>
-        Phone: 682-250-3052
-      </p>
-    </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <div class="footer-links small">
-      <a href="index.html">Home</a>
-      <a href="menu.html">Menu</a>
-      <a href="breadclub.html">Bread Club</a>
-      <a href="breadclub-account.html">My Bread Club</a>
-      <a href="catering.html">Catering</a>
-      <a href="events.html">Events</a>
-      <a href="contact.html">Contact</a>
-    </div>
-  </div>
-</footer>
+<script>
+const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
+const FUNCTION_URL = "https://wbhedqwubgmsqgcugimf.supabase.co/functions/v1/manage-breadclub-subscription";
 
-<script type="module">
-  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
+const loginView = document.getElementById("loginView");
+const accountView = document.getElementById("accountView");
 
-  const MEMBERS_TABLE = "bread_club_members";
-  const CUSTOMER_MANAGE_URL = `${SUPABASE_URL}/functions/v1/customer-manage-breadclub-subscription`;
+const loginForm = document.getElementById("loginForm");
+const status = document.getElementById("status");
 
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-      detectSessionInUrl: true
+const accountEmail = document.getElementById("accountEmail");
+const subscriptionData = document.getElementById("subscriptionData");
+
+const pauseBtn = document.getElementById("pauseBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+let currentMember = null;
+
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("email").value;
+
+  status.textContent = "Sending login link...";
+
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: window.location.href
     }
   });
 
-  const loadingView = document.getElementById("loadingView");
-  const loginView = document.getElementById("loginView");
-  const noAccountView = document.getElementById("noAccountView");
-  const accountView = document.getElementById("accountView");
-
-  const loadingStatus = document.getElementById("loadingStatus");
-  const loadingError = document.getElementById("loadingError");
-
-  const loginForm = document.getElementById("loginForm");
-  const loginBtn = document.getElementById("loginBtn");
-  const emailInput = document.getElementById("email");
-  const loginStatus = document.getElementById("loginStatus");
-
-  const signOutBtn = document.getElementById("signOutBtn");
-  const signOutNoAccountBtn = document.getElementById("signOutNoAccountBtn");
-  const reloadAccountBtn = document.getElementById("reloadAccountBtn");
-
-  const customerEmail = document.getElementById("customerEmail");
-  const fullName = document.getElementById("fullName");
-  const statusPill = document.getElementById("statusPill");
-  const pickupDay = document.getElementById("pickupDay");
-  const frequency = document.getElementById("frequency");
-  const startDate = document.getElementById("startDate");
-  const phone = document.getElementById("phone");
-  const plainQty = document.getElementById("plainQty");
-  const rosemaryQty = document.getElementById("rosemaryQty");
-  const jalapenoQty = document.getElementById("jalapenoQty");
-  const notes = document.getElementById("notes");
-
-  const pauseBtn = document.getElementById("pauseBtn");
-  const resumeBtn = document.getElementById("resumeBtn");
-  const cancelBtn = document.getElementById("cancelBtn");
-  const actionStatus = document.getElementById("actionStatus");
-
-  let currentMember = null;
-
-  function show(view) {
-    [loadingView, loginView, noAccountView, accountView].forEach((v) => v.classList.add("account-hidden"));
-    view.classList.remove("account-hidden");
+  if (error) {
+    status.textContent = error.message;
+  } else {
+    status.textContent = "Check your email.";
   }
+});
 
-  function setLoading(message, error = "") {
-    loadingStatus.textContent = message || "";
-    loadingError.textContent = error || "";
-  }
+async function loadAccount() {
+  const { data } = await supabase.auth.getUser();
 
-  async function finishAuthRedirectIfNeeded() {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
+  if (!data.user) return;
 
-    if (code) {
-      setLoading("Finishing email login...");
-      const { error } = await supabase.auth.exchangeCodeForSession(code);
+  const email = data.user.email;
 
-      if (error) {
-        throw new Error("Auth redirect failed: " + error.message);
-      }
+  accountEmail.textContent = email;
 
-      const cleanUrl = window.location.origin + window.location.pathname;
-      window.history.replaceState({}, document.title, cleanUrl);
-    }
-  }
+  const { data: member } = await supabase
+    .from("bread_club_members")
+    .select("*")
+    .eq("email", email)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .single();
 
-  function fillMember(member) {
-    currentMember = member;
+  if (!member) return;
 
-    const statusValue = (member.status || "").toLowerCase();
+  currentMember = member;
 
-    customerEmail.textContent = member.email || "";
-    fullName.textContent = member.full_name || "";
-    statusPill.textContent = statusValue || "";
-    pickupDay.textContent = member.pickup_day || "";
-    frequency.textContent = member.frequency || "";
-    startDate.textContent = member.start_date || "";
-    phone.textContent = member.phone || "—";
-    plainQty.textContent = String(member.plain_qty ?? 0);
-    rosemaryQty.textContent = String(member.rosemary_qty ?? 0);
-    jalapenoQty.textContent = String(member.jalapeno_qty ?? 0);
-    notes.textContent = member.notes || "—";
+  subscriptionData.innerHTML = `
+    Status: ${member.status}<br>
+    Pickup: ${member.pickup_day}<br>
+    Frequency: ${member.frequency}
+  `;
 
-    const hasSubscriptionId = !!member.square_subscription_id;
+  loginView.style.display = "none";
+  accountView.style.display = "block";
+}
 
-    pauseBtn.disabled = !hasSubscriptionId || statusValue !== "active";
-    resumeBtn.disabled = !hasSubscriptionId || statusValue !== "paused";
-    cancelBtn.disabled = !hasSubscriptionId || statusValue === "canceled";
-  }
+async function manage(action) {
+  if (!currentMember) return;
 
-  async function loadAccount() {
-    setLoading("Reading session...");
-
-    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-
-    if (sessionError) {
-      throw new Error("Session error: " + sessionError.message);
-    }
-
-    if (!sessionData?.session) {
-      show(loginView);
-      return;
-    }
-
-    setLoading("Validating user...");
-    const { data: userData, error: userError } = await supabase.auth.getUser();
-
-    if (userError) {
-      throw new Error("User lookup error: " + userError.message);
-    }
-
-    if (!userData?.user) {
-      show(loginView);
-      return;
-    }
-
-    const email = (userData.user.email || "").toLowerCase().trim();
-
-    if (!email) {
-      show(loginView);
-      return;
-    }
-
-    setLoading("Loading your Bread Club membership...");
-    const { data: member, error: memberError } = await supabase
-      .from(MEMBERS_TABLE)
-      .select("*")
-      .eq("email", email)
-      .order("created_at", { ascending: false })
-      .maybeSingle();
-
-    if (memberError) {
-      throw new Error("Membership lookup error: " + memberError.message);
-    }
-
-    if (!member) {
-      show(noAccountView);
-      return;
-    }
-
-    fillMember(member);
-    actionStatus.textContent = "";
-    show(accountView);
-  }
-
-  async function callCustomerManage(action) {
-    if (!currentMember?.square_subscription_id || !currentMember?.id) {
-      throw new Error("Missing subscription information.");
-    }
-
-    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-
-    if (sessionError) {
-      throw new Error(sessionError.message);
-    }
-
-    const accessToken = sessionData?.session?.access_token;
-
-    if (!accessToken) {
-      throw new Error("No active auth session found.");
-    }
-
-    const response = await fetch(CUSTOMER_MANAGE_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${accessToken}`
-      },
-      body: JSON.stringify({
-        action,
-        subscription_id: currentMember.square_subscription_id,
-        member_id: currentMember.id
-      })
-    });
-
-    const result = await response.json().catch(() => ({}));
-
-    console.log(`${action} response:`);
-    console.log(JSON.stringify(result, null, 2));
-
-    if (!response.ok) {
-      throw new Error(result?.error || `${action} failed.`);
-    }
-
-    return result;
-  }
-
-  async function pauseSubscription() {
-    const confirmed = window.confirm("Pause your Bread Club subscription?");
-    if (!confirmed) return;
-
-    actionStatus.textContent = "Pausing subscription...";
-
-    try {
-      await callCustomerManage("pause");
-      actionStatus.textContent = "Subscription paused.";
-      await loadAccount();
-    } catch (err) {
-      console.error(err);
-      actionStatus.textContent = err?.message || "Pause failed.";
-    }
-  }
-
-  async function resumeSubscription() {
-    const confirmed = window.confirm("Resume your Bread Club subscription?");
-    if (!confirmed) return;
-
-    actionStatus.textContent = "Resuming subscription...";
-
-    try {
-      await callCustomerManage("resume");
-      actionStatus.textContent = "Subscription resumed.";
-      await loadAccount();
-    } catch (err) {
-      console.error(err);
-      actionStatus.textContent = err?.message || "Resume failed.";
-    }
-  }
-
-  async function cancelSubscription() {
-    const confirmed = window.confirm("Cancel your Bread Club subscription?");
-    if (!confirmed) return;
-
-    actionStatus.textContent = "Canceling subscription...";
-
-    try {
-      await callCustomerManage("cancel");
-      actionStatus.textContent = "Subscription canceled.";
-      await loadAccount();
-    } catch (err) {
-      console.error(err);
-      actionStatus.textContent = err?.message || "Cancel failed.";
-    }
-  }
-
-  async function boot() {
-    try {
-      show(loadingView);
-      setLoading("Checking session...");
-
-      await finishAuthRedirectIfNeeded();
-      await loadAccount();
-    } catch (err) {
-      console.error(err);
-      show(loadingView);
-      setLoading("Something broke during account load.", err?.message || String(err));
-    }
-  }
-
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = emailInput.value.trim().toLowerCase();
-    loginStatus.textContent = "Sending login link...";
-    loginBtn.disabled = true;
-
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: window.location.href
-      }
-    });
-
-    loginBtn.disabled = false;
-
-    if (error) {
-      loginStatus.textContent = error.message || "Could not send login link.";
-      return;
-    }
-
-    loginStatus.textContent = "Check your email and click the login link.";
+  await fetch(FUNCTION_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+    },
+    body: JSON.stringify({
+      action,
+      subscription_id: currentMember.square_subscription_id,
+      member_id: currentMember.id
+    })
   });
 
-  signOutBtn.onclick = async () => {
-    await supabase.auth.signOut();
-    show(loginView);
-  };
+  loadAccount();
+}
 
-  signOutNoAccountBtn.onclick = async () => {
-    await supabase.auth.signOut();
-    show(loginView);
-  };
+pauseBtn.onclick = () => manage("pause");
+resumeBtn.onclick = () => manage("resume");
+cancelBtn.onclick = () => manage("cancel");
 
-  reloadAccountBtn.onclick = async () => {
-    await loadAccount();
-  };
+logoutBtn.onclick = async () => {
+  await supabase.auth.signOut();
+  location.reload();
+};
 
-  pauseBtn.onclick = async () => {
-    await pauseSubscription();
-  };
-
-  resumeBtn.onclick = async () => {
-    await resumeSubscription();
-  };
-
-  cancelBtn.onclick = async () => {
-    await cancelSubscription();
-  };
-
-  supabase.auth.onAuthStateChange(() => {
-    boot();
-  });
-
-  boot();
+loadAccount();
 </script>
 
 </body>
