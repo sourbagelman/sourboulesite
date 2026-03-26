@@ -36,6 +36,7 @@ Site preview for The Sour Boule • built to replace expensive platform clutter
 <nav class="nav-links">
 <a class="nav-link" href="index.html">Home</a>
 <a class="nav-link active" href="breadclub.html">Bread Club</a>
+<a class="nav-link" href="breadclub-account.html">My Bread Club</a>
 <a class="nav-link" href="about.html">About</a>
 <a class="nav-link" href="catering.html">Catering</a>
 <a class="nav-link" href="events.html">Private Events</a>
@@ -378,6 +379,8 @@ Phone: 682-250-3052
 <div class="footer-links small">
 <a href="index.html">Home</a>
 <a href="menu.html">Menu</a>
+<a href="breadclub.html">Bread Club</a>
+<a href="breadclub-account.html">My Bread Club</a>
 <a href="catering.html">Catering</a>
 <a href="events.html">Events</a>
 <a href="contact.html">Contact</a>
@@ -399,8 +402,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const SQUARE_APP_ID = "sq0idp-7pAIehxXOmEZV0HxnW48bg";
   const SQUARE_LOCATION_ID = "L1KAC6DSKSQ9M";
-
-  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   const form = document.getElementById("breadclub-form");
   const statusEl = document.getElementById("breadclub-status");
@@ -472,16 +473,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       const card_token = tokenResult.token;
       const verification_token = verification.token;
 
-      const { error } = await client
-        .from("bread_club_members")
-        .insert([data]);
-
-      if (error) {
-        console.error("Supabase error:", error);
-        statusEl.textContent = "Database error.";
-        return;
-      }
-
       const fnResponse = await fetch(FUNCTION_URL, {
         method: "POST",
         headers: {
@@ -500,11 +491,24 @@ document.addEventListener("DOMContentLoaded", async function () {
       console.log(fnResult);
 
       if (!fnResponse.ok) {
-        statusEl.textContent = "Saved, but backend failed.";
+        statusEl.textContent = fnResult?.error || "Signup failed.";
         return;
       }
 
-      statusEl.textContent = "Signup complete + card saved!";
+      statusEl.innerHTML = `
+        Signup complete.
+
+        <br><br>
+
+        Your Bread Club account is ready.
+
+        <br><br>
+
+        <a href="breadclub-account.html" style="color:#f0cf6e; font-weight:bold;">
+          Manage your subscription here →
+        </a>
+      `;
+
       form.reset();
 
       await card.destroy();
