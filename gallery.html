@@ -15,6 +15,118 @@
 
 <link rel="stylesheet" href="assets/css/style.css">
 
+<style>
+  .gallery-lock-wrap {
+    position: relative;
+    min-height: 720px;
+    border-radius: 28px;
+    overflow: hidden;
+  }
+
+  .gallery-lock-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.88);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+
+  .gallery-lock-card {
+    max-width: 720px;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e7e1d8;
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+    padding: 42px 30px;
+    text-align: center;
+  }
+
+  .gallery-lock-card h1 {
+    margin: 0 0 14px;
+    font-size: clamp(2.25rem, 4vw, 3.4rem);
+    line-height: 1.04;
+    color: #111111;
+  }
+
+  .gallery-lock-card p {
+    margin: 0 auto 16px;
+    max-width: 560px;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #4b4b4b;
+  }
+
+  .gallery-lock-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 22px;
+  }
+
+  .gallery-bg {
+    pointer-events: none;
+    user-select: none;
+    padding: 56px 0 80px;
+  }
+
+  .gallery-bg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .gallery-bg-card {
+    background: #f5f0e8;
+    border: 1px solid rgba(0,0,0,.06);
+    border-radius: 22px;
+    min-height: 220px;
+    padding: 18px;
+    display: flex;
+    align-items: end;
+    justify-content: start;
+  }
+
+  .gallery-bg-card span {
+    font-size: .82rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #8a7d71;
+  }
+
+  @media (max-width: 900px) {
+    .gallery-bg-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gallery-lock-wrap {
+      min-height: 640px;
+    }
+
+    .gallery-lock-overlay {
+      padding: 18px;
+    }
+
+    .gallery-lock-card {
+      padding: 32px 22px;
+      border-radius: 20px;
+    }
+
+    .gallery-bg-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
 </head>
 
 <body>
@@ -44,7 +156,7 @@ Site preview for The Sour Boule • built to replace expensive platform clutter
 
 <div class="nav-actions">
 <a class="btn secondary" href="menu.html">Menu</a>
-<a class="btn primary" href="https://squareup.com" target="_blank">Order Now</a>
+<a class="btn primary" href="https://cash.app/$thesourboule" target="_blank">Order Now</a>
 </div>
 
 </div>
@@ -52,66 +164,50 @@ Site preview for The Sour Boule • built to replace expensive platform clutter
 </header>
 
 <main>
+  <div class="container stack">
+    <section class="gallery-lock-wrap">
 
-<div class="container stack" style="gap:28px;">
+      <div class="gallery-lock-overlay">
+        <div class="gallery-lock-card">
+          <h1>Gallery is<br>Coming Soon</h1>
+          <p>
+            We’re moving away from a dedicated gallery page.
+            Over time, photos will be worked throughout the site where they actually belong.
+          </p>
+          <p>
+            For now, you can keep exploring the menu, learn more about us, or reach out directly.
+          </p>
+          <div class="gallery-lock-actions">
+            <a class="btn primary" href="menu.html">See Our Menu</a>
+            <a class="btn secondary" href="about.html">About The Sour Boule</a>
+          </div>
+          <p style="margin-top:18px; font-size:.92rem; color:#6a6a6a;">
+            Thanks for your patience while we finish cleaning this up.
+          </p>
+        </div>
+      </div>
 
-<!-- INTRO -->
+      <div class="gallery-bg">
+        <div style="max-width:760px; margin:0 0 30px;">
+          <p class="eyebrow">The Sour Boule</p>
+          <h1 style="margin-bottom:12px;">Gallery</h1>
+          <p style="font-size:1.05rem; color:#5a524a;">
+            A visual look at bread, coffee, food, and the daily rhythm of the shop.
+          </p>
+        </div>
 
-<section style="padding-bottom:22px; border-bottom:1px solid rgba(0,0,0,.08);">
+        <div class="gallery-bg-grid">
+          <div class="gallery-bg-card"><span>Fresh Bread</span></div>
+          <div class="gallery-bg-card"><span>Coffee & Morning Service</span></div>
+          <div class="gallery-bg-card"><span>Sandwiches & Specials</span></div>
+          <div class="gallery-bg-card"><span>Bakery Cases</span></div>
+          <div class="gallery-bg-card"><span>Seasonal Features</span></div>
+          <div class="gallery-bg-card"><span>Inside The Shop</span></div>
+        </div>
+      </div>
 
-<span class="eyebrow">Gallery</span>
-
-<div class="cards-2" style="align-items:start; gap:28px;">
-
-<div>
-<h2 style="font-size:2.6rem; margin-bottom:0;">A look inside The Sour Boule</h2>
-</div>
-
-<div>
-<p style="max-width:560px; font-size:1.05rem; margin-bottom:0;">
-A few snapshots of the bread, food, and café that make up everyday life at The Sour Boule.
-</p>
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- GALLERY INTRO PANEL -->
-
-<section class="card" style="background:#efe7da; padding:22px; border:1px solid rgba(0,0,0,.08);">
-<span class="tag">Inside the café</span>
-<h3>Food, bread, and the space itself</h3>
-<p style="max-width:760px; margin-bottom:0;">
-This page is a visual look at what makes The Sour Boule feel like The Sour Boule — naturally fermented bread, scratch-made food, coffee, and the everyday rhythm of the café.
-</p>
-</section>
-
-
-
-<!-- DIVIDER -->
-
-<div style="height:1px; background:rgba(0,0,0,.06); margin:6px 0;"></div>
-
-
-
-<!-- GALLERY GRID -->
-
-<section>
-<div class="gallery-grid">
-<article class="photo one"></article>
-<article class="photo two"></article>
-<article class="photo three"></article>
-<article class="photo four"></article>
-<article class="photo five"></article>
-<article class="photo six"></article>
-</div>
-</section>
-
-</div>
-
+    </section>
+  </div>
 </main>
 
 <footer>
@@ -129,6 +225,7 @@ Phone: 682-250-3052
 <div class="footer-links small">
 <a href="index.html">Home</a>
 <a href="menu.html">Menu</a>
+<a href="breadclub.html">Bread Club</a>
 <a href="catering.html">Catering</a>
 <a href="events.html">Events</a>
 <a href="contact.html">Contact</a>
@@ -137,8 +234,6 @@ Phone: 682-250-3052
 </div>
 
 </footer>
-
-<script src="assets/js/main.js"></script>
 
 </body>
 </html>
