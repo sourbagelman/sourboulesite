@@ -16,9 +16,80 @@
 <link rel="stylesheet" href="assets/css/style.css">
 <script type="text/javascript" src="https://web.squarecdn.com/v1/square.js"></script>
 
+<style>
+  .page-lock-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.96);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .page-lock-card {
+    max-width: 680px;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e7e1d8;
+    border-radius: 22px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+    padding: 36px 28px;
+    text-align: center;
+  }
+
+  .page-lock-card h1 {
+    margin: 0 0 12px;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    color: #111111;
+  }
+
+  .page-lock-card p {
+    margin: 0 auto 16px;
+    max-width: 520px;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #4b4b4b;
+  }
+
+  .page-lock-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 22px;
+  }
+
+  body.page-locked {
+    overflow: hidden;
+  }
+</style>
+
 </head>
 
-<body>
+<body class="page-locked">
+
+<div class="page-lock-overlay">
+  <div class="page-lock-card">
+    <h1>Bread Club is Coming Soon</h1>
+    <p>
+      We’re finishing a few updates behind the scenes so this page works the way it should.
+      Bread Club will be back shortly.
+    </p>
+    <p>
+      In the meantime, you can still order online or reach out to us directly with any questions.
+    </p>
+    <div class="page-lock-actions">
+      <a class="btn primary" href="https://cash.app/$thesourboule" target="_blank">Order Now</a>
+      <a class="btn secondary" href="contact.html">Contact Us</a>
+    </div>
+    <p style="margin-top:18px; font-size:.92rem; color:#6a6a6a;">
+      Thank you for your patience while we finish this up.
+    </p>
+  </div>
+</div>
 
 <div class="topbar">
 Site preview for The Sour Boule • built to replace expensive platform clutter
