@@ -77,8 +77,6 @@ We keep catering simple. Tell us what you need, how many people you are feeding,
 
 </section>
 
-
-
 <!-- CATERING TYPES -->
 
 <section class="cards-3" style="margin-top:2px;">
@@ -109,13 +107,9 @@ Larger orders, specific timing, mixed needs, or custom setups can be tailored to
 
 </section>
 
-
-
 <!-- DIVIDER -->
 
 <div style="height:1px; background:rgba(0,0,0,.06); margin:6px 0;"></div>
-
-
 
 <!-- HOW IT WORKS -->
 
@@ -157,13 +151,9 @@ As a general rule, more notice is always better for larger requests.
 
 </section>
 
-
-
 <!-- DIVIDER -->
 
 <div style="height:1px; background:rgba(0,0,0,.06); margin:10px 0;"></div>
-
-
 
 <!-- INQUIRY INTRO -->
 
@@ -179,8 +169,6 @@ Use the form below to tell us what you need, and we will reach out with the best
 
 </section>
 
-
-
 <!-- FORM PANEL -->
 
 <section class="card" style="background:#efe7da; padding:26px; border:1px solid rgba(0,0,0,.08);">
@@ -193,32 +181,20 @@ border:1px solid rgba(0,0,0,.08);
 box-shadow:0 22px 48px rgba(22,20,18,.12), 0 8px 20px rgba(22,20,18,.08);
 ">
 
-<form style="display:grid; gap:14px;">
+<form action="https://formspree.io/f/mvzvrerj" method="POST" style="display:grid; gap:14px;">
+
+<input type="hidden" name="_subject" value="The Sour Boule Catering Inquiry">
 
 <div class="cards-2" style="gap:14px;">
 
 <div>
-<label style="display:block; font-weight:600; margin-bottom:8px;">Full Name</label>
-<input type="text" placeholder="Your name">
+<label style="display:block; font-weight:600; margin-bottom:8px;" for="catering-name">Full Name</label>
+<input id="catering-name" type="text" name="name" placeholder="Your name" required>
 </div>
 
 <div>
-<label style="display:block; font-weight:600; margin-bottom:8px;">Email</label>
-<input type="email" placeholder="you@example.com">
-</div>
-
-</div>
-
-<div class="cards-2" style="gap:14px;">
-
-<div>
-<label style="display:block; font-weight:600; margin-bottom:8px;">Phone</label>
-<input type="tel" placeholder="(555) 555-5555">
-</div>
-
-<div>
-<label style="display:block; font-weight:600; margin-bottom:8px;">Event Date</label>
-<input type="text" placeholder="MM/DD/YYYY">
+<label style="display:block; font-weight:600; margin-bottom:8px;" for="catering-email">Email</label>
+<input id="catering-email" type="email" name="email" placeholder="you@example.com" required>
 </div>
 
 </div>
@@ -226,20 +202,34 @@ box-shadow:0 22px 48px rgba(22,20,18,.12), 0 8px 20px rgba(22,20,18,.08);
 <div class="cards-2" style="gap:14px;">
 
 <div>
-<label style="display:block; font-weight:600; margin-bottom:8px;">Guest Count</label>
-<input type="text" placeholder="About how many people?">
+<label style="display:block; font-weight:600; margin-bottom:8px;" for="catering-phone">Phone</label>
+<input id="catering-phone" type="tel" name="phone" placeholder="(555) 555-5555">
 </div>
 
 <div>
-<label style="display:block; font-weight:600; margin-bottom:8px;">Type of Catering</label>
-<input type="text" placeholder="Office lunch, breakfast, special order, etc.">
+<label style="display:block; font-weight:600; margin-bottom:8px;" for="catering-date">Event Date</label>
+<input id="catering-date" type="text" name="event_date" placeholder="MM/DD/YYYY" required>
+</div>
+
+</div>
+
+<div class="cards-2" style="gap:14px;">
+
+<div>
+<label style="display:block; font-weight:600; margin-bottom:8px;" for="catering-guests">Guest Count</label>
+<input id="catering-guests" type="text" name="guest_count" placeholder="About how many people?" required>
+</div>
+
+<div>
+<label style="display:block; font-weight:600; margin-bottom:8px;" for="catering-type">Type of Catering</label>
+<input id="catering-type" type="text" name="catering_type" placeholder="Office lunch, breakfast, special order, etc." required>
 </div>
 
 </div>
 
 <div>
-<label style="display:block; font-weight:600; margin-bottom:8px;">Details</label>
-<textarea rows="5" placeholder="Tell us what you are looking for, timing, pickup needs, food ideas, and anything else helpful."></textarea>
+<label style="display:block; font-weight:600; margin-bottom:8px;" for="catering-details">Details</label>
+<textarea id="catering-details" name="details" rows="5" placeholder="Tell us what you are looking for, timing, pickup needs, food ideas, and anything else helpful." required></textarea>
 </div>
 
 <div style="padding-top:6px;">
