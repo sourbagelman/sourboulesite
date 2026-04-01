@@ -77,8 +77,6 @@ Small gatherings, workshops, and creative events can sometimes take place at the
 
 </section>
 
-
-
 <!-- EVENT TYPES -->
 
 <section class="cards-3" style="margin-top:2px;">
@@ -109,13 +107,9 @@ Book clubs, tastings, networking groups, and other unique ideas are always worth
 
 </section>
 
-
-
 <!-- DIVIDER -->
 
 <div style="height:1px; background:rgba(0,0,0,.06); margin:6px 0;"></div>
-
-
 
 <!-- EVENT BASICS -->
 
@@ -153,13 +147,9 @@ Include your preferred date, approximate guest count, and a short description of
 
 </section>
 
-
-
 <!-- DIVIDER -->
 
 <div style="height:1px; background:rgba(0,0,0,.06); margin:10px 0;"></div>
-
-
 
 <!-- INQUIRY INTRO -->
 
@@ -175,8 +165,6 @@ Fill out the form below and we will follow up about availability and details.
 
 </section>
 
-
-
 <!-- FORM PANEL -->
 
 <section class="card" style="background:#efe7da; padding:26px; border:1px solid rgba(0,0,0,.08);">
@@ -189,32 +177,20 @@ border:1px solid rgba(0,0,0,.08);
 box-shadow:0 22px 48px rgba(22,20,18,.12), 0 8px 20px rgba(22,20,18,.08);
 ">
 
-<form style="display:grid; gap:14px;">
+<form action="https://formspree.io/f/mreoknlz" method="POST" style="display:grid; gap:14px;">
+
+<input type="hidden" name="_subject" value="The Sour Boule Private Event Inquiry">
 
 <div class="cards-2" style="gap:14px;">
 
 <div>
-<label style="display:block; font-weight:600; margin-bottom:8px;">Full Name</label>
-<input type="text" placeholder="Your name">
+<label style="display:block; font-weight:600; margin-bottom:8px;" for="event-name">Full Name</label>
+<input id="event-name" type="text" name="name" placeholder="Your name" required>
 </div>
 
 <div>
-<label style="display:block; font-weight:600; margin-bottom:8px;">Email</label>
-<input type="email" placeholder="you@example.com">
-</div>
-
-</div>
-
-<div class="cards-2" style="gap:14px;">
-
-<div>
-<label style="display:block; font-weight:600; margin-bottom:8px;">Phone</label>
-<input type="tel" placeholder="(555) 555-5555">
-</div>
-
-<div>
-<label style="display:block; font-weight:600; margin-bottom:8px;">Preferred Event Date</label>
-<input type="text" placeholder="MM/DD/YYYY">
+<label style="display:block; font-weight:600; margin-bottom:8px;" for="event-email">Email</label>
+<input id="event-email" type="email" name="email" placeholder="you@example.com" required>
 </div>
 
 </div>
@@ -222,20 +198,34 @@ box-shadow:0 22px 48px rgba(22,20,18,.12), 0 8px 20px rgba(22,20,18,.08);
 <div class="cards-2" style="gap:14px;">
 
 <div>
-<label style="display:block; font-weight:600; margin-bottom:8px;">Estimated Guest Count</label>
-<input type="text" placeholder="How many people?">
+<label style="display:block; font-weight:600; margin-bottom:8px;" for="event-phone">Phone</label>
+<input id="event-phone" type="tel" name="phone" placeholder="(555) 555-5555">
 </div>
 
 <div>
-<label style="display:block; font-weight:600; margin-bottom:8px;">Event Type</label>
-<input type="text" placeholder="Workshop, party, meetup, etc.">
+<label style="display:block; font-weight:600; margin-bottom:8px;" for="event-date">Preferred Event Date</label>
+<input id="event-date" type="text" name="preferred_event_date" placeholder="MM/DD/YYYY" required>
+</div>
+
+</div>
+
+<div class="cards-2" style="gap:14px;">
+
+<div>
+<label style="display:block; font-weight:600; margin-bottom:8px;" for="event-guests">Estimated Guest Count</label>
+<input id="event-guests" type="text" name="estimated_guest_count" placeholder="How many people?" required>
+</div>
+
+<div>
+<label style="display:block; font-weight:600; margin-bottom:8px;" for="event-type">Event Type</label>
+<input id="event-type" type="text" name="event_type" placeholder="Workshop, party, meetup, etc." required>
 </div>
 
 </div>
 
 <div>
-<label style="display:block; font-weight:600; margin-bottom:8px;">Event Details</label>
-<textarea rows="5" placeholder="Tell us about the event, timing, setup needs, or anything else helpful."></textarea>
+<label style="display:block; font-weight:600; margin-bottom:8px;" for="event-details">Event Details</label>
+<textarea id="event-details" name="event_details" rows="5" placeholder="Tell us about the event, timing, setup needs, or anything else helpful." required></textarea>
 </div>
 
 <div style="padding-top:6px;">
