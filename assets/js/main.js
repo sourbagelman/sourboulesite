@@ -1,3 +1,21 @@
+// Google Analytics (GA4)
+(function () {
+  const GA_ID = "G-Y9L47GTRMD";
+
+  const script = document.createElement("script");
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+  script.async = true;
+  document.head.appendChild(script);
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  window.gtag = gtag;
+
+  gtag('js', new Date());
+  gtag('config', GA_ID);
+})();
+
+// Favicon
 (function () {
   const faviconHref = "images/logo.png";
 
@@ -11,6 +29,22 @@
   favicon.type = "image/jpeg";
   favicon.href = faviconHref;
 })();
+
+// Track Order Now clicks
+document.addEventListener("click", function(e) {
+  const target = e.target.closest("a");
+
+  if (!target) return;
+
+  if (target.href && target.href.includes("squareup.com")) {
+    if (window.gtag) {
+      gtag("event", "order_click", {
+        event_category: "engagement",
+        event_label: "Order Now Click"
+      });
+    }
+  }
+});
 
 document.addEventListener("DOMContentLoaded", function () {
   console.log("The Sour Boule site loaded.");
