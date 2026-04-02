@@ -1,5 +1,5 @@
 (function () {
-  const faviconHref = "images/VistaPrint Studio.jpeg";
+  const faviconHref = "images/logo.png";
 
   let favicon = document.querySelector("link[rel='icon']");
   if (!favicon) {
