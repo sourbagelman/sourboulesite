@@ -1,3 +1,17 @@
+(function () {
+  const faviconHref = "images/VistaPrint Studio.jpeg";
+
+  let favicon = document.querySelector("link[rel='icon']");
+  if (!favicon) {
+    favicon = document.createElement("link");
+    favicon.rel = "icon";
+    document.head.appendChild(favicon);
+  }
+
+  favicon.type = "image/jpeg";
+  favicon.href = faviconHref;
+})();
+
 document.addEventListener("DOMContentLoaded", function () {
   console.log("The Sour Boule site loaded.");
 
