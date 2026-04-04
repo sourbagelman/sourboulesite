@@ -36,11 +36,17 @@ document.addEventListener("click", function(e) {
 
   if (!target) return;
 
-  if (target.href && target.href.includes("squareup.com")) {
+  if (
+    target.href &&
+    (
+      target.href.includes("squareup.com") ||
+      target.href.includes("cash.app/order")
+    )
+  ) {
     if (window.gtag) {
       gtag("event", "order_click", {
         event_category: "engagement",
-        event_label: "Order Now Click"
+        event_label: target.href
       });
     }
   }
