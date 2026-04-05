@@ -351,6 +351,10 @@ function showView(view) {
   }
 }
 
+function getCustomerRedirectUrl() {
+  return window.location.origin + "/breadclub-account.html";
+}
+
 async function finishAuthRedirectIfNeeded() {
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
@@ -377,14 +381,15 @@ loginForm.addEventListener("submit", async (e) => {
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: window.location.href
+      emailRedirectTo: getCustomerRedirectUrl(),
+      shouldCreateUser: true
     }
   });
 
   if (error) {
     status.textContent = error.message;
   } else {
-    status.textContent = "Check your email.";
+    status.textContent = "Check your email for your Bread Club login link.";
   }
 });
 
@@ -512,6 +517,7 @@ signOutNoAccountBtn.onclick = async () => {
     await finishAuthRedirectIfNeeded();
   } catch (err) {
     console.error(err);
+    status.textContent = err?.message || "Login link could not be completed.";
   }
 
   await loadAccount();
