@@ -179,14 +179,13 @@ Site preview for The Sour Boule • built to replace expensive platform clutter
     </p>
   </div>
 
-  <!-- LOGIN -->
   <div id="loginView" class="account-card">
     <h2>Bread Club Login</h2>
     <p class="muted">Use your Bread Club email to access your account.</p>
 
     <form id="loginForm">
       <input id="email" type="email" placeholder="oscar@thesourboule.com" required />
-      <button type="submit">Email Me a Login Link</button>
+      <button id="loginBtn" type="submit">Email Me a Login Link</button>
     </form>
 
     <div id="status" class="muted"></div>
@@ -196,7 +195,6 @@ Site preview for The Sour Boule • built to replace expensive platform clutter
     </div>
   </div>
 
-  <!-- NO ACCOUNT -->
   <div id="noAccountView" class="account-card" style="display:none;">
     <h2>No Bread Club Account Found</h2>
     <p class="muted">
@@ -209,7 +207,6 @@ Site preview for The Sour Boule • built to replace expensive platform clutter
     </div>
   </div>
 
-  <!-- ACCOUNT -->
   <div id="accountView" class="account-card" style="display:none;">
     <div style="display:flex; justify-content:space-between; gap:16px; align-items:flex-start; flex-wrap:wrap;">
       <div>
@@ -319,6 +316,8 @@ const noAccountView = document.getElementById("noAccountView");
 const accountView = document.getElementById("accountView");
 
 const loginForm = document.getElementById("loginForm");
+const emailInput = document.getElementById("email");
+const loginBtn = document.getElementById("loginBtn");
 const status = document.getElementById("status");
 
 const accountEmail = document.getElementById("accountEmail");
@@ -346,13 +345,11 @@ function showView(view) {
   noAccountView.style.display = "none";
   accountView.style.display = "none";
 
-  if (view) {
-    view.style.display = "block";
-  }
+  if (view) view.style.display = "block";
 }
 
 function getCustomerRedirectUrl() {
-  return window.location.origin + "/breadclub-account.html";
+  return "https://thesourboule.com/breadclub-account.html";
 }
 
 async function finishAuthRedirectIfNeeded() {
@@ -363,34 +360,47 @@ async function finishAuthRedirectIfNeeded() {
 
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   const cleanUrl = window.location.origin + window.location.pathname;
   window.history.replaceState({}, document.title, cleanUrl);
 }
 
-loginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const email = document.getElementById("email").value.trim().toLowerCase();
-
+async function sendMagicLink(email) {
   status.textContent = "Sending login link...";
+  loginBtn.disabled = true;
 
-  const { error } = await supabase.auth.signInWithOtp({
-    email,
+  const { data, error } = await supabase.auth.signInWithOtp({
+    email: email,
     options: {
       emailRedirectTo: getCustomerRedirectUrl(),
       shouldCreateUser: true
     }
   });
 
+  console.log("Bread Club login response:", { data, error });
+
+  loginBtn.disabled = false;
+
   if (error) {
-    status.textContent = error.message;
-  } else {
-    status.textContent = "Check your email for your Bread Club login link.";
+    status.textContent = error.message || "Could not send login link.";
+    return;
   }
+
+  status.textContent = "Check your email for your Bread Club login link.";
+}
+
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = emailInput.value.trim().toLowerCase();
+
+  if (!email) {
+    status.textContent = "Enter your email.";
+    return;
+  }
+
+  await sendMagicLink(email);
 });
 
 function fillAccount(member) {
@@ -459,14 +469,10 @@ async function manage(action) {
   try {
     const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
 
-    if (sessionError) {
-      throw sessionError;
-    }
+    if (sessionError) throw sessionError;
 
     const accessToken = sessionData?.session?.access_token;
-    if (!accessToken) {
-      throw new Error("No active auth session.");
-    }
+    if (!accessToken) throw new Error("No active auth session.");
 
     const response = await fetch(FUNCTION_URL, {
       method: "POST",
