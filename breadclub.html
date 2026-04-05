@@ -9,6 +9,7 @@
 <title>Bread Club Subscription | The Sour Boule</title>
 
 <meta name="description" content="The Sour Boule is a Fort Worth sourdough bakery and cafe focused on real ingredients, house-made meats, and naturally fermented bread.">
+<meta name="robots" content="noindex, nofollow, noarchive">
   
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -137,7 +138,7 @@ Site preview for The Sour Boule • built to replace expensive platform clutter
 
 <section class="breadclub-wrap page-locked-section" id="breadclub-app">
 
-<div class="page-lock-overlay">
+<div class="page-lock-overlay" id="breadclub-lock">
   <div class="page-lock-card">
     <h1>Bread Club is<br>Coming Soon</h1>
     <p>
@@ -496,6 +497,27 @@ Phone: 682-250-3052
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="assets/js/main.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const params = new URLSearchParams(window.location.search);
+  const isTestMode = params.get("test") === "1";
+  const hasCode = params.get("code") === "sourbouletest2026";
+
+  if (isTestMode && hasCode) {
+    const wrap = document.getElementById("breadclub-app");
+    const lock = document.getElementById("breadclub-lock");
+
+    if (wrap) {
+      wrap.classList.remove("page-locked-section");
+    }
+
+    if (lock) {
+      lock.style.display = "none";
+    }
+  }
+});
+</script>
 
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
