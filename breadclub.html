@@ -713,11 +713,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       const card_token = tokenResult.token;
 
       const fnResponse = await fetch(FUNCTION_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
-        },
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
         body: JSON.stringify({
           ...data,
           card_token
