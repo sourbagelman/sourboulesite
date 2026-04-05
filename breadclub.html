@@ -522,8 +522,6 @@ document.addEventListener("DOMContentLoaded", function () {
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
 
-  const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
   const FUNCTION_URL = "https://wbhedqwubgmsqgcugimf.supabase.co/functions/v1/create-breadclub-subscription";
 
   const SQUARE_APP_ID = "sq0idp-7pAIehxXOmEZV0HxnW48bg";
@@ -713,22 +711,27 @@ document.addEventListener("DOMContentLoaded", async function () {
       const card_token = tokenResult.token;
 
       const fnResponse = await fetch(FUNCTION_URL, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           ...data,
           card_token
         })
       });
 
-      const fnResult = await fnResponse.json();
+      const fnResult = await fnResponse.json().catch(() => ({}));
       console.log("Backend:");
       console.log(fnResult);
 
       if (!fnResponse.ok) {
-        statusEl.textContent = fnResult?.error || "Signup failed.";
+        const errorMessage =
+          fnResult?.error ||
+          fnResult?.message ||
+          fnResult?.step ||
+          "Signup failed.";
+        statusEl.textContent = errorMessage;
         return;
       }
 
