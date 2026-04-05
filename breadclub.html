@@ -677,6 +677,17 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const activePickupButton = document.querySelector(".breadclub-darkpill.active");
 
+    const verificationDetails = {
+      intent: "STORE",
+      customerInitiated: true,
+      sellerKeyedIn: false,
+      billingContact: {
+        givenName: document.getElementById("bc-full-name").value.trim(),
+        email: document.getElementById("bc-email").value.trim(),
+        countryCode: "US"
+      }
+    };
+
     const data = {
       full_name: document.getElementById("bc-full-name").value.trim(),
       email: document.getElementById("bc-email").value.trim(),
@@ -691,35 +702,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
 
     try {
-      const tokenResult = await card.tokenize();
+      const tokenResult = await card.tokenize(verificationDetails);
 
       if (tokenResult.status !== "OK") {
         console.error("Token error:", tokenResult);
-        statusEl.textContent = "Card error.";
-        return;
-      }
-
-      const payments = window.Square.payments(
-        SQUARE_APP_ID,
-        SQUARE_LOCATION_ID
-      );
-
-      const verification = await payments.verifyBuyer(tokenResult.token, {
-        billingContact: {
-          givenName: document.getElementById("bc-full-name").value,
-          email: document.getElementById("bc-email").value,
-        },
-        intent: "STORE"
-      });
-
-      if (verification.status !== "OK") {
-        console.error("Verification failed:", verification);
-        statusEl.textContent = "Card verification failed.";
+        statusEl.textContent = tokenResult.errors?.[0]?.message || "Card error.";
         return;
       }
 
       const card_token = tokenResult.token;
-      const verification_token = verification.token;
 
       const fnResponse = await fetch(FUNCTION_URL, {
         method: "POST",
@@ -729,8 +720,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         },
         body: JSON.stringify({
           ...data,
-          card_token,
-          verification_token
+          card_token
         })
       });
 
