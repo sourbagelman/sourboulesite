@@ -129,6 +129,11 @@
       font-size: .92rem;
     }
 
+    button[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed !important;
+    }
+
     @media (max-width: 700px) {
       .account-grid {
         grid-template-columns: 1fr;
@@ -410,9 +415,13 @@ function fillAccount(member) {
   const statusValue = (member.status || "").toLowerCase();
   const hasSubscription = !!member.square_subscription_id;
 
-  pauseBtn.disabled = !hasSubscription || statusValue !== "active";
-  resumeBtn.disabled = !hasSubscription || statusValue !== "paused";
-  cancelBtn.disabled = !hasSubscription || statusValue === "canceled";
+  const isActive = statusValue === "active";
+  const isPaused = statusValue === "paused";
+  const isCanceled = statusValue === "canceled";
+
+  pauseBtn.disabled = !hasSubscription || !isActive;
+  resumeBtn.disabled = !hasSubscription || !isPaused;
+  cancelBtn.disabled = !hasSubscription || isCanceled;
 }
 
 async function loadAccount() {
