@@ -427,9 +427,13 @@
         const squareSubscriptionId = row.square_subscription_id || "";
         const memberId = row.id || "";
 
-        const pauseDisabled = !squareSubscriptionId || statusValue !== "active";
-        const resumeDisabled = !squareSubscriptionId || statusValue !== "paused";
-        const cancelDisabled = !squareSubscriptionId || statusValue === "canceled";
+        const isActive = statusValue === "active";
+        const isPaused = statusValue === "paused";
+        const isCanceled = statusValue === "canceled";
+
+        const pauseDisabled = !squareSubscriptionId || !isActive;
+        const resumeDisabled = !squareSubscriptionId || !isPaused;
+        const cancelDisabled = !squareSubscriptionId || isCanceled;
 
         tr.innerHTML = `
           <td>${escapeHtml(fullName)}</td>
