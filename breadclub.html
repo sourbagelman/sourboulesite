@@ -9,7 +9,7 @@
 <title>Bread Club Subscription | The Sour Boule</title>
 
 <meta name="description" content="The Sour Boule is a Fort Worth sourdough bakery and cafe focused on real ingredients, house-made meats, and naturally fermented bread.">
-<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="robots" content="index, follow">
   
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,88 +19,9 @@
 <link rel="stylesheet" href="assets/css/style.css">
 <script type="text/javascript" src="https://web.squarecdn.com/v1/square.js"></script>
 
-<style>
-  .breadclub-wrap.page-locked-section {
-    position: relative;
-    min-height: 980px;
-    overflow: hidden;
-  }
-
-  .breadclub-wrap.page-locked-section .page-lock-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.88);
-    z-index: 50;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 32px;
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    border-radius: 28px;
-  }
-
-  .breadclub-wrap.page-locked-section .page-lock-card {
-    max-width: 720px;
-    width: 100%;
-    background: #ffffff;
-    border: 1px solid #e7e1d8;
-    border-radius: 24px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
-    padding: 42px 30px;
-    text-align: center;
-  }
-
-  .breadclub-wrap.page-locked-section .page-lock-card h1 {
-    margin: 0 0 14px;
-    font-size: clamp(2.25rem, 4vw, 3.6rem);
-    line-height: 1.02;
-    color: #111111;
-  }
-
-  .breadclub-wrap.page-locked-section .page-lock-card p {
-    margin: 0 auto 16px;
-    max-width: 560px;
-    font-size: 1rem;
-    line-height: 1.7;
-    color: #4b4b4b;
-  }
-
-  .breadclub-wrap.page-locked-section .page-lock-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 22px;
-  }
-
-  .breadclub-wrap.page-locked-section .breadclub-left,
-  .breadclub-wrap.page-locked-section .breadclub-right {
-    pointer-events: none;
-    user-select: none;
-  }
-
-  @media (max-width: 720px) {
-    .breadclub-wrap.page-locked-section {
-      min-height: 860px;
-    }
-
-    .breadclub-wrap.page-locked-section .page-lock-overlay {
-      padding: 18px;
-    }
-
-    .breadclub-wrap.page-locked-section .page-lock-card {
-      padding: 32px 22px;
-      border-radius: 20px;
-    }
-  }
-</style>
-
 </head>
 
 <body>
-
-
 
 <header>
 
@@ -134,27 +55,7 @@
 
 <div class="container stack">
 
-<section class="breadclub-wrap page-locked-section" id="breadclub-app">
-
-<div class="page-lock-overlay" id="breadclub-lock">
-  <div class="page-lock-card">
-    <h1>Bread Club is<br>Coming Soon</h1>
-    <p>
-      We’re finishing a few updates behind the scenes so this page works the way it should.
-      Bread Club will be back shortly.
-    </p>
-    <p>
-      In the meantime, you can still browse the site and reach out to us directly with any questions.
-    </p>
-    <div class="page-lock-actions">
-      <a class="btn primary" href="menu.html">See Our Menu</a>
-      <a class="btn secondary" href="contact.html">Questions? Contact Us</a>
-    </div>
-    <p style="margin-top:18px; font-size:.92rem; color:#6a6a6a;">
-      Thank you for your patience while we finish this up.
-    </p>
-  </div>
-</div>
+<section class="breadclub-wrap" id="breadclub-app">
 
 <section class="breadclub-left">
 
@@ -495,27 +396,6 @@ Phone: 682-250-3052
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="assets/js/main.js"></script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const params = new URLSearchParams(window.location.search);
-  const isTestMode = params.get("test") === "1";
-  const hasCode = params.get("code") === "sourbouletest2026";
-
-  if (isTestMode && hasCode) {
-    const wrap = document.getElementById("breadclub-app");
-    const lock = document.getElementById("breadclub-lock");
-
-    if (wrap) {
-      wrap.classList.remove("page-locked-section");
-    }
-
-    if (lock) {
-      lock.style.display = "none";
-    }
-  }
-});
-</script>
 
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
