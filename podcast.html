@@ -10,15 +10,15 @@
 
   <style>
     :root {
-      --flour: #f8f0df;
-      --cream: #fffaf0;
-      --crust: #b87535;
-      --deep-crust: #6d3f1f;
-      --blue: #163b73;
-      --gold: #d6a23a;
-      --ink: #241c16;
-      --muted: #6f6259;
-      --card: rgba(255, 250, 240, 0.92);
+      --paper: #f5ecdc;
+      --linen: #fff9ed;
+      --ink: #261914;
+      --brown: #6f3f22;
+      --brown-soft: #a66a3d;
+      --blue: #17345f;
+      --blue-soft: #e7edf6;
+      --gold: #c9973f;
+      --muted: #74675c;
     }
 
     * {
@@ -27,238 +27,312 @@
 
     body {
       margin: 0;
+      min-height: 100vh;
       font-family: Georgia, "Times New Roman", serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at top left, rgba(214, 162, 58, 0.22), transparent 32%),
-        radial-gradient(circle at bottom right, rgba(22, 59, 115, 0.18), transparent 36%),
-        linear-gradient(135deg, var(--flour), #efe1c8);
-      min-height: 100vh;
+        radial-gradient(circle at 12% 10%, rgba(201, 151, 63, 0.24), transparent 30%),
+        radial-gradient(circle at 88% 20%, rgba(23, 52, 95, 0.16), transparent 32%),
+        linear-gradient(135deg, #f2e3ca, #fbf4e8 45%, #ead8bd);
     }
 
-    .page {
-      max-width: 1080px;
+    .wrap {
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 48px 22px;
+      padding: 52px 22px;
     }
 
-    .hero {
+    .panel {
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(109, 63, 31, 0.18);
-      border-radius: 32px;
-      padding: 64px 28px;
-      text-align: center;
+      min-height: calc(100vh - 104px);
+      padding: clamp(42px, 7vw, 86px);
+      border-radius: 38px;
       background:
-        linear-gradient(135deg, rgba(255, 250, 240, 0.95), rgba(248, 240, 223, 0.86)),
-        repeating-linear-gradient(
-          45deg,
-          rgba(184, 117, 53, 0.06),
-          rgba(184, 117, 53, 0.06) 8px,
-          transparent 8px,
-          transparent 18px
-        );
-      box-shadow: 0 18px 50px rgba(36, 28, 22, 0.12);
+        linear-gradient(145deg, rgba(255, 249, 237, 0.96), rgba(245, 236, 220, 0.88));
+      box-shadow: 0 24px 70px rgba(38, 25, 20, 0.14);
+      border: 1px solid rgba(111, 63, 34, 0.14);
     }
 
-    .badge {
-      display: inline-block;
-      margin-bottom: 24px;
-      padding: 9px 16px;
-      border: 1px solid rgba(22, 59, 115, 0.28);
-      border-radius: 999px;
-      background: rgba(22, 59, 115, 0.08);
+    .panel::before {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      right: -170px;
+      top: -170px;
+      border-radius: 50%;
+      background: rgba(23, 52, 95, 0.08);
+    }
+
+    .panel::after {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      left: -160px;
+      bottom: -160px;
+      border-radius: 50%;
+      background: rgba(201, 151, 63, 0.14);
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .kicker {
       color: var(--blue);
       font-size: 14px;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       font-weight: bold;
+      margin-bottom: 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: clamp(32px, 6vw, 76px);
+      align-items: center;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(44px, 8vw, 86px);
-      line-height: 0.95;
-      color: var(--deep-crust);
+      color: var(--brown);
+      font-size: clamp(54px, 9vw, 104px);
+      line-height: 0.91;
+      letter-spacing: -0.055em;
     }
 
     .amp {
       color: var(--blue);
       font-style: italic;
+      font-weight: normal;
     }
 
     .subtitle {
-      max-width: 720px;
-      margin: 26px auto 0;
-      font-size: clamp(19px, 3vw, 26px);
-      line-height: 1.45;
+      max-width: 680px;
+      margin: 28px 0 0;
+      font-size: clamp(21px, 2.8vw, 31px);
+      line-height: 1.32;
       color: var(--muted);
     }
 
     .hosts {
-      margin-top: 28px;
-      font-size: 18px;
+      margin-top: 34px;
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      font-size: 17px;
       color: var(--ink);
     }
 
-    .divider {
-      width: 120px;
-      height: 4px;
-      margin: 34px auto;
-      border-radius: 999px;
-      background: linear-gradient(90deg, var(--crust), var(--gold), var(--blue));
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 22px;
-      margin-top: 28px;
-    }
-
-    .card {
-      padding: 28px;
-      border-radius: 24px;
-      background: var(--card);
-      border: 1px solid rgba(109, 63, 31, 0.15);
-      box-shadow: 0 10px 28px rgba(36, 28, 22, 0.08);
-    }
-
-    .card h2 {
-      margin: 0 0 12px;
-      color: var(--blue);
-      font-size: 25px;
-    }
-
-    .card p {
-      margin: 0;
-      font-size: 17px;
-      line-height: 1.65;
-      color: var(--muted);
-    }
-
-    .coming-soon {
-      margin-top: 26px;
-      padding: 34px;
-      border-radius: 26px;
-      background: var(--blue);
-      color: var(--cream);
-      text-align: center;
-      box-shadow: 0 14px 36px rgba(22, 59, 115, 0.24);
-    }
-
-    .coming-soon h2 {
-      margin: 0 0 10px;
-      font-size: 34px;
-      color: var(--gold);
-    }
-
-    .coming-soon p {
-      margin: 0 auto;
-      max-width: 640px;
-      font-size: 18px;
-      line-height: 1.6;
-    }
-
-    .feed {
-      margin-top: 28px;
-      text-align: center;
-      font-size: 15px;
-      color: var(--muted);
-    }
-
-    .feed a {
-      color: var(--blue);
+    .host-pill {
+      border-bottom: 2px solid rgba(201, 151, 63, 0.65);
+      padding-bottom: 3px;
       font-weight: bold;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(22, 59, 115, 0.35);
     }
 
-    .note {
-      margin-top: 18px;
-      text-align: center;
+    .side-card {
+      border-left: 4px solid var(--gold);
+      padding: 10px 0 10px 28px;
+    }
+
+    .side-card h2 {
+      margin: 0 0 16px;
+      color: var(--blue);
+      font-size: clamp(27px, 4vw, 42px);
+      line-height: 1.05;
+    }
+
+    .side-card p {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .episode-area {
+      margin-top: clamp(54px, 8vw, 86px);
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 34px;
+      align-items: stretch;
+      border-top: 1px solid rgba(111, 63, 34, 0.18);
+      padding-top: 38px;
+    }
+
+    .label {
+      color: var(--brown-soft);
       font-size: 13px;
-      color: rgba(36, 28, 22, 0.55);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 12px;
     }
 
-    @media (max-width: 720px) {
-      .page {
-        padding: 28px 14px;
+    .coming {
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 0.98;
+      color: var(--blue);
+      margin: 0;
+      letter-spacing: -0.035em;
+    }
+
+    .description-box {
+      background: rgba(255, 249, 237, 0.72);
+      border: 1px solid rgba(111, 63, 34, 0.12);
+      border-radius: 28px;
+      padding: 30px;
+    }
+
+    .description-box p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .links {
+      margin-top: 26px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 13px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: bold;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .button.primary {
+      color: #fff9ed;
+      background: var(--blue);
+      box-shadow: 0 10px 24px rgba(23, 52, 95, 0.18);
+    }
+
+    .button.secondary {
+      color: var(--blue);
+      background: var(--blue-soft);
+      border: 1px solid rgba(23, 52, 95, 0.14);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(38, 25, 20, 0.12);
+    }
+
+    .fine-print {
+      margin-top: 36px;
+      font-size: 13px;
+      color: rgba(38, 25, 20, 0.56);
+    }
+
+    @media (max-width: 840px) {
+      .wrap {
+        padding: 24px 12px;
       }
 
-      .hero {
-        padding: 46px 20px;
-        border-radius: 24px;
+      .panel {
+        min-height: auto;
+        padding: 40px 24px;
+        border-radius: 26px;
       }
 
-      .cards {
+      .hero-grid,
+      .episode-area {
         grid-template-columns: 1fr;
       }
 
-      .card,
-      .coming-soon {
-        padding: 24px;
+      .side-card {
+        border-left: none;
+        border-top: 4px solid var(--gold);
+        padding: 24px 0 0;
+      }
+
+      .hosts {
+        display: block;
+        line-height: 1.8;
+      }
+
+      .host-pill {
+        display: inline-block;
+        margin-right: 6px;
       }
     }
   </style>
 </head>
 
 <body>
-  <main class="page">
-    <section class="hero">
-      <div class="badge">A conversation podcast</div>
+  <main class="wrap">
+    <section class="panel">
+      <div class="content">
+        <div class="hero-grid">
+          <div>
+            <div class="kicker">Independent conversation podcast</div>
 
-      <h1>
-        The Baker <span class="amp">&amp;</span><br />
-        The Jew
-      </h1>
+            <h1>
+              The Baker <span class="amp">&amp;</span><br />
+              The Jew
+            </h1>
 
-      <p class="subtitle">
-        A lifestyle conversation podcast with warmth, humor, perspective,
-        and the occasional mildly questionable opinion.
-      </p>
+            <p class="subtitle">
+              A lifestyle conversation podcast about family, culture,
+              faith, food, humor, and the ordinary moments that turn into
+              the best stories.
+            </p>
 
-      <div class="hosts">
-        Hosted by <strong>Alexis Misner</strong> and <strong>Jerry Appel</strong>
-      </div>
+            <div class="hosts">
+              Hosted by
+              <span class="host-pill">Alexis Misner</span>
+              and
+              <span class="host-pill">Jerry Appel</span>
+            </div>
+          </div>
 
-      <div class="divider"></div>
-
-      <div class="cards">
-        <div class="card">
-          <h2>The Baker</h2>
-          <p>
-            Warm, practical, creative, and probably thinking about bread
-            even when the conversation has nothing to do with bread.
-          </p>
+          <aside class="side-card">
+            <h2>Two voices. One table. No script required.</h2>
+            <p>
+              Warm bakery energy meets sharp cultural perspective in a
+              casual, honest conversation show. Description coming soon.
+            </p>
+          </aside>
         </div>
 
-        <div class="card">
-          <h2>The Jew</h2>
-          <p>
-            Thoughtful, sharp, tradition-aware, and bringing a different
-            lens to everyday life, culture, family, and the world around us.
-          </p>
+        <section class="episode-area">
+          <div>
+            <div class="label">Episodes</div>
+            <h2 class="coming">Coming soon.</h2>
+          </div>
+
+          <div class="description-box">
+            <p>
+              The podcast is almost ready. Once episodes are published, this
+              page will include an audio player, episode notes, and links to
+              listen on major podcast platforms.
+            </p>
+
+            <div class="links">
+              <a class="button primary" href="https://thesourboule.com/podcast.xml">
+                RSS Feed
+              </a>
+              <a class="button secondary" href="https://thesourboule.com/">
+                Back to The Sour Boule
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <div class="fine-print">
+          This podcast is independently branded and hosted separately from The Sour Boule.
         </div>
-      </div>
-
-      <div class="coming-soon">
-        <h2>Coming Soon</h2>
-        <p>
-          Description coming soon. Episodes will be available here once the
-          podcast goes live.
-        </p>
-      </div>
-
-      <div class="feed">
-        RSS Feed:
-        <a href="https://thesourboule.com/podcast.xml">
-          thesourboule.com/podcast.xml
-        </a>
-      </div>
-
-      <div class="note">
-        This podcast is independently branded and hosted separately from The Sour Boule.
       </div>
     </section>
   </main>
