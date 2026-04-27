@@ -1,9 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0"
+  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/">
+
   <channel>
-    <title>Alexis’ Podcast</title>
+    <title>The Baker and The Jew</title>
     <link>https://thesourboule.com/podcast.html</link>
-    <description>Coming soon from The Sour Boule.</description>
+    <description>Description coming soon.</description>
     <language>en-us</language>
+    <copyright>Copyright Alexis Misner and Jerry Appel</copyright>
+    <managingEditor>podcast@thesourboule.com (Alexis Misner)</managingEditor>
+    <webMaster>podcast@thesourboule.com (Alexis Misner)</webMaster>
+    <atom:link href="https://thesourboule.com/podcast.xml" rel="self" type="application/rss+xml" />
+
+    <itunes:author>Alexis Misner and Jerry Appel</itunes:author>
+    <itunes:summary>Description coming soon.</itunes:summary>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:type>episodic</itunes:type>
+
+    <itunes:owner>
+      <itunes:name>Alexis Misner</itunes:name>
+      <itunes:email>podcast@thesourboule.com</itunes:email>
+    </itunes:owner>
+
+    <itunes:category text="Society &amp; Culture" />
+
+    <!-- Artwork will be added later after the final podcast cover image is uploaded. -->
+    <!-- Example:
+    <itunes:image href="https://media.thesourboule.com/artwork/podcast-cover.jpg" />
+    -->
+
+    <!-- Episodes will be added here once audio files are ready. -->
+
   </channel>
 </rss>
