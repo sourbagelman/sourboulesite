@@ -21,9 +21,7 @@
       --muted: #74675c;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -48,8 +46,7 @@
       min-height: calc(100vh - 104px);
       padding: clamp(42px, 7vw, 86px);
       border-radius: 38px;
-      background:
-        linear-gradient(145deg, rgba(255, 249, 237, 0.96), rgba(245, 236, 220, 0.88));
+      background: linear-gradient(145deg, rgba(255, 249, 237, 0.96), rgba(245, 236, 220, 0.88));
       box-shadow: 0 24px 70px rgba(38, 25, 20, 0.14);
       border: 1px solid rgba(111, 63, 34, 0.14);
     }
@@ -195,6 +192,35 @@
       line-height: 1.7;
     }
 
+    .audio-card {
+      margin-top: 28px;
+      padding: 24px;
+      border-radius: 22px;
+      background: rgba(23, 52, 95, 0.06);
+      border: 1px solid rgba(23, 52, 95, 0.12);
+    }
+
+    .audio-label {
+      margin-bottom: 8px;
+      color: var(--brown-soft);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .audio-card h3 {
+      margin: 0 0 16px;
+      color: var(--blue);
+      font-size: 24px;
+    }
+
+    .audio-note {
+      margin-top: 12px !important;
+      font-size: 14px !important;
+      color: rgba(38, 25, 20, 0.56) !important;
+    }
+
     .links {
       margin-top: 26px;
       display: flex;
@@ -209,24 +235,17 @@
       text-decoration: none;
       font-size: 15px;
       font-weight: bold;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
     .button.primary {
       color: #fff9ed;
       background: var(--blue);
-      box-shadow: 0 10px 24px rgba(23, 52, 95, 0.18);
     }
 
     .button.secondary {
       color: var(--blue);
       background: var(--blue-soft);
       border: 1px solid rgba(23, 52, 95, 0.14);
-    }
-
-    .button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 26px rgba(38, 25, 20, 0.12);
     }
 
     .fine-print {
@@ -236,9 +255,7 @@
     }
 
     @media (max-width: 840px) {
-      .wrap {
-        padding: 24px 12px;
-      }
+      .wrap { padding: 24px 12px; }
 
       .panel {
         min-height: auto;
@@ -314,10 +331,23 @@
 
           <div class="description-box">
             <p>
-              The podcast is almost ready. Once episodes are published, this
-              page will include an audio player, episode notes, and links to
-              listen on major podcast platforms.
+              The podcast is almost ready. Once the first episode is published,
+              you’ll be able to listen directly on this page.
             </p>
+
+            <div class="audio-card">
+              <div class="audio-label">Latest Episode</div>
+              <h3>Episode coming soon</h3>
+
+              <audio controls preload="none" style="width:100%;">
+                <source src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+
+              <p class="audio-note">
+                Audio player will activate once the first episode file is uploaded.
+              </p>
+            </div>
 
             <div class="links">
               <a class="button primary" href="https://thesourboule.com/podcast.xml">
