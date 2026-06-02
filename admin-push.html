@@ -10,7 +10,7 @@
 body{
     font-family:-apple-system,BlinkMacSystemFont,sans-serif;
     background:#f7f7f7;
-    max-width:700px;
+    max-width:800px;
     margin:40px auto;
     padding:20px;
 }
@@ -20,9 +20,10 @@ body{
     padding:20px;
     border-radius:12px;
     box-shadow:0 2px 10px rgba(0,0,0,.08);
+    margin-bottom:20px;
 }
 
-h1{
+h1,h2{
     margin-top:0;
 }
 
@@ -52,7 +53,58 @@ button:hover{
     opacity:.9;
 }
 
+.secondary{
+    background:#666;
+}
+
+.topbar{
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:15px;
+}
+
+.small{
+    color:#666;
+    font-size:14px;
+}
+
+.counter{
+    text-align:right;
+    color:#666;
+    font-size:13px;
+    margin-top:-10px;
+    margin-bottom:12px;
+}
+
+.history-item{
+    border-bottom:1px solid #eee;
+    padding:12px 0;
+}
+
+.history-item:last-child{
+    border-bottom:none;
+}
+
+.history-title{
+    font-weight:600;
+}
+
+.history-body{
+    color:#666;
+    margin-top:4px;
+}
+
+.history-date{
+    color:#999;
+    font-size:12px;
+    margin-top:4px;
+}
+
 #sender{
+    display:none;
+}
+
+#historyCard{
     display:none;
 }
 
@@ -60,17 +112,13 @@ button:hover{
     margin-top:15px;
     font-weight:bold;
 }
-
-.small{
-    color:#666;
-    font-size:14px;
-}
 </style>
 </head>
 
 <body>
 
 <div class="card" id="loginCard">
+
     <h1>Sour Boule Push Admin</h1>
 
     <p class="small">
@@ -87,49 +135,83 @@ button:hover{
         Login
     </button>
 
-    <div id="loginStatus"></div>
 </div>
 
 <div class="card" id="sender">
+
+    <div class="topbar">
+        <button class="secondary" onclick="logout()">
+            Logout
+        </button>
+    </div>
+
     <h1>Send Push Notification</h1>
 
     <label>Title</label>
+
     <input
         id="title"
-        placeholder="Fresh Bread Alert"
         value="The Sour Boule"
+        placeholder="Fresh Bread Alert"
     >
 
     <label>Message</label>
+
     <textarea
         id="message"
         rows="5"
+        maxlength="150"
         placeholder="Fresh sourdough is available now."
+        oninput="updateCounter()"
     ></textarea>
+
+    <div class="counter" id="counter">
+        0 / 150
+    </div>
 
     <button onclick="sendNotification()">
         Send Notification
     </button>
 
     <div id="status"></div>
+
+</div>
+
+<div class="card" id="historyCard">
+
+    <h2>Recent Notifications</h2>
+
+    <div id="history">
+        Loading...
+    </div>
+
 </div>
 
 <script>
 
-const FUNCTION_URL =
+const SEND_URL =
 "https://wbhedqwubgmsqgcugimf.supabase.co/functions/v1/send-push";
 
-const STORAGE_KEY = "sour_boule_push_password";
+const HISTORY_URL =
+"https://wbhedqwubgmsqgcugimf.supabase.co/functions/v1/get-push-history";
+
+const STORAGE_KEY =
+"sour_boule_push_password";
 
 window.onload = () => {
-    const saved = localStorage.getItem(STORAGE_KEY);
+
+    const saved =
+        localStorage.getItem(STORAGE_KEY);
 
     if(saved){
-        showSender();
+        showAdmin();
     }
+
+    updateCounter();
 };
 
 function login(){
+
     const password =
         document.getElementById("password").value.trim();
 
@@ -139,12 +221,32 @@ function login(){
 
     localStorage.setItem(STORAGE_KEY,password);
 
-    showSender();
+    showAdmin();
 }
 
-function showSender(){
+function logout(){
+
+    localStorage.removeItem(STORAGE_KEY);
+
+    location.reload();
+}
+
+function showAdmin(){
+
     document.getElementById("loginCard").style.display = "none";
     document.getElementById("sender").style.display = "block";
+    document.getElementById("historyCard").style.display = "block";
+
+    loadHistory();
+}
+
+function updateCounter(){
+
+    const text =
+        document.getElementById("message").value;
+
+    document.getElementById("counter").innerHTML =
+        text.length + " / 150";
 }
 
 async function sendNotification(){
@@ -163,6 +265,16 @@ async function sendNotification(){
         return;
     }
 
+    const confirmed = confirm(
+        "Send this notification?\n\n" +
+        "Title: " + title + "\n\n" +
+        "Message: " + body
+    );
+
+    if(!confirmed){
+        return;
+    }
+
     const status =
         document.getElementById("status");
 
@@ -171,7 +283,7 @@ async function sendNotification(){
     try{
 
         const response = await fetch(
-            FUNCTION_URL,
+            SEND_URL,
             {
                 method:"POST",
                 headers:{
@@ -185,22 +297,28 @@ async function sendNotification(){
             }
         );
 
-        const result = await response.json();
+        const result =
+            await response.json();
 
         if(response.ok){
 
             status.innerHTML =
-                "✅ Sent to "
-                + result.sent
-                + " device(s)";
+                "✅ Notification sent successfully.<br><br>" +
+                "Delivered to " +
+                result.sent +
+                " registered device(s).";
 
             document.getElementById("message").value = "";
+
+            updateCounter();
+
+            loadHistory();
 
         }else{
 
             status.innerHTML =
-                "❌ "
-                + (result.error || "Failed");
+                "❌ " +
+                (result.error || "Failed");
 
         }
 
@@ -208,7 +326,75 @@ async function sendNotification(){
 
         status.innerHTML =
             "❌ Connection error";
+    }
+}
 
+async function loadHistory(){
+
+    const password =
+        localStorage.getItem(STORAGE_KEY);
+
+    try{
+
+        const response = await fetch(
+            HISTORY_URL,
+            {
+                headers:{
+                    "x-push-admin-secret":password
+                }
+            }
+        );
+
+        const data =
+            await response.json();
+
+        const history =
+            document.getElementById("history");
+
+        if(!Array.isArray(data)){
+
+            history.innerHTML =
+                "Unable to load history.";
+
+            return;
+        }
+
+        history.innerHTML = "";
+
+        data.forEach(item => {
+
+            const div =
+                document.createElement("div");
+
+            div.className =
+                "history-item";
+
+            const date =
+                new Date(item.sent_at);
+
+            div.innerHTML =
+                `
+                <div class="history-title">
+                    ${item.title || "The Sour Boule"}
+                </div>
+
+                <div class="history-body">
+                    ${item.body || ""}
+                </div>
+
+                <div class="history-date">
+                    ${date.toLocaleString()}
+                </div>
+                `;
+
+            history.appendChild(div);
+
+        });
+
+    }catch(error){
+
+        document.getElementById("history").innerHTML =
+            "Unable to load history.";
     }
 }
 </script>
