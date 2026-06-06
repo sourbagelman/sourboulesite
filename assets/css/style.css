@@ -815,10 +815,14 @@ MULTI LOCATION SYSTEM
   border: 1px solid rgba(255,255,255,.08);
 }
 
+.willow-card h1,
 .willow-card h2,
+.willow-card h3,
 .willow-card p,
+.willow-card li,
 .willow-card strong {
   color: #ffffff;
+  text-shadow: none;
 }
 
 .willow-card .tag {
@@ -826,8 +830,20 @@ MULTI LOCATION SYSTEM
   color: #ffffff;
 }
 
+.willow-card .btn.primary {
+  background: #ffffff;
+  color: #111111;
+  border-color: #ffffff;
+}
+
+.willow-card .btn.primary:hover {
+  background: var(--accent);
+  color: #111111;
+  border-color: var(--accent);
+}
+
 .willow-card .btn.secondary {
-  border-color: rgba(255,255,255,.18);
+  border-color: rgba(255,255,255,.28);
   color: #ffffff;
 }
 
@@ -837,9 +853,7 @@ MULTI LOCATION SYSTEM
 }
 
 @media (max-width: 980px) {
-
   .location-grid {
     grid-template-columns: 1fr;
   }
-
 }
