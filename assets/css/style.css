@@ -744,3 +744,116 @@ select:focus {
     font-size: 0.82rem;
   }
 }
+/* =========================
+MULTI LOCATION SYSTEM
+========================= */
+
+.location-hero {
+  padding: 28px;
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.92)),
+    url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1400&q=80') center/cover;
+  border: 1px solid rgba(17,17,17,.08);
+  box-shadow: var(--shadow);
+}
+
+.location-hero h1 {
+  max-width: 11ch;
+  margin-bottom: 18px;
+}
+
+.location-hero-copy {
+  max-width: 720px;
+  font-size: 1.05rem;
+}
+
+.location-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 22px;
+}
+
+.location-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 30px;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,.96);
+  border: 1px solid rgba(17,17,17,.08);
+  box-shadow: var(--shadow);
+}
+
+.location-card h2 {
+  margin-bottom: 10px;
+}
+
+.location-card-top p {
+  max-width: 48ch;
+}
+
+.location-meta {
+  display: grid;
+  gap: 16px;
+}
+
+.location-meta p {
+  margin: 0;
+}
+
+.location-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.willow-card {
+  background:
+    linear-gradient(180deg, rgba(26,22,19,.96), rgba(20,18,16,.96));
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.willow-card h1,
+.willow-card h2,
+.willow-card h3,
+.willow-card p,
+.willow-card li,
+.willow-card strong {
+  color: #ffffff;
+  text-shadow: none;
+}
+
+.willow-card .tag {
+  background: rgba(255,255,255,.12);
+  color: #ffffff;
+}
+
+.willow-card .btn.primary {
+  background: #ffffff;
+  color: #111111;
+  border-color: #ffffff;
+}
+
+.willow-card .btn.primary:hover {
+  background: var(--accent);
+  color: #111111;
+  border-color: var(--accent);
+}
+
+.willow-card .btn.secondary {
+  border-color: rgba(255,255,255,.28);
+  color: #ffffff;
+}
+
+.willow-card .btn.secondary:hover {
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.12);
+}
+
+@media (max-width: 980px) {
+  .location-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Willow Bend Menu | The Sour Boule</title>
+<meta name="description" content="The Sour Boule Willow Bend menu featuring brunch-ish favorites, sourdough sandwiches, burgers, hit dogs, salads, kids meals, sides, drinks, and desserts.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+
+<style>
+:root {
+  --wb-orange: #f26a00;
+  --wb-black: #111111;
+  --wb-cream: #fff7ea;
+  --wb-line: #2d2d37;
+}
+
+.wb-page {
+  background: #ffffff;
+}
+
+.wb-hero {
+  background: var(--wb-black);
+  color: #ffffff;
+  border-radius: var(--radius);
+  padding: 34px;
+  border: 4px solid var(--wb-orange);
+  box-shadow: var(--shadow);
+}
+
+.wb-hero h1 {
+  color: #ffffff;
+  max-width: 12ch;
+}
+
+.wb-hero p {
+  color: #f4f1ea;
+  max-width: 760px;
+}
+
+.wb-banner {
+  display: inline-block;
+  background: var(--wb-orange);
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .78rem;
+  margin-bottom: 14px;
+}
+
+.wb-section {
+  border: 3px solid var(--wb-line);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: var(--shadow);
+}
+
+.wb-section-title {
+  background: var(--wb-orange);
+  color: #ffffff;
+  padding: 12px 18px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+}
+
+.wb-section-body {
+  padding: 22px;
+}
+
+.wb-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.wb-menu-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.wb-item {
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+}
+
+.wb-item:last-child {
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.wb-item-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: baseline;
+}
+
+.wb-item strong {
+  font-size: 1.05rem;
+  color: #111111;
+}
+
+.wb-price {
+  font-weight: 800;
+  color: #111111;
+  white-space: nowrap;
+}
+
+.wb-note {
+  background: var(--wb-cream);
+  border: 2px solid var(--wb-orange);
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.wb-note p {
+  margin-bottom: 0;
+}
+
+.wb-dark-card {
+  background: var(--wb-black);
+  color: #ffffff;
+  border-radius: 22px;
+  padding: 28px;
+  border: 4px solid var(--wb-orange);
+  text-align: center;
+}
+
+.wb-dark-card h2,
+.wb-dark-card h3,
+.wb-dark-card p {
+  color: #ffffff;
+}
+
+.wb-lunch-price {
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 1;
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 10px 0;
+}
+
+.wb-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+@media (max-width: 980px) {
+  .wb-menu-grid,
+  .wb-menu-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+</head>
+
+<body class="wb-page">
+
+<header>
+<div class="container nav">
+
+<div class="brand">
+<img src="images/logo.png" class="brand-mark">
+<span>The Sour Boule • Willow Bend</span>
+</div>
+
+<nav class="nav-links">
+<a class="nav-link" href="brand-home.html">Change Location</a>
+<a class="nav-link" href="willow-bend.html">Home</a>
+<a class="nav-link active" href="willow-bend-menu.html">Menu</a>
+</nav>
+
+<div class="nav-actions">
+<a class="btn secondary" href="brand-home.html">Locations</a>
+<span class="btn primary" aria-disabled="true">Ordering Soon</span>
+</div>
+
+</div>
+</header>
+
+<main>
+
+<div class="container stack" style="gap:28px;">
+
+<section class="wb-hero">
+<span class="wb-banner">Everything Comes As Take Out</span>
+<h1>Willow Bend Menu</h1>
+<p>
+The Sour Boule – Willow Bend is built around lunch, dinner, pickup, sourdough, burgers, hit dogs, salads, sides, caffeinated stuff, desserts, and the bread that started it all.
+</p>
+
+<div class="wb-actions">
+<a class="btn primary" href="willow-bend.html">Willow Bend Home</a>
+<span class="btn secondary" aria-disabled="true">Ordering Soon</span>
+</div>
+</section>
+
+<section class="wb-menu-grid">
+
+<article class="wb-dark-card">
+<h2>The Lunch Box</h2>
+<div class="wb-lunch-price">$19.99</div>
+<p>
+Half a sandwich*, one side*, one medium soda, and a cookie.
+</p>
+<p style="font-size:.9rem; opacity:.85;">*additional charges may apply. Includes tax.</p>
+</article>
+
+<article class="wb-note">
+<h3>Hours & Location</h3>
+<p>
+<strong>Wednesday, Thursday &amp; Sunday</strong> — 10:30 AM – 9:00 PM<br>
+<strong>Friday &amp; Saturday</strong> — 10:30 AM – 10:00 PM
+</p>
+<p style="margin-top:12px;">
+<strong>280 Willow Bend Suite 300</strong><br>
+Aledo, TX 76008
+</p>
+<p style="margin-top:12px;">
+<strong>Phone:</strong> 682-224-0888<br>
+<strong>Website:</strong> thesourboule.com
+</p>
+</article>
+
+</section>
+
+<section class="wb-section">
+<div class="wb-section-title">Fresh Sourdough Bread</div>
+<div class="wb-section-body">
+<p>
+The bread that started it all. Made and baked fresh daily at our Fort Worth bakery, then delivered each morning for maximum freshness.
+</p>
+<p>
+We spent weeks sourcing the organic grains used in our starter and bread. That carefully maintained starter gives every loaf its own unique character, flavor, and texture.
+</p>
+<div class="wb-menu-grid">
+<div class="wb-item"><div class="wb-item-head"><strong>Plain</strong><span class="wb-price">$11.35</span></div></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Rosemary Garlic</strong><span class="wb-price">$11.35</span></div></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Jalapeño Cheddar</strong><span class="wb-price">$13.35</span></div></div>
+</div>
+</div>
+</section>
+
+<section class="wb-menu-grid">
+
+<article class="wb-section">
+<div class="wb-section-title">Brunch-ish</div>
+<div class="wb-section-body">
+
+<p><em>Because we aren’t here for breakfast time.</em></p>
+
+<div class="wb-item">
+<div class="wb-item-head"><strong>Johnny’s Special</strong><span class="wb-price">$13.97</span></div>
+<p>Two sourdough pancakes, two crispy bacon slices, two scrambled eggs, and one fried hashbrown.</p>
+</div>
+
+<div class="wb-item">
+<div class="wb-item-head"><strong>Sourdough Breakfast Sandwich</strong><span class="wb-price">$8.77</span></div>
+<p>Fresh sourdough bread or bagel with cheese, egg, and your choice of ham, sausage, or bacon.</p>
+</div>
+
+<div class="wb-item">
+<div class="wb-item-head"><strong>Sourdough Bagel</strong><span class="wb-price">$4.13</span></div>
+<p>Sliced, toasted, and buttered. Plain, everything, rosemary garlic, or rosemary salt. Add cream cheese for $2.07.</p>
+</div>
+
+<div class="wb-item">
+<div class="wb-item-head"><strong>Breakfast Burrito</strong><span class="wb-price">$9.28</span></div>
+<p>Tortilla with white American cheese, scrambled eggs, hashbrown, fried onions, and your choice of sausage, bacon, or ham.</p>
+</div>
+
+<div class="wb-item">
+<div class="wb-item-head"><strong>The Yeti</strong><span class="wb-price">$10.26</span></div>
+<p>House-made sausage, hashbrown, egg, and white American cheese between two mini sourdough pancakes.</p>
+</div>
+
+</div>
+</article>
+
+<article class="wb-section">
+<div class="wb-section-title">Caffeinated Stuff</div>
+<div class="wb-section-body">
+
+<p><em>Get your GO-GO JUICE!</em></p>
+
+<div class="wb-item"><div class="wb-item-head"><strong>Cold Brew</strong><span class="wb-price">$4.64+</span></div><p>Exactly that. Cold brewed coffee.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Latte</strong><span class="wb-price">$5.68+</span></div><p>Select your milk choice and hot or iced. Add your syrup flavor choice if desired.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Drip Coffee</strong><span class="wb-price">$2.74+</span></div><p>It’s hot, fresh, and fully caffeinated. Chandler’s Java or Rachel’s Special Pecan.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Chai</strong><span class="wb-price">$6.45+</span></div><p>Spiced or vanilla. Pick your milk and hot or iced. Because not everyone loves coffee.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Matcha</strong><span class="wb-price">$5.68+</span></div><p>Unsweetened. Select your milk choice and hot or iced. Add your syrup flavor choice if desired.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Hot Chocolate</strong><span class="wb-price">$3.87</span></div><p>Not caffeinated, but it’s delicious.</p></div>
+
+</div>
+</article>
+
+</section>
+
+<section class="wb-section">
+<div class="wb-section-title">Sourdough Sandwiches</div>
+<div class="wb-section-body wb-menu-grid">
+
+<div>
+<div class="wb-item"><div class="wb-item-head"><strong>The Sour Boule</strong><span class="wb-price">$12.94</span></div><p>Fresh sourdough sandwich with house-made mayo, house-made oven roasted chicken, white American cheese, house-made pickle marinade slaw, and tomatoes. Served alongside a crunchy house-made pickle.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>The Spicy Sour Boule</strong><span class="wb-price">$12.94</span></div><p>Fresh sourdough sandwich with house-made chipotle mayo, house-made spicy chicken, pepper jack cheese, house-made pickle marinade slaw, and tomatoes. Served alongside a crunchy house-made Tajin seasoned pickle.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>The One with Cranberry</strong><span class="wb-price">$12.94</span></div><p>Fresh sourdough with house-made mayo, house-made oven roasted turkey, fresh sprouts, cranberry, and cream cheese. Served alongside a crunchy house-made pickle. Ask to make it spicy.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>The Toxic Boule</strong><span class="wb-price">$12.94</span></div><p>Fresh jalapeño cheddar sourdough topped with house-made chipotle mayo, house-made spicy turkey, pepper jack cheese, house-made pickles, and house-fried onions. Served alongside a house-made spicy seasoned pickle.</p></div>
+</div>
+
+<div>
+<div class="wb-item"><div class="wb-item-head"><strong>The BST</strong><span class="wb-price">$11.38</span></div><p>Fresh sourdough topped with house-made mayo, Sour Boule seasoning, fresh spinach, tomatoes, salt, pepper, and extra bacon. Served alongside a house-made ranch seasoned pickle.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Chicken Salad Sandwich</strong><span class="wb-price">$11.38</span></div><p>House-made chicken salad on fresh sourdough. Served alongside a crunchy house-made pickle.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Chandler’s Choice</strong><span class="wb-price">$14.42</span></div><p>Fresh sourdough with house-made ranch dressing, house-made oven roasted turkey, dressed spinach and onions, Sour Boule seasoning, and bacon. Served alongside a house-made ranch seasoned pickle.</p></div>
+</div>
+
+</div>
+</section>
+
+<section class="wb-section">
+<div class="wb-section-title">Burgers and Hit Dogs</div>
+<div class="wb-section-body wb-menu-grid">
+
+<div>
+<p><em>Burgers served on your choice of fresh sourdough bun or sourdough bread. Served with house-made chips.</em></p>
+
+<div class="wb-item">
+<div class="wb-item-head"><strong>Yes Indeed-io</strong><span class="wb-price">$18.03</span></div>
+<p>Two house-made burger patties, white American cheese, burger sauce, grilled onions, pickles, fried onions, finished with a hot honey drizzle. Served alongside a crunchy house-made pickle.</p>
+</div>
+
+<div class="wb-item">
+<div class="wb-item-head"><strong>The Willow Bend</strong><span class="wb-price">$18.03</span></div>
+<p>Two house-made burger patties, white American cheese, dressed spinach and onions, tomatoes, pickles, and our house burger sauce. Served alongside a crunchy house-made pickle.</p>
+</div>
+
+<div class="wb-item">
+<div class="wb-item-head"><strong>The Smokehouse</strong><span class="wb-price">$18.03</span></div>
+<p>Two house-made burger patties, smoked cheddar cheese, bacon, fried onions, and BBQ sauce. Served alongside a crunchy house-made pickle.</p>
+</div>
+
+<div class="wb-item">
+<div class="wb-item-head"><strong>The Patty Melt</strong><span class="wb-price">$18.03</span></div>
+<p>Two house-made burger patties, Swiss cheese, grilled onions, and burger sauce. Served alongside a crunchy house-made pickle.</p>
+</div>
+</div>
+
+<div>
+<p><em>Hit Dogs served on our sourdough focaccia bun. Served with house-made chips.</em></p>
+
+<div class="wb-item">
+<div class="wb-item-head"><strong>The Hit Dog</strong><span class="wb-price">$12.87</span></div>
+<p>House-made sourdough focaccia bun stuffed with an all-beef frank with mustard, onions, and relish.</p>
+</div>
+
+<div class="wb-item">
+<div class="wb-item-head"><strong>The Willow Dog</strong><span class="wb-price">$13.88</span></div>
+<p>House-made sourdough focaccia bun stuffed with an all-beef frank with chili, smoked cheddar cheese, onions, and pickled jalapeños.</p>
+</div>
+
+<div class="wb-item">
+<div class="wb-item-head"><strong>Hit Dog Special</strong><span class="wb-price">Varies</span></div>
+<p>Whatever Chef Lance creates this quarter. Ask your cashier for the lineup.</p>
+</div>
+</div>
+
+</div>
+</section>
+
+<section class="wb-menu-grid">
+
+<article class="wb-section">
+<div class="wb-section-title">Salads</div>
+<div class="wb-section-body">
+<div class="wb-item"><div class="wb-item-head"><strong>The Pickle Patch</strong><span class="wb-price">$12.36</span></div><p>Spinach and arugula mix finished with house pickles, cherry tomatoes, red onions, white cheddar cheese, and bacon. Served with our house-made ranch dressing.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>The Orchard</strong><span class="wb-price">$12.36</span></div><p>Spinach and arugula mix finished with dried cranberries, honey roasted almonds, feta cheese, red onions, and seasonal fruit. Served with our maple Dijon vinaigrette.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>The Farmers Market</strong><span class="wb-price">$12.36</span></div><p>Spinach and arugula mix finished with fresh sprouts, cucumbers, cherry tomatoes, feta cheese, and sunflower seeds. Served with our lemon-herb vinaigrette.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>The Cobb</strong><span class="wb-price">$12.36</span></div><p>Spinach and arugula mix finished with oven roasted chicken, bacon, egg, feta cheese, cherry tomatoes, red onions, and a light sprinkle of Boule seasoning. Served with our maple Dijon vinaigrette.</p></div>
+</div>
+</article>
+
+<article class="wb-section">
+<div class="wb-section-title">Children’s Meals</div>
+<div class="wb-section-body">
+<p><em>For children 12 and younger only. Served with Goldfish and a juice box unless noted.</em></p>
+<div class="wb-item"><div class="wb-item-head"><strong>Ham &amp; Cheese</strong><span class="wb-price">$6.18</span></div><p>Ham and cheese on fresh sourdough.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Chicken &amp; Cheese</strong><span class="wb-price">$6.18</span></div><p>Chicken and cheese on fresh sourdough.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Turkey &amp; Cheese</strong><span class="wb-price">$6.18</span></div><p>Turkey and cheese on fresh sourdough.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Grilled Cheese</strong><span class="wb-price">$6.18</span></div><p>Yellow American cheese grilled on fresh sourdough.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Mac &amp; Cheese</strong><span class="wb-price">$6.18</span></div><p>White cheddar mac and cheese.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Children’s Burger</strong><span class="wb-price">$6.18</span></div><p>Meat and cheese on a bun.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Little Johnny Special</strong><span class="wb-price">$6.19</span></div><p>Two mini pancakes, one scrambled egg, and one hashbrown. Does not include juice box or Goldfish.</p></div>
+</div>
+</article>
+
+</section>
+
+<section class="wb-menu-grid-3">
+
+<article class="wb-section">
+<div class="wb-section-title">Sides</div>
+<div class="wb-section-body">
+<div class="wb-item"><div class="wb-item-head"><strong>House Fried Potato Chips</strong><span class="wb-price">$4.64</span></div><p>Fried in 100% beef tallow. Salted, salt and pepper, spicy, spicy ranch, ranch, jalapeño ranch, salt and vinegar, or Sour Boule seasoning.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Broccoli Salad</strong><span class="wb-price">$4.64</span></div><p>Fresh broccoli, almonds, bacon, house-made mayo, carrots, onion, and seasonings.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Dill Pickle Pasta</strong><span class="wb-price">$4.64</span></div><p>Bow tie pasta tossed in house-made pickle dressing.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>House Made Tomato Bisque</strong><span class="wb-price">$6.18</span></div></div>
+<div class="wb-item"><div class="wb-item-head"><strong>White Cheddar Mac and Cheese</strong><span class="wb-price">$8.24</span></div></div>
+</div>
+</article>
+
+<article class="wb-section">
+<div class="wb-section-title">Beverages</div>
+<div class="wb-section-body">
+<div class="wb-item"><div class="wb-item-head"><strong>Soda</strong><span class="wb-price">$2.32</span></div><p>Pepsi, Diet Pepsi, Pepsi Zero, Dr Pepper, Diet Dr Pepper, Starry, Root Beer, and Tropicana Fruit Punch.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Hand Squeezed Lemonade</strong><span class="wb-price">$5.93</span></div><p>Water, fresh squeezed lemon juice, and sugar.</p></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Tea</strong><span class="wb-price">$2.32</span></div><p>Sweet or unsweet.</p></div>
+<div class="wb-item"><strong>Ask About Our Seasonal Drinks!</strong></div>
+</div>
+</article>
+
+<article class="wb-section">
+<div class="wb-section-title">Dessert</div>
+<div class="wb-section-body">
+<div class="wb-item"><div class="wb-item-head"><strong>Sourdough Chocolate Chip Cookie</strong><span class="wb-price">$3.61</span></div></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Sourdough Snickerdoodle Cookie</strong><span class="wb-price">$3.61</span></div></div>
+<div class="wb-item"><div class="wb-item-head"><strong>Banana Pudding</strong><span class="wb-price">$5.15</span></div></div>
+<div class="wb-item"><strong>Seasonal Goodies</strong></div>
+</div>
+</article>
+
+</section>
+
+<section class="wb-note">
+<h3>Consumer Advisory</h3>
+<p>
+Consumption of undercooked meat, poultry, eggs, or seafood may increase the risk of food-borne illness. Our kitchen handles milk, eggs, soy, fish, shellfish, tree nuts, sesame, peanuts, and wheat. Please alert the team if you have special dietary requirements.
+</p>
+</section>
+
+</div>
+
+</main>
+
+<footer>
+<div class="container footer-grid">
+
+<div>
+<strong>© The Sour Boule • Willow Bend</strong>
+<p class="small">
+280 Willow Bend Suite 300 • Aledo, TX 76008<br>
+Phone: 682-224-0888
+</p>
+</div>
+
+<div class="footer-links small">
+<a href="brand-home.html">Change Location</a>
+<a href="willow-bend.html">Willow Bend Home</a>
+<a href="willow-bend-menu.html">Menu</a>
+</div>
+
+</div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
