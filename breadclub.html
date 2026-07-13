@@ -8,7 +8,7 @@
 
 <title>Sourdough Bread Subscription | The Sour Boule Bread Club</title>
 
-<meta name="description" content="Join The Sour Boule Bread Club for recurring sourdough pickup in Fort Worth. Choose Plain, Rosemary Garlic, or Jalapeño Cheddar loaves and pick your schedule.">
+<meta name="description" content="Join The Sour Boule Bread Club for recurring sourdough pickup in Fort Worth or Willow Bend. Choose Plain, Rosemary Garlic, or Jalapeño Cheddar loaves and pick your schedule.">
 
 <link rel="canonical" href="https://thesourboule.com/breadclub.html"><meta name="robots" content="index, follow">
   
@@ -60,12 +60,12 @@
 
 <section class="breadclub-left">
 
-<p class="breadclub-kicker">The Sour Boule • Fort Worth</p>
+<p class="breadclub-kicker">The Sour Boule • Fort Worth + Willow Bend</p>
 
 <h1 class="breadclub-title">Bread Club</h1>
 
 <p style="max-width:620px; font-size:1.1rem;">
-Set your bread order once, choose your pickup schedule, and let it run on autopilot. Fresh loaves will be baked for you and waiting at our Fort Worth location.
+Set your bread order once, choose your pickup location and schedule, and let it run on autopilot. Fresh loaves will be baked for you and waiting at your selected Sour Boule location.
 </p>
 
 <div style="margin:20px 0 24px; padding:18px; border:1px solid rgba(0,0,0,.08); border-radius:18px; background:#f7f1ea;">
@@ -83,7 +83,7 @@ Set your bread order once, choose your pickup schedule, and let it run on autopi
     Pickup Location
   </p>
   <p style="margin:0; color:#2b2622;">
-    Bread Club pickup is currently handled through <strong>The Sour Boule • Fort Worth</strong> at 3801 Southwest Blvd.
+    Choose pickup at <strong>The Sour Boule • Fort Worth</strong> or <strong>The Sour Boule • Willow Bend</strong>. Billing and membership management stay together in one Bread Club account.
   </p>
 </div>
 
@@ -260,6 +260,15 @@ Join the Bread Club
 
 </div>
 
+<div class="breadclub-field">
+<label for="bc-pickup-location">Pickup Location</label>
+<select id="bc-pickup-location" class="breadclub-select" required>
+<option value="Fort Worth" selected>Fort Worth — 3801 Southwest Blvd</option>
+<option value="Willow Bend">Willow Bend — 280 Willow Bend, Suite 300</option>
+</select>
+<p style="font-size:.78rem; color:#b7a99d; margin-top:8px;">Your billing and Bread Club account remain the same regardless of pickup location.</p>
+</div>
+
 <div class="breadclub-row2">
 
 <div class="breadclub-field">
@@ -288,12 +297,7 @@ Join the Bread Club
 <div class="breadclub-field">
 <label for="bc-start-date">Start Date</label>
 <select id="bc-start-date" class="breadclub-select">
-<option selected>Wed, Mar 25, 2026</option>
-<option>Fri, Mar 27, 2026</option>
-<option>Sun, Mar 29, 2026</option>
-<option>Wed, Apr 1, 2026</option>
-<option>Fri, Apr 3, 2026</option>
-<option>Sun, Apr 5, 2026</option>
+<option value="">Loading available pickup dates…</option>
 </select>
 <p style="font-size:.78rem; color:#b7a99d; margin-top:8px;">Dates update automatically from the pickup day and frequency.</p>
 </div>
@@ -317,6 +321,7 @@ Join the Bread Club
 <div class="breadclub-note" style="border-color:rgba(231,180,49,0.20); background:rgba(0,0,0,0.14);">
 <p style="color:#fff; margin-bottom:4px;"><strong>Member:</strong> Your name here</p>
 <p style="color:#fff; margin-bottom:4px;"><strong>Email:</strong> your@email.com</p>
+<p style="color:#fff; margin-bottom:4px;"><strong>Pickup Location:</strong> Fort Worth</p>
 <p style="color:#fff; margin-bottom:4px;"><strong>Pickup Day:</strong> Wednesday</p>
 <p style="color:#fff; margin-bottom:4px;"><strong>Frequency:</strong> Weekly</p>
 <p style="color:#fff; margin-bottom:0;"><strong>Starts:</strong> Wed, Mar 25, 2026</p>
@@ -425,48 +430,96 @@ document.addEventListener("DOMContentLoaded", async function () {
   const previewTotals = document.querySelectorAll(".breadclub-note")[2];
   const nextPickupBox = document.querySelector(".breadclub-next p:nth-of-type(2)");
 
-  const startDateOptions = {
-    Wednesday: [
-      "Wed, Mar 25, 2026",
-      "Wed, Apr 1, 2026",
-      "Wed, Apr 8, 2026",
-      "Wed, Apr 15, 2026"
-    ],
-    Friday: [
-      "Fri, Mar 27, 2026",
-      "Fri, Apr 3, 2026",
-      "Fri, Apr 10, 2026",
-      "Fri, Apr 17, 2026"
-    ],
-    Sunday: [
-      "Sun, Mar 29, 2026",
-      "Sun, Apr 5, 2026",
-      "Sun, Apr 12, 2026",
-      "Sun, Apr 19, 2026"
-    ]
+  const pickupDayNumbers = {
+    Sunday: 0,
+    Wednesday: 3,
+    Friday: 5
+  };
+
+  const frequencyIntervals = {
+    Weekly: 7,
+    "Every 2 Weeks": 14,
+    Monthly: 28
   };
 
   let card;
+
+  function formatDateValue(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  function formatDateLabel(date) {
+    return new Intl.DateTimeFormat("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric"
+    }).format(date);
+  }
+
+  function getFirstEligiblePickupDate(day) {
+    const targetDay = pickupDayNumbers[day] ?? pickupDayNumbers.Wednesday;
+    const candidate = new Date();
+    candidate.setHours(12, 0, 0, 0);
+
+    // Changes close at midnight three days before pickup.
+    // Starting four calendar days out avoids showing a closed pickup date.
+    candidate.setDate(candidate.getDate() + 4);
+
+    const daysUntilTarget = (targetDay - candidate.getDay() + 7) % 7;
+    candidate.setDate(candidate.getDate() + daysUntilTarget);
+
+    return candidate;
+  }
+
+  function buildStartDateOptions(day, frequency) {
+    const intervalDays = frequencyIntervals[frequency] || 7;
+    const firstDate = getFirstEligiblePickupDate(day);
+    const dates = [];
+
+    for (let index = 0; index < 6; index += 1) {
+      const date = new Date(firstDate);
+      date.setDate(firstDate.getDate() + (index * intervalDays));
+      dates.push(date);
+    }
+
+    return dates;
+  }
 
   function getSelectedPickupDay() {
     const activePickupButton = document.querySelector(".breadclub-darkpill.active");
     return activePickupButton ? activePickupButton.innerText.trim() : "Wednesday";
   }
 
-  function updateStartDates(day) {
-    const dates = startDateOptions[day] || startDateOptions["Wednesday"];
+  function updateStartDates() {
+    const day = getSelectedPickupDay();
+    const frequency = document.getElementById("bc-frequency").value;
+    const dates = buildStartDateOptions(day, frequency);
+
     startDateSelect.innerHTML = dates.map((date, index) => {
-      return `<option ${index === 0 ? "selected" : ""}>${date}</option>`;
+      const value = formatDateValue(date);
+      const label = formatDateLabel(date);
+      return `<option value="${value}" ${index === 0 ? "selected" : ""}>${label}</option>`;
     }).join("");
+
     updatePreview();
+  }
+
+  function getSelectedStartDateLabel() {
+    const selectedOption = startDateSelect.options[startDateSelect.selectedIndex];
+    return selectedOption ? selectedOption.textContent : "";
   }
 
   function updatePreview() {
     const fullName = document.getElementById("bc-full-name").value.trim() || "Your name here";
     const email = document.getElementById("bc-email").value.trim() || "your@email.com";
+    const pickupLocation = document.getElementById("bc-pickup-location").value;
     const pickupDay = getSelectedPickupDay();
     const frequency = document.getElementById("bc-frequency").value;
-    const startDate = document.getElementById("bc-start-date").value;
+    const startDate = getSelectedStartDateLabel();
 
     const plainQty = parseInt(document.getElementById("bc-plain").value, 10) || 0;
     const rosemaryQty = parseInt(document.getElementById("bc-rosemary").value, 10) || 0;
@@ -489,6 +542,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     previewMember.innerHTML = `
       <p style="color:#fff; margin-bottom:4px;"><strong>Member:</strong> ${fullName}</p>
       <p style="color:#fff; margin-bottom:4px;"><strong>Email:</strong> ${email}</p>
+      <p style="color:#fff; margin-bottom:4px;"><strong>Pickup Location:</strong> ${pickupLocation}</p>
       <p style="color:#fff; margin-bottom:4px;"><strong>Pickup Day:</strong> ${pickupDay}</p>
       <p style="color:#fff; margin-bottom:4px;"><strong>Frequency:</strong> ${frequency}</p>
       <p style="color:#fff; margin-bottom:0;"><strong>Starts:</strong> ${startDate}</p>
@@ -523,22 +577,24 @@ document.addEventListener("DOMContentLoaded", async function () {
     btn.addEventListener("click", function () {
       pickupButtons.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
-      updateStartDates(btn.innerText.trim());
+      updateStartDates();
     });
   });
 
   [
     "bc-full-name",
     "bc-email",
+    "bc-pickup-location",
     "bc-plain",
     "bc-rosemary",
     "bc-jalapeno",
-    "bc-frequency",
     "bc-start-date"
   ].forEach((id) => {
     document.getElementById(id).addEventListener("input", updatePreview);
     document.getElementById(id).addEventListener("change", updatePreview);
   });
+
+  document.getElementById("bc-frequency").addEventListener("change", updateStartDates);
 
   try {
     if (!window.Square) {
@@ -554,7 +610,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     return;
   }
 
-  updatePreview();
+  updateStartDates();
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -578,6 +634,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       full_name: document.getElementById("bc-full-name").value.trim(),
       email: document.getElementById("bc-email").value.trim(),
       phone: "",
+      pickup_location: document.getElementById("bc-pickup-location").value,
       pickup_day: activePickupButton ? activePickupButton.innerText.trim() : "Wednesday",
       frequency: document.getElementById("bc-frequency").value,
       start_date: document.getElementById("bc-start-date").value,
@@ -640,7 +697,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       form.reset();
       pickupButtons.forEach((b) => b.classList.remove("active"));
       pickupButtons[0].classList.add("active");
-      updateStartDates("Wednesday");
+      document.getElementById("bc-pickup-location").value = "Fort Worth";
+      document.getElementById("bc-frequency").value = "Weekly";
+      updateStartDates();
 
       await card.destroy();
       const newPayments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
