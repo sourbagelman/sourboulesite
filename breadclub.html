@@ -20,6 +20,140 @@
 <link rel="stylesheet" href="assets/css/style.css">
 <script type="text/javascript" src="https://web.squarecdn.com/v1/square.js"></script>
 
+
+<style>
+#breadclub-app {
+  align-items: start;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: 28px;
+}
+
+#breadclub-app .breadclub-left,
+#breadclub-app .breadclub-right {
+  min-width: 0;
+  padding: 34px;
+}
+
+#breadclub-app .breadclub-title {
+  margin-bottom: 12px;
+}
+
+#breadclub-app .breadclub-grid3,
+#breadclub-app .breadclub-mini,
+#breadclub-app .breadclub-formgrid,
+#breadclub-app .breadclub-row2 {
+  gap: 14px;
+}
+
+#breadclub-app .breadclub-grid3 .breadclub-card,
+#breadclub-app .breadclub-mini .breadclub-card {
+  padding: 18px;
+  min-height: 0;
+}
+
+#breadclub-app .breadclub-grid3 .breadclub-card p,
+#breadclub-app .breadclub-mini .breadclub-card p:last-child {
+  margin-bottom: 0;
+}
+
+#breadclub-app .breadclub-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+#breadclub-app .breadclub-picker {
+  padding: 18px;
+}
+
+#breadclub-app .breadclub-loaf {
+  padding: 14px;
+  gap: 14px;
+  align-items: center;
+}
+
+#breadclub-app .breadclub-field,
+#breadclub-app .breadclub-note,
+#breadclub-app .breadclub-next {
+  min-width: 0;
+}
+
+#breadclub-app .breadclub-select,
+#breadclub-app .breadclub-input {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+#breadclub-app .breadclub-preview {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#breadclub-app .breadclub-preview > div {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+#breadclub-app .breadclub-note p {
+  overflow-wrap: anywhere;
+}
+
+#breadclub-app .breadclub-checkout-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(220px, 0.85fr);
+  gap: 16px;
+  align-items: stretch;
+  margin-top: 18px;
+}
+
+#breadclub-app .breadclub-payment-card,
+#breadclub-app .breadclub-account-card {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#breadclub-app .breadclub-cta {
+  width: 100%;
+  background: #f0cf6e;
+  color: #1f1814;
+  border-color: #f0cf6e;
+  font-weight: 800;
+  padding: 15px 20px;
+  box-shadow: 0 12px 26px rgba(0,0,0,.2);
+}
+
+#breadclub-app .breadclub-submit-note {
+  margin: 2px 0 0;
+  text-align: center;
+  color: #d8cfc7;
+  font-size: .8rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 1050px) {
+  #breadclub-app {
+    grid-template-columns: 1fr;
+  }
+
+  #breadclub-app .breadclub-preview > div {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  #breadclub-app .breadclub-left,
+  #breadclub-app .breadclub-right {
+    padding: 24px 18px;
+  }
+
+  #breadclub-app .breadclub-checkout-row,
+  #breadclub-app .breadclub-formgrid,
+  #breadclub-app .breadclub-row2 {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
 </head>
 
 <body>
@@ -80,10 +214,10 @@ Set your bread order once, choose your pickup location and schedule, and let it 
 
 <div style="margin:0 0 24px; padding:18px; border:1px solid rgba(0,0,0,.08); border-radius:18px; background:#ffffff;">
   <p style="margin:0 0 10px; font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.18em; color:#8f7f73;">
-    Pickup Location
+    How It Works
   </p>
   <p style="margin:0; color:#2b2622;">
-    Choose pickup at <strong>The Sour Boule • Fort Worth</strong> or <strong>The Sour Boule • Willow Bend</strong>. Billing and membership management stay together in one Bread Club account.
+    Choose your pickup location, pickup day, schedule, and loaf quantities. Your first order is charged when you join, and future orders repeat automatically.
   </p>
 </div>
 
@@ -143,7 +277,7 @@ Changes must be made before midnight 3 days before pickup. Example: Wednesday pi
 <section class="breadclub-right">
 
 <p style="font-size:.82rem; font-weight:700; text-transform:uppercase; letter-spacing:.24em; color:#8f7f73; margin-bottom:10px;">
-Live Preview
+Build Your Membership
 </p>
 
 <h2 style="color:#fff; font-size:3rem; margin-bottom:12px;">
@@ -185,6 +319,16 @@ Join the Bread Club
 </div>
 
 </div>
+
+<div class="breadclub-field">
+<label for="bc-pickup-location">Pickup Location</label>
+<select id="bc-pickup-location" class="breadclub-select" required>
+<option value="Fort Worth" selected>Fort Worth — 3801 Southwest Blvd</option>
+<option value="Willow Bend">Willow Bend — 280 Willow Bend, Suite 300</option>
+</select>
+<p style="font-size:.78rem; color:#b7a99d; margin-top:8px;">Your billing and Bread Club account remain the same regardless of pickup location.</p>
+</div>
+
 
 <div class="breadclub-loaf">
 
@@ -260,15 +404,6 @@ Join the Bread Club
 
 </div>
 
-<div class="breadclub-field">
-<label for="bc-pickup-location">Pickup Location</label>
-<select id="bc-pickup-location" class="breadclub-select" required>
-<option value="Fort Worth" selected>Fort Worth — 3801 Southwest Blvd</option>
-<option value="Willow Bend">Willow Bend — 280 Willow Bend, Suite 300</option>
-</select>
-<p style="font-size:.78rem; color:#b7a99d; margin-top:8px;">Your billing and Bread Club account remain the same regardless of pickup location.</p>
-</div>
-
 <div class="breadclub-row2">
 
 <div class="breadclub-field">
@@ -299,12 +434,12 @@ Join the Bread Club
 <select id="bc-start-date" class="breadclub-select">
 <option value="">Loading available pickup dates…</option>
 </select>
-<p style="font-size:.78rem; color:#b7a99d; margin-top:8px;">Dates update automatically from the pickup day and frequency.</p>
+<p style="font-size:.78rem; color:#b7a99d; margin-top:8px;">Available dates update automatically when you change the pickup day or frequency.</p>
 </div>
 
 <div class="breadclub-subcard breadclub-next">
 <p style="font-size:.72rem; text-transform:uppercase; letter-spacing:.2em; color:#97d6f0; margin-bottom:6px;">Next Pickup</p>
-<p style="color:#fff; font-weight:700; margin-bottom:6px;">Wed, Mar 25, 2026</p>
+<p style="color:#fff; font-weight:700; margin-bottom:6px;">Loading available date…</p>
 <p style="font-size:.82rem; color:#d8eef7; margin-bottom:0;">First eligible pickup shown live.</p>
 </div>
 
@@ -324,7 +459,7 @@ Join the Bread Club
 <p style="color:#fff; margin-bottom:4px;"><strong>Pickup Location:</strong> Fort Worth</p>
 <p style="color:#fff; margin-bottom:4px;"><strong>Pickup Day:</strong> Wednesday</p>
 <p style="color:#fff; margin-bottom:4px;"><strong>Frequency:</strong> Weekly</p>
-<p style="color:#fff; margin-bottom:0;"><strong>Starts:</strong> Wed, Mar 25, 2026</p>
+<p style="color:#fff; margin-bottom:0;"><strong>Starts:</strong> Loading available date…</p>
 </div>
 
 <div class="breadclub-note" style="border-color:rgba(231,180,49,0.20); background:rgba(0,0,0,0.14);">
@@ -348,7 +483,10 @@ This order will repeat on your selected schedule. All Bread Club members save $0
 
 </div>
 
-<div style="margin-top:18px; padding:16px; border:2px solid #f0cf6e; border-radius:18px; background:rgba(255,255,255,0.08); box-shadow:0 10px 24px rgba(0,0,0,0.22);">
+<div class="breadclub-checkout-row">
+
+<div class="breadclub-payment-card" style="padding:16px; border:2px solid #f0cf6e; border-radius:18px; background:rgba(255,255,255,0.08); box-shadow:0 10px 24px rgba(0,0,0,0.22);">
+
   <label style="display:block; font-size:.92rem; font-weight:600; color:#f3eee8; margin-bottom:8px;">
     Card Information
   </label>
@@ -356,9 +494,11 @@ This order will repeat on your selected schedule. All Bread Club members save $0
   <p style="font-size:.8rem; color:#d8cfc7; margin-top:8px; margin-bottom:0;">
     Secure payment field will load here.
   </p>
+
 </div>
 
-<div style="margin-top:14px; padding:14px 16px; border:1px solid rgba(240,207,110,0.25); border-radius:16px; background:rgba(255,255,255,0.06);">
+<div class="breadclub-account-card" style="padding:14px 16px; border:1px solid rgba(240,207,110,0.25); border-radius:16px; background:rgba(255,255,255,0.06);">
+
   <p style="margin:0 0 8px; color:#fff; font-weight:700;">Already signed up?</p>
   <p style="margin:0 0 10px; color:#eadfc9; font-size:.92rem;">
     Current members can manage their Bread Club subscription from their account page.
@@ -366,13 +506,20 @@ This order will repeat on your selected schedule. All Bread Club members save $0
   <a href="breadclub-account.html" style="color:#f0cf6e; font-weight:700; text-decoration:none;">
     Go to Bread Club Account →
   </a>
+
+</div>
+
 </div>
 
 <div id="breadclub-status" style="font-size:.92rem; color:#eadfc9; margin-top:8px;"></div>
 
 <button type="submit" class="btn breadclub-cta">
-Save Bread Club Signup
+Complete Bread Club Signup
 </button>
+
+<p class="breadclub-submit-note">
+Your first order is charged when you join. Future orders follow your selected schedule.
+</p>
 
 </form>
 
