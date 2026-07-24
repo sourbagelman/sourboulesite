@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,14 +7,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Lunch & Dinner Takeout in Aledo | The Sour Boule Willow Bend</title>
-<meta name="description" content="The Sour Boule Willow Bend serves lunch and dinner takeout in Aledo with sourdough sandwiches, More Coming Soon, salads, fresh bread, drinks, desserts, and comfort food built to go.">
+
+<meta
+  name="description"
+  content="The Sour Boule Willow Bend serves lunch and dinner takeout in Aledo with sourdough sandwiches, burgers, hit dogs, salads, fresh bread, drinks, desserts, and brunch-ish favorites."
+>
 
 <link rel="canonical" href="https://thesourboule.com/willow-bend.html">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+  rel="stylesheet"
+>
 
 <link rel="stylesheet" href="assets/css/style.css">
 
@@ -23,8 +31,15 @@
   "@type": "Restaurant",
   "name": "The Sour Boule - Willow Bend",
   "url": "https://thesourboule.com/willow-bend.html",
-  "telephone": "682-224-0888",
-  "servesCuisine": "Bakery, Cafe, Sandwiches, Burgers, Hot Dogs",
+  "telephone": "+1-682-224-0888",
+  "servesCuisine": [
+    "Bakery",
+    "Cafe",
+    "Sourdough Sandwiches",
+    "Burgers",
+    "Hot Dogs",
+    "Salads"
+  ],
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "280 Willow Bend Suite 300",
@@ -32,7 +47,21 @@
     "addressRegion": "TX",
     "postalCode": "76008",
     "addressCountry": "US"
-  }
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "11:00",
+      "closes": "19:00"
+    }
+  ]
 }
 </script>
 </head>
@@ -43,13 +72,23 @@
 <div class="container nav">
 
 <div class="brand">
-<img src="images/logo.png" class="brand-mark">
+<img
+  src="images/logo.png"
+  class="brand-mark"
+  alt="The Sour Boule logo"
+>
 <span>The Sour Boule • Willow Bend</span>
 </div>
 
-<nav class="nav-links">
+<nav class="nav-links" aria-label="Willow Bend navigation">
 <a class="nav-link" href="brand-home.html">Change Location</a>
-<a class="nav-link active" href="willow-bend.html">Home</a>
+<a
+  class="nav-link active"
+  href="willow-bend.html"
+  aria-current="page"
+>
+Home
+</a>
 <a class="nav-link" href="willow-bend-menu.html">Menu</a>
 <a class="nav-link" href="breadclub.html">Bread Club</a>
 </nav>
@@ -57,7 +96,13 @@
 <div class="nav-actions">
 <a class="btn secondary" href="brand-home.html">Locations</a>
 <a class="btn secondary" href="willow-bend-menu.html">Menu</a>
-<a class="btn primary disabled" href="#" aria-disabled="true" onclick="return false;">Order Now</a>
+<span
+  class="btn primary disabled"
+  aria-disabled="true"
+  style="opacity:.65; cursor:default;"
+>
+Online Ordering Coming Soon
+</span>
 </div>
 
 </div>
@@ -74,40 +119,119 @@
 <h1>The Sour Boule – Willow Bend</h1>
 
 <p class="location-hero-copy">
-Willow Bend is our takeout-focused lunch and dinner location built around Coming Soon items, sourdough sandwiches, salads, brunch-ish favorites, drinks, desserts, and the fresh bread that started it all.
+Willow Bend is our takeout-focused lunch and dinner location built around sourdough sandwiches, burgers, hit dogs, salads, brunch-ish favorites, drinks, desserts, and the fresh bread that started it all.
 </p>
 
 <div class="hero-actions">
-<a class="btn primary" href="willow-bend-menu.html">View Willow Bend Menu</a>
-<span class="btn secondary" aria-disabled="true">Ordering Coming Soon</span>
+<a class="btn primary" href="willow-bend-menu.html">
+View Willow Bend Menu
+</a>
+
+<span
+  class="btn secondary disabled"
+  aria-disabled="true"
+  style="opacity:.65; cursor:default;"
+>
+Online Ordering Coming Soon
+</span>
 </div>
 
 </section>
 
-<section class="card" style="background:#efe7da; border:1px solid rgba(0,0,0,.08);">
+<section class="card">
+
+<span class="tag">Hours &amp; Location</span>
+
+<h2>Visit Willow Bend</h2>
+
+<p>
+<strong>Wednesday–Sunday</strong><br>
+11:00 AM–7:00 PM
+</p>
+
+<p>
+<strong>280 Willow Bend Suite 300</strong><br>
+Aledo, TX 76008
+</p>
+
+<p>
+<strong>Phone:</strong>
+<a href="tel:+16822240888">682-224-0888</a>
+</p>
+
+<div class="hero-actions">
+<a class="btn primary" href="willow-bend-menu.html">
+View the Menu
+</a>
+
+<a class="btn secondary" href="tel:+16822240888">
+Call Willow Bend
+</a>
+</div>
+
+</section>
+
+<section
+  class="card"
+  style="background:#efe7da; border:1px solid rgba(0,0,0,.08);"
+>
 
 <span class="tag">Bread Club Pickup</span>
 
-<h3>Bread Club is available at Willow Bend</h3>
+<h2>Bread Club is available at Willow Bend</h2>
 
 <p>
 Join Bread Club, manage your subscription, or update your pickup location through our central Bread Club page.
 </p>
 
 <p>
-During signup—or anytime from your member account—simply choose <strong>Willow Bend</strong> as your pickup location.
+During signup—or anytime from your member account—simply choose
+<strong>Willow Bend</strong> as your pickup location.
 </p>
 
 <div class="hero-actions">
-<a class="btn primary" href="breadclub.html">Go to Bread Club</a>
-<a class="btn secondary" href="breadclub-account.html">Manage Membership</a>
+<a class="btn primary" href="breadclub.html">
+Go to Bread Club
+</a>
+
+<a class="btn secondary" href="breadclub-account.html">
+Manage Membership
+</a>
 </div>
 
 </section>
 
-<!-- The remainder of your existing willow-bend.html stays exactly the same.
-Copy this updated section into your existing file, or merge it with the remainder
-of the page below the Bread Club banner. -->
+<section class="card">
+
+<span class="tag">Takeout Focused</span>
+
+<h2>Made for lunch, dinner, and pickup</h2>
+
+<p>
+Explore sourdough sandwiches, burgers, hit dogs, salads, sides, fresh bread, desserts, drinks, and brunch-ish favorites—all prepared with takeout in mind.
+</p>
+
+<p>
+Online ordering is not available yet. Until it launches, visit us at Willow Bend or call
+<a href="tel:+16822240888">682-224-0888</a>
+with questions.
+</p>
+
+<div class="hero-actions">
+<a class="btn primary" href="willow-bend-menu.html">
+Explore the Full Menu
+</a>
+
+<span
+  class="btn secondary disabled"
+  aria-disabled="true"
+  style="opacity:.65; cursor:default;"
+>
+Online Ordering Coming Soon
+</span>
+</div>
+
+</section>
 
 </div>
 
@@ -115,8 +239,16 @@ of the page below the Bread Club banner. -->
 
 <footer>
 <div class="container footer-grid">
+
 <div>
 <strong>© The Sour Boule • Willow Bend</strong>
+
+<p class="small">
+280 Willow Bend Suite 300 • Aledo, TX 76008<br>
+Wednesday–Sunday • 11:00 AM–7:00 PM<br>
+Phone:
+<a href="tel:+16822240888">682-224-0888</a>
+</p>
 </div>
 
 <div class="footer-links small">
@@ -133,3 +265,4 @@ of the page below the Bread Club banner. -->
 
 </body>
 </html>
+```
