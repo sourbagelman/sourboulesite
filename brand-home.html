@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,15 +6,104 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The Sour Boule | Choose Your Location</title>
-<meta name="description" content="Choose your The Sour Boule location: Fort Worth or Willow Bend.">
+<title>The Sour Boule | Fort Worth & Aledo Locations</title>
+
+<meta
+  name="description"
+  content="Choose The Sour Boule in Fort Worth or Willow Bend in Aledo. View each location's menu, address, hours, phone number, and ordering information."
+>
 
 <link rel="canonical" href="https://thesourboule.com/brand-home.html">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+  rel="stylesheet"
+>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Restaurant",
+      "@id": "https://thesourboule.com/fort-worth.html#restaurant",
+      "name": "The Sour Boule - Fort Worth",
+      "url": "https://thesourboule.com/fort-worth.html",
+      "telephone": "+1-682-250-3052",
+      "servesCuisine": [
+        "Bakery",
+        "Cafe",
+        "Breakfast",
+        "Lunch",
+        "Sourdough"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "3801 Southwest Blvd",
+        "addressLocality": "Fort Worth",
+        "addressRegion": "TX",
+        "postalCode": "76116",
+        "addressCountry": "US"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "08:00",
+          "closes": "14:00"
+        }
+      ]
+    },
+    {
+      "@type": "Restaurant",
+      "@id": "https://thesourboule.com/willow-bend.html#restaurant",
+      "name": "The Sour Boule - Willow Bend",
+      "url": "https://thesourboule.com/willow-bend.html",
+      "telephone": "+1-682-224-0888",
+      "servesCuisine": [
+        "Bakery",
+        "Cafe",
+        "Sourdough Sandwiches",
+        "Burgers",
+        "Hot Dogs",
+        "Salads"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "280 Willow Bend Suite 300",
+        "addressLocality": "Aledo",
+        "addressRegion": "TX",
+        "postalCode": "76008",
+        "addressCountry": "US"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "11:00",
+          "closes": "19:00"
+        }
+      ]
+    }
+  ]
+}
+</script>
+
 <style>
 :root {
   --black: #111111;
@@ -104,7 +194,10 @@ h1 {
   padding: 30px;
   background: var(--white);
   text-align: left;
-  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+  transition:
+    transform .16s ease,
+    box-shadow .16s ease,
+    border-color .16s ease;
 }
 
 .location-card:hover {
@@ -147,7 +240,12 @@ h1 {
 .meta {
   color: var(--muted);
   font-size: .95rem;
-  line-height: 1.6;
+  line-height: 1.75;
+}
+
+.phone-link {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .button {
@@ -190,48 +288,82 @@ h1 {
 <main class="splash">
 
 <section class="logo-wrap">
-<img src="images/logo.png" alt="The Sour Boule logo">
+
+<img
+  src="images/logo.png"
+  alt="The Sour Boule logo"
+>
+
 <div class="brand-name">The Sour Boule</div>
+
 <h1>Choose your location.</h1>
+
 <p class="sub">
-Two locations, same slow bread foundation. Pick where you are headed and we’ll take you to the right menu, hours, and ordering path.
+Two locations built around fresh sourdough, house-made food, and real ingredients. Choose where you are headed to see the correct menu, hours, and location information.
 </p>
+
 </section>
 
 <section class="location-grid">
 
-<a class="location-card" href="fort-worth.html">
+<article class="location-card">
+
 <span class="kicker">Original Café</span>
+
 <h2>Fort Worth</h2>
+
 <p>
-Breakfast, lunch, sourdough, bagels, coffee, Bread Club, catering, and private events.
+Breakfast, lunch, sourdough bread, bagels, coffee, Bread Club, catering, and private events.
 </p>
+
 <div class="meta">
 3801 Southwest Blvd<br>
 Fort Worth, TX 76116<br>
-Wednesday–Sunday • 8 AM–2 PM
+Wednesday–Sunday • 8 AM–2 PM<br>
+<a class="phone-link" href="tel:+16822503052">
+682-250-3052
+</a>
 </div>
-<div class="button">Go to Fort Worth</div>
+
+<a
+  class="button"
+  href="fort-worth.html"
+  aria-label="Visit The Sour Boule Fort Worth website"
+>
+Go to Fort Worth
 </a>
 
-<a class="location-card dark" href="willow-bend.html">
-  <span class="kicker">Pickup Kitchen</span>
+</article>
 
-  <h2>Willow Bend</h2>
+<article class="location-card dark">
 
-  <p>
-    Bread Club pickup is now available at Willow Bend! Join or manage your Bread Club membership through our Fort Worth Bread Club page, then simply select <strong>Willow Bend</strong> as your pickup location.
-  </p>
+<span class="kicker">Lunch &amp; Dinner</span>
 
-  <div class="meta">
-    280 Willow Bend Suite 300<br>
-    Aledo, TX 76008<br>
-    Wednesday, Thursday &amp; Sunday • 10:30 AM–9 PM<br>
-    Friday &amp; Saturday • 10:30 AM–10 PM
-  </div>
+<h2>Willow Bend</h2>
 
-  <div class="button">Go to Willow Bend</div>
+<p>
+Sourdough sandwiches, burgers, hit dogs, salads, brunch-ish favorites, fresh bread, drinks, desserts, and Bread Club pickup.
+</p>
+
+<div class="meta">
+280 Willow Bend Suite 300<br>
+Aledo, TX 76008<br>
+Wednesday–Sunday • 11 AM–7 PM<br>
+<a class="phone-link" href="tel:+16822240888">
+682-224-0888
 </a>
+</div>
+
+<a
+  class="button"
+  href="willow-bend.html"
+  aria-label="Visit The Sour Boule Willow Bend website"
+>
+Go to Willow Bend
+</a>
+
+</article>
+
 </section>
 
 <div class="footer-note">
@@ -242,3 +374,4 @@ Slow bread. Real ingredients. Built intentionally.
 
 </body>
 </html>
+```
