@@ -7,7 +7,7 @@
   <channel>
     <title>The Baker and The Jew</title>
     <link>https://thesourboule.com/podcast.html</link>
-    <description>Description coming soon.</description>
+    <description>The Baker and The Jew is a lifestyle conversation podcast hosted by Alexis Misner and Jerry Appel.</description>
     <language>en-us</language>
     <copyright>Copyright Alexis Misner and Jerry Appel</copyright>
     <managingEditor>podcast@thesourboule.com (Alexis Misner)</managingEditor>
@@ -15,7 +15,7 @@
     <atom:link href="https://thesourboule.com/podcast.xml" rel="self" type="application/rss+xml" />
 
     <itunes:author>Alexis Misner and Jerry Appel</itunes:author>
-    <itunes:summary>Description coming soon.</itunes:summary>
+    <itunes:summary>The Baker and The Jew is a lifestyle conversation podcast hosted by Alexis Misner and Jerry Appel.</itunes:summary>
     <itunes:explicit>false</itunes:explicit>
     <itunes:type>episodic</itunes:type>
 
