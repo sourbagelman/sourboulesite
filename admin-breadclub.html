@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Bread Club Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
 
   <style>
     :root {
@@ -140,23 +141,27 @@
       cursor: not-allowed !important;
     }
   </style>
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
-<body>
-  <div class="wrap">
+<body class="utility-page">
+  <a class="site-skip-link" href="#main-content">Skip to admin content</a>
+  <header class="utility-header"><div class="container utility-header__inner"><strong>Bread Club Admin</strong><a href="index.html">Return to public site</a></div></header>
+  <div id="main-content" class="wrap">
 
     <div id="loadingView" class="card">
       <h2 style="margin-top:0;">Checking access...</h2>
-      <div id="loadingStatus" class="muted">Starting auth check...</div>
-      <div id="loadingError" class="error" style="margin-top:12px;"></div>
+      <div id="loadingStatus" class="muted" role="status" aria-live="polite">Starting auth check...</div>
+      <div id="loadingError" class="error" role="alert" style="margin-top:12px;"></div>
     </div>
 
     <div id="loginView" class="card hidden">
       <h2>Admin Login</h2>
       <form id="loginForm">
+        <label for="email" class="visually-hidden">Admin email</label>
         <input id="email" type="email" placeholder="lance@thesourboule.com" required />
         <button id="loginBtn" type="submit">Send Login Link</button>
       </form>
-      <div id="status" style="margin-top:12px;color:var(--muted);"></div>
+      <div id="status" role="status" aria-live="polite" style="margin-top:12px;color:var(--muted);"></div>
     </div>
 
     <div id="unauthorizedView" class="card hidden">
@@ -169,7 +174,7 @@
       <div class="card">
         <div class="topbar">
           <div>
-            <h2 style="margin:0 0 8px 0;">Bread Club Admin</h2>
+            <h1 style="margin:0 0 8px 0; font-size:clamp(2rem,5vw,3.5rem);">Bread Club Admin</h1>
             <div id="adminEmail" class="muted"></div>
           </div>
 
@@ -182,9 +187,9 @@
 
       <div class="card">
         <h3 style="margin-top:0;">Bread Club Members</h3>
-        <div id="statusEl" class="muted">Loading members...</div>
+        <div id="statusEl" class="muted" role="status" aria-live="polite">Loading members...</div>
 
-        <div class="table-wrap">
+        <div class="table-wrap table-scroll" tabindex="0" aria-label="Bread Club members table">
           <table>
             <thead>
               <tr>

@@ -157,36 +157,18 @@
 </head>
 
 <body>
-
-<header>
-
-<div class="container nav">
-
-<div class="brand">
-<img src="images/logo.png" class="brand-mark">
-<span>The Sour Boule</span>
+<a class="site-skip-link" href="#main-content">Skip to main content</a>
+<header class="site-header">
+<div class="site-announcement">Bread Club pickup is available at Fort Worth and Willow Bend.</div>
+<div class="container site-header__inner">
+<a class="site-logo" href="index.html" aria-label="The Sour Boule home"><img src="images/logo.png" width="46" height="46" alt=""><span class="site-logo__wordmark"><span>The Sour Boule</span><small>Sourdough bakery &amp; cafe</small></span></a>
+<nav class="site-nav" aria-label="Primary navigation"><a href="index.html">Home</a><a href="index.html#locations">Menus &amp; order</a><a href="index.html#locations">Locations</a><a href="breadclub.html" aria-current="page">Bread Club</a><a href="catering.html">Catering</a><a href="about.html">About</a><details><summary>More</summary><div class="site-nav__popover"><a href="events.html">Private events</a><a href="contact.html">Contact</a><a href="podcast.html">Podcast</a></div></details></nav>
+<details class="mobile-nav"><summary aria-label="Open navigation menu">Menu</summary><nav class="mobile-nav__panel" aria-label="Mobile navigation"><a href="index.html">Home</a><span class="mobile-nav__label">Menus</span><a href="menu.html">Fort Worth menu</a><a href="willow-bend-menu.html">Willow Bend menu</a><span class="mobile-nav__label">Explore</span><a href="index.html#locations">Locations</a><a href="breadclub.html" aria-current="page">Bread Club</a><a href="catering.html">Catering</a><a href="about.html">About</a><a href="events.html">Private events</a><a href="contact.html">Contact</a></nav></details>
+<a class="btn primary site-header__order" href="https://cash.app/order/$thesourboule" target="_blank" rel="noopener">Order now</a>
 </div>
-
-<nav class="nav-links">
-<a class="nav-link" href="brand-home.html">Home</a>
-<a class="nav-link active" href="breadclub.html">Bread Club</a>
-<a class="nav-link" href="about.html">About</a>
-<a class="nav-link" href="catering.html">Catering</a>
-<a class="nav-link" href="events.html">Private Events</a>
-<a class="nav-link" href="contact.html">Contact</a>
-</nav>
-
-<div class="nav-actions">
-<a class="btn secondary" href="menu.html">Menu</a>
-<a class="btn secondary" href="brand-home.html">Locations</a>
-<a class="btn primary" href="https://cash.app/order/$thesourboule" target="_blank" rel="noopener">Order Now</a>
-</div>
-
-</div>
-
 </header>
 
-<main>
+<main id="main-content" class="site-main">
 
 <div class="container stack">
 
@@ -341,7 +323,7 @@ Join the Bread Club
 </div>
 
 <div>
-<label style="display:block; font-size:.68rem; text-transform:uppercase; letter-spacing:.14em; color:#9f9186; margin-bottom:6px;">Qty</label>
+<label for="bc-plain" style="display:block; font-size:.68rem; text-transform:uppercase; letter-spacing:.14em; color:#9f9186; margin-bottom:6px;">Qty</label>
 <select class="breadclub-select" id="bc-plain">
 <option>0</option>
 <option selected>1</option>
@@ -365,7 +347,7 @@ Join the Bread Club
 </div>
 
 <div>
-<label style="display:block; font-size:.68rem; text-transform:uppercase; letter-spacing:.14em; color:#9f9186; margin-bottom:6px;">Qty</label>
+<label for="bc-rosemary" style="display:block; font-size:.68rem; text-transform:uppercase; letter-spacing:.14em; color:#9f9186; margin-bottom:6px;">Qty</label>
 <select class="breadclub-select" id="bc-rosemary">
 <option selected>0</option>
 <option>1</option>
@@ -389,7 +371,7 @@ Join the Bread Club
 </div>
 
 <div>
-<label style="display:block; font-size:.68rem; text-transform:uppercase; letter-spacing:.14em; color:#9f9186; margin-bottom:6px;">Qty</label>
+<label for="bc-jalapeno" style="display:block; font-size:.68rem; text-transform:uppercase; letter-spacing:.14em; color:#9f9186; margin-bottom:6px;">Qty</label>
 <select class="breadclub-select" id="bc-jalapeno">
 <option selected>0</option>
 <option>1</option>
@@ -511,7 +493,7 @@ This order will repeat on your selected schedule. All Bread Club members save $0
 
 </div>
 
-<div id="breadclub-status" style="font-size:.92rem; color:#eadfc9; margin-top:8px;"></div>
+<div id="breadclub-status" role="status" aria-live="polite" style="font-size:.92rem; color:#eadfc9; margin-top:8px;"></div>
 
 <button type="submit" class="btn breadclub-cta">
 Complete Bread Club Signup
@@ -531,29 +513,12 @@ Your first order is charged when you join. Future orders follow your selected sc
 
 </main>
 
-<footer>
-
-<div class="container footer-grid">
-
-<div>
-<strong>© The Sour Boule</strong>
-<p class="small">
-3801 Southwest Blvd • Fort Worth, TX 76116<br>
-Phone: 682-250-3052
-</p>
-</div>
-
-<div class="footer-links small">
-<a href="brand-home.html">Home</a>
-<a href="menu.html">Menu</a>
-<a href="breadclub.html">Bread Club</a>
-<a href="catering.html">Catering</a>
-<a href="events.html">Events</a>
-<a href="contact.html">Contact</a>
-</div>
-
-</div>
-
+<footer class="site-footer"><div class="container"><div class="site-footer__grid">
+<div class="site-footer__brand"><a class="site-logo" href="index.html"><img src="images/logo.png" width="46" height="46" alt=""><span class="site-logo__wordmark"><span>The Sour Boule</span><small>Fort Worth born</small></span></a><p>Slow-fermented bread and house-made food, served with a little personality.</p></div>
+<div><h2>Fort Worth</h2><p>3801 Southwest Blvd<br>Fort Worth, TX 76116<br><a href="tel:+16822503052">682-250-3052</a></p><div class="site-footer__links"><a href="menu.html">View menu</a><a href="https://cash.app/order/$thesourboule" target="_blank" rel="noopener">Order online</a></div></div>
+<div><h2>Willow Bend</h2><p>280 Willow Bend, Suite 300<br>Aledo, TX 76008<br><a href="tel:+16822240888">682-224-0888</a></p><div class="site-footer__links"><a href="willow-bend-menu.html">View menu</a><a href="https://cash.app/$thesourboule" target="_blank" rel="noopener">Order online</a></div></div>
+<div><h2>Explore</h2><nav class="site-footer__links" aria-label="Footer navigation"><a href="breadclub.html">Bread Club</a><a href="breadclub-account.html">Manage membership</a><a href="catering.html">Catering</a><a href="events.html">Private events</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav></div>
+</div><div class="site-footer__bottom"><span>© The Sour Boule</span><a href="#main-content">Back to top ↑</a></div></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

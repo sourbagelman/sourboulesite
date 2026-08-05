@@ -4,6 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Bread Club Account | The Sour Boule</title>
+  <meta name="description" content="Sign in to view and manage your Sour Boule Bread Club membership." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://thesourboule.com/breadclub-account.html" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -143,33 +146,18 @@
 </head>
 
 <body>
-
-
-<header>
-  <div class="container nav">
-    <div class="brand">
-      <img src="images/logo.png" class="brand-mark">
-      <span>The Sour Boule</span>
-    </div>
-
-    <nav class="nav-links">
-      <a class="nav-link" href="index.html">Home</a>
-      <a class="nav-link active" href="breadclub.html">Bread Club</a>
-      <a class="nav-link" href="about.html">About</a>
-      <a class="nav-link" href="catering.html">Catering</a>
-      <a class="nav-link" href="events.html">Private Events</a>
-      <a class="nav-link" href="gallery.html">Gallery</a>
-      <a class="nav-link" href="contact.html">Contact</a>
-    </nav>
-
-    <div class="nav-actions">
-      <a class="btn secondary" href="menu.html">Menu</a>
-      <a class="btn primary" href="https://cash.app/$thesourboule" target="_blank">Order Now</a>
-    </div>
+<a class="site-skip-link" href="#main-content">Skip to main content</a>
+<header class="site-header">
+  <div class="site-announcement">Bread Club account • Secure email-link access</div>
+  <div class="container site-header__inner">
+    <a class="site-logo" href="index.html" aria-label="The Sour Boule home"><img src="images/logo.png" width="46" height="46" alt=""><span class="site-logo__wordmark"><span>The Sour Boule</span><small>Member account</small></span></a>
+    <nav class="site-nav" aria-label="Primary navigation"><a href="index.html">Home</a><a href="index.html#locations">Menus &amp; order</a><a href="index.html#locations">Locations</a><a href="breadclub.html" aria-current="page">Bread Club</a><a href="catering.html">Catering</a><a href="about.html">About</a><details><summary>More</summary><div class="site-nav__popover"><a href="events.html">Private events</a><a href="contact.html">Contact</a><a href="podcast.html">Podcast</a></div></details></nav>
+    <details class="mobile-nav"><summary aria-label="Open navigation menu">Menu</summary><nav class="mobile-nav__panel" aria-label="Mobile navigation"><a href="index.html">Home</a><a href="menu.html">Fort Worth menu</a><a href="willow-bend-menu.html">Willow Bend menu</a><a href="index.html#locations">Locations</a><a href="breadclub.html" aria-current="page">Bread Club</a><a href="catering.html">Catering</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav></details>
+    <a class="btn primary site-header__order" href="https://cash.app/$thesourboule" target="_blank" rel="noopener">Order now</a>
   </div>
 </header>
 
-<main class="account-shell">
+<main id="main-content" class="account-shell site-main">
 
   <div class="account-card">
     <p class="breadclub-kicker">The Sour Boule</p>
@@ -184,11 +172,12 @@
     <p class="muted">Use your Bread Club email to access your account.</p>
 
     <form id="loginForm">
+      <label class="visually-hidden" for="email">Bread Club email</label>
       <input id="email" type="email" placeholder="oscar@thesourboule.com" required />
       <button id="loginBtn" type="submit">Email Me a Login Link</button>
     </form>
 
-    <div id="status" class="muted"></div>
+    <div id="status" class="muted" role="status" aria-live="polite"></div>
 
     <div class="account-note">
       After you log in, you can review your subscription details and pause, resume, or cancel your membership.
@@ -268,7 +257,7 @@
       <button id="reloadBtn" class="secondary">Reload</button>
     </div>
 
-    <div id="actionStatus" class="muted" style="margin-top:12px;"></div>
+    <div id="actionStatus" class="muted" role="status" aria-live="polite" style="margin-top:12px;"></div>
 
     <div class="account-note">
       Need to make a new signup or review plan details? Go back to the main Bread Club page.
@@ -279,25 +268,12 @@
 
 </main>
 
-<footer>
-  <div class="container footer-grid">
-    <div>
-      <strong>© The Sour Boule</strong>
-      <p class="small">
-        3801 Southwest Blvd • Fort Worth, TX 76116<br>
-        Phone: 682-250-3052
-      </p>
-    </div>
-
-    <div class="footer-links small">
-      <a href="index.html">Home</a>
-      <a href="menu.html">Menu</a>
-      <a href="breadclub.html">Bread Club</a>
-      <a href="catering.html">Catering</a>
-      <a href="events.html">Events</a>
-      <a href="contact.html">Contact</a>
-    </div>
-  </div>
+<footer class="site-footer"><div class="container"><div class="site-footer__grid">
+  <div class="site-footer__brand"><a class="site-logo" href="index.html"><img src="images/logo.png" width="46" height="46" alt=""><span class="site-logo__wordmark"><span>The Sour Boule</span><small>Fort Worth born</small></span></a><p>Need help with your membership? Use the contact page and choose your pickup location.</p></div>
+  <div><h2>Fort Worth</h2><p>3801 Southwest Blvd<br>Fort Worth, TX 76116<br><a href="tel:+16822503052">682-250-3052</a></p><div class="site-footer__links"><a href="menu.html">View menu</a><a href="https://cash.app/order/$thesourboule" target="_blank" rel="noopener">Order online</a></div></div>
+  <div><h2>Willow Bend</h2><p>280 Willow Bend, Suite 300<br>Aledo, TX 76008<br><a href="tel:+16822240888">682-224-0888</a></p><div class="site-footer__links"><a href="willow-bend-menu.html">View menu</a><a href="https://cash.app/$thesourboule" target="_blank" rel="noopener">Order online</a></div></div>
+  <div><h2>Account</h2><nav class="site-footer__links" aria-label="Footer navigation"><a href="breadclub.html">Bread Club signup</a><a href="contact.html">Contact us</a><a href="index.html#locations">Locations</a></nav></div>
+</div><div class="site-footer__bottom"><span>© The Sour Boule</span><a href="#main-content">Back to top ↑</a></div></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
