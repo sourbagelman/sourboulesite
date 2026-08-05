@@ -1430,6 +1430,131 @@ body {
   margin: 0;
 }
 
+/* Owner-review correction: keep the homepage identity and location choice in one compact opening view. */
+.home-main {
+  padding-block: clamp(var(--space-4), 2vw, var(--space-6));
+}
+
+.home-page .site-announcement {
+  padding-block: 0.4rem;
+}
+
+.home-page .site-header__inner {
+  min-height: 68px;
+}
+
+.home-main__stack {
+  gap: clamp(var(--space-4), 2.5vw, var(--space-8));
+}
+
+.home-opening {
+  min-height: auto;
+  align-content: center;
+  padding: clamp(var(--space-5), 3vw, var(--space-8));
+}
+
+.home-opening .page-intro__content {
+  max-width: 58rem;
+  gap: var(--space-2);
+}
+
+.home-opening h1 {
+  max-width: none;
+  font-size: clamp(2.35rem, 3.6vw, 3.45rem);
+  line-height: 1;
+}
+
+.home-opening p {
+  max-width: 68ch;
+  font-size: clamp(1rem, 1.4vw, 1.1rem);
+}
+
+.home-locations {
+  padding-block: 0;
+}
+
+.home-locations .section-heading {
+  max-width: none;
+  gap: var(--space-1);
+  margin-block-end: var(--space-3);
+}
+
+.home-locations .section-heading h2 {
+  font-size: clamp(1.8rem, 2.8vw, 2.45rem);
+}
+
+.home-locations .location-choice-grid {
+  gap: var(--space-4);
+}
+
+.home-locations .location-choice {
+  min-height: 18rem;
+  gap: var(--space-2);
+  padding: clamp(var(--space-5), 2.5vw, var(--space-7));
+}
+
+.home-locations .location-choice h2 {
+  font-size: clamp(2rem, 3vw, 2.6rem);
+}
+
+.home-locations .location-choice p {
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.home-locations .page-actions {
+  gap: var(--space-2);
+  margin-block-start: var(--space-1);
+}
+
+.home-locations .location-choice .btn.primary {
+  border: 2px solid var(--color-brand-strong);
+  background: var(--color-brand-strong);
+  color: var(--color-text);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.home-locations .location-choice .btn.primary:hover {
+  border-color: var(--color-brand);
+  background: var(--color-brand);
+  color: var(--color-text);
+}
+
+.home-locations .location-choice .btn.primary:active {
+  border-color: #b69454;
+  background: #b69454;
+  transform: translateY(0);
+}
+
+.home-locations .location-choice .btn.primary:focus-visible {
+  outline-color: #ffffff;
+  box-shadow: 0 0 0 5px rgba(22, 20, 18, 0.78), 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.home-locations .location-choice .btn.secondary {
+  border: 2px solid #fff8e8;
+  background: #fff8e8;
+  color: var(--color-text);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.24);
+}
+
+.home-locations .location-choice .btn.secondary:hover {
+  border-color: var(--color-brand);
+  background: var(--color-brand);
+  color: var(--color-text);
+}
+
+.home-locations .location-choice .btn.secondary:active {
+  background: var(--color-brand-strong);
+  border-color: var(--color-brand-strong);
+  transform: translateY(0);
+}
+
+.home-locations .location-choice .btn.secondary:focus-visible {
+  outline-color: #ffffff;
+  box-shadow: 0 0 0 5px rgba(22, 20, 18, 0.78), 0 5px 18px rgba(0, 0, 0, 0.24);
+}
+
 .status-message,
 [role="status"] {
   min-height: 1.5em;
@@ -1690,6 +1815,23 @@ body {
 
   .location-choice {
     min-height: 22rem;
+  }
+
+  .home-main {
+    padding-block-start: var(--space-4);
+  }
+
+  .home-opening {
+    min-height: auto;
+    padding: var(--space-5);
+  }
+
+  .home-opening h1 {
+    font-size: clamp(2.15rem, 11vw, 3rem);
+  }
+
+  .home-locations .location-choice {
+    min-height: 21rem;
   }
 
   .site-footer__grid {

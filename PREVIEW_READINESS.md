@@ -23,7 +23,6 @@ Measured on 2026-08-05 with a localhost static server and fresh, unthrottled hea
 | `breadclub.html` | 180 ms | 180 ms | 0.0119 | 0 ms | 174 KB | 9 |
 | `catering.html` | 136 ms | 136 ms | 0.0448 | 0 ms | 97 KB | 7 |
 | `contact.html` | 204 ms | 204 ms | 0.0105 | 0 ms | 96 KB | 7 |
-| `podcast.html` | 132 ms | 132 ms | 0.0043 | 0 ms | 98 KB | 7 |
 
 All tested routes returned HTTP 200, logged no local resource or page errors, contained one H1, and had no horizontal overflow. All public routes also passed 320 px, 390 px, 768 px, and representative desktop overflow checks. The mobile navigation closed on Escape, returned focus to its summary control, and synchronized `aria-expanded="false"`.
 

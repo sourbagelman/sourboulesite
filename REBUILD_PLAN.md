@@ -34,8 +34,6 @@ Remote default branch at audit: `main` at the same commit
 | `/catering.html` | Lead capture: “Can Sour Boule cater my group?” | Formspree inquiry | Shared nav/footer; Fort Worth fulfillment context. |
 | `/events.html` | Lead capture: “Can I host an event here?” | Formspree inquiry | Shared nav/footer; Fort Worth venue context. |
 | `/contact.html` | Routing/help: “Which location should receive my question?” | Formspree message | Links to both locations/menus and shared nav/footer. |
-| `/podcast.html` | Editorial/podcast page: “What is The Baker and The Jew?” | Subscribe via RSS / return home | Standalone design; not in shared navigation or sitemap. |
-| `/podcast.xml` | Podcast RSS feed | Subscribe in a podcast client | Self-links to feed and podcast page. |
 
 ### Administrative/internal routes
 
@@ -46,11 +44,11 @@ Remote default branch at audit: `main` at the same commit
 
 ### Source, configuration, and assets
 
-- HTML: `index.html`, `brand-home.html`, `fort-worth.html`, `willow-bend.html`, `menu.html`, `willow-bend-menu.html`, `breadclub.html`, `breadclub-account.html`, `about.html`, `catering.html`, `events.html`, `contact.html`, `podcast.html`, `admin-breadclub.html`, `admin-push.html`.
+- HTML: `index.html`, `brand-home.html`, `fort-worth.html`, `willow-bend.html`, `menu.html`, `willow-bend-menu.html`, `breadclub.html`, `breadclub-account.html`, `about.html`, `catering.html`, `events.html`, `contact.html`, `admin-breadclub.html`, `admin-push.html`.
 - Shared CSS: `assets/css/style.css` (layout, navigation, cards, forms, Bread Club, location system, responsive rules; now also foundational tokens/utilities).
 - Shared JavaScript: `assets/js/main.js` (GA4, favicon injection, order-click analytics, and Bread Club preview/date logic).
 - Assets: `images/logo.png` (approximately 32 KB) and `images/.keep`; no other local images, icons, font files, SVGs, or videos.
-- Search/feed/domain configuration: `robots.txt`, `sitemap.xml`, `podcast.xml`, `CNAME`.
+- Search/domain configuration: `robots.txt`, `sitemap.xml`, `CNAME`.
 - Audit/control documents: `REBUILD_PROTECTION_MAP.md`, `REBUILD_PLAN.md`.
 - No framework, templates/includes, package manager, dependency lockfile, bundler, backend source, API route, database migration, environment file, or CI workflow exists.
 
@@ -58,9 +56,9 @@ Remote default branch at audit: `main` at the same commit
 
 - Shared pages repeat topbar, sticky header, logo/brand, navigation links/actions, container/stack layouts, cards, hero patterns, location calls to action, and footer markup by copy/paste.
 - `assets/css/style.css` centralizes the primary visual primitives, but hundreds of inline styles remain (especially menu and Bread Club) and three standalone pages embed large style blocks.
-- `brand-home.html`, `podcast.html`, `admin-breadclub.html`, `admin-push.html`, `breadclub-account.html`, `breadclub.html`, and `willow-bend-menu.html` contain significant page-local CSS or JavaScript.
+- `brand-home.html`, `admin-breadclub.html`, `admin-push.html`, `breadclub-account.html`, `breadclub.html`, and `willow-bend-menu.html` contain significant page-local CSS or JavaScript.
 - The Bread Club preview/date behavior is duplicated between `assets/js/main.js` and `breadclub.html` inline JavaScript; both bind to the same elements.
-- Navigation is not one system: shared Fort Worth pages, Willow Bend pages, Bread Club account, location chooser, podcast, and admin tools each use different link sets or standalone structures.
+- Navigation is not one system: shared Fort Worth pages, Willow Bend pages, Bread Club account, location chooser, and admin tools each use different link sets or standalone structures.
 
 ### Third-party scripts and integrations
 
@@ -71,7 +69,6 @@ Remote default branch at audit: `main` at the same commit
 - Supabase JS from jsDelivr or esm.sh; Supabase Auth/data/Edge Functions on Bread Club signup, customer account, admin, and push pages.
 - Formspree endpoints on catering, events, and contact.
 - Cash App ordering links in two URL shapes.
-- Podcast artwork at `media.thesourboule.com`.
 
 ## Audit findings ordered by severity
 
@@ -116,9 +113,8 @@ Remote default branch at audit: `main` at the same commit
 
 1. The location chooser says Willow Bend is in Aledo while route and schema naming mix “Willow Bend” and “Aledo”; keep one customer-friendly naming convention with accurate locality schema.
 2. `brand-home.html` contains the apparent typo “hit dogs.”
-3. `podcast.html` is omitted from shared navigation and the sitemap, so it is effectively orphaned except for direct/feed traffic.
-4. The sitemap has no `lastmod` values and omits account/admin routes appropriately, but also omits the public podcast page.
-5. Favicon injection declares the PNG logo as `image/jpeg`.
+3. The sitemap has no `lastmod` values and omits account/admin routes appropriately.
+4. Favicon injection declares the PNG logo as `image/jpeg`.
 
 ## Page-by-page SEO, accessibility, UX, and performance audit
 
@@ -136,7 +132,6 @@ Remote default branch at audit: `main` at the same commit
 | `catering.html` | Clear lead intent, metadata, associated field labels | Add H1/logo alt/social/service schema; use a date input where safe; clarify lead time/fulfillment; preserve Formspree endpoint/names. |
 | `events.html` | Clear lead form and metadata | Add H1/logo alt/social/event-venue schema; clarify capacity/availability; preserve Formspree; improve async/confirmation expectations. |
 | `contact.html` | Good location routing, metadata, associated labels | Add H1/logo alt/social/local-business links; expose phone/address/map actions earlier; preserve endpoint and location values. |
-| `podcast.html` | Standalone H1, description/canonical, RSS action | Decide whether it belongs in the brand information architecture; add social/podcast schema and artwork/episodes; add to sitemap if public/active. |
 | `admin-breadclub.html` | Auth and allow-list gating | Add `noindex`, H1, robust responsive table/labels/live regions; keep it out of public components and preserve every auth/data contract. |
 | `admin-push.html` | Send confirmation and history | Add `noindex`, one H1, labels/form/live regions, safe history rendering in a dedicated security command, and remove stray code fence when explicitly approved. |
 
@@ -220,11 +215,10 @@ Every indexable page must have a unique title, concise unique description, self-
 2. Location chooser, Fort Worth, and Willow Bend pages: establish customer location context, trust, hours/address/phone, and location-aware order/menu actions.
 3. Fort Worth and Willow Bend menus: create accessible/scannable menu components and mobile category navigation.
 4. About, catering, events, and contact: reuse the shell/cards/forms and strengthen location-aware lead paths.
-5. Podcast: either integrate it into public information architecture and sitemap or intentionally mark/document it as standalone.
-6. Bread Club marketing shell: improve explanation and semantics around the untouched live application.
-7. Bread Club signup/account protected UI: style in place, add accessible grouping/status behavior without contract changes, then run approved integration-level checks.
-8. Admin pages: keep separate from public navigation; add noindex and accessibility/responsive polish, with security behavior changes handled separately and explicitly.
-9. Search/feed/performance pass: sitemap/canonicals/schema/social cards, images/fonts, link validation, cross-browser/mobile/zoom/accessibility checks.
+5. Bread Club marketing shell: improve explanation and semantics around the untouched live application.
+6. Bread Club signup/account protected UI: style in place, add accessible grouping/status behavior without contract changes, then run approved integration-level checks.
+7. Admin pages: keep separate from public navigation; add noindex and accessibility/responsive polish, with security behavior changes handled separately and explicitly.
+8. Search/performance pass: sitemap/canonicals/schema/social cards, images/fonts, link validation, cross-browser/mobile/zoom/accessibility checks.
 
 ## Completion criteria for commands 2–5
 
@@ -244,12 +238,11 @@ Every indexable page must have a unique title, concise unique description, self-
 - Broken/inconsistent public navigation is eliminated, including the missing Gallery link.
 - Public image assets are optimized and licensed/owner-approved placeholders are clearly identified.
 
-### Command 4 — Bread Club, accounts, podcast, and internal tools
+### Command 4 — Bread Club, accounts, and internal tools
 
 - Bread Club marketing and protected UI are visually coherent and accessible without changing payment/subscription contracts.
 - Account/admin routes receive correct `noindex`, responsive layouts, keyboard behavior, and live-status semantics.
 - Any duplicate Bread Club logic change has separate approval and integration tests; otherwise it remains documented and untouched.
-- Podcast disposition is explicit and its metadata/feed/sitemap relationships are correct.
 - Security concerns in admin tools are either fixed under explicit authority or recorded as owner-review blockers.
 
 ### Command 5 — release-candidate validation and owner review package
@@ -268,5 +261,4 @@ These do not block foundation work, but they must be resolved before the affecte
 2. Choose the canonical public homepage (`/` recommended) and confirm whether `brand-home.html` can be redirected after links/canonicals are migrated.
 3. Confirm whether both Cash App URL shapes are intentional and which order destination belongs to each location. They remain unchanged meanwhile.
 4. Provide/approve real photography and a social-sharing image, or explicitly approve temporary optimized stock imagery.
-5. Confirm whether the podcast remains active and should be discoverable in navigation/sitemap.
-6. Schedule a protected-flow review for the duplicated Bread Club pricing/preview logic and admin security concerns; command 1 intentionally does not alter them.
+5. Schedule a protected-flow review for the duplicated Bread Club pricing/preview logic and admin security concerns; command 1 intentionally does not alter them.
