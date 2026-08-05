@@ -167,12 +167,18 @@
     </p>
   </div>
 
+  <section class="account-guide" aria-labelledby="account-access-title">
+    <h2 id="account-access-title">Access your membership by email</h2>
+    <p>Enter the same email used for Bread Club signup. We’ll send a secure login link; after you return, this page displays your membership details and the actions currently available for its status.</p>
+    <p class="muted" style="margin-bottom:0;"><strong>Before changing a membership:</strong> review the status message after using pause, resume, or cancel. Cancel is the most consequential option.</p>
+  </section>
+
   <div id="loginView" class="account-card">
     <h2>Bread Club Login</h2>
     <p class="muted">Use your Bread Club email to access your account.</p>
 
     <form id="loginForm">
-      <label class="visually-hidden" for="email">Bread Club email</label>
+      <label for="email">Bread Club email</label>
       <input id="email" type="email" placeholder="oscar@thesourboule.com" required />
       <button id="loginBtn" type="submit">Email Me a Login Link</button>
     </form>
@@ -256,6 +262,8 @@
       <button id="cancelBtn" class="danger">Cancel</button>
       <button id="reloadBtn" class="secondary">Reload</button>
     </div>
+
+    <p class="muted" style="margin-top:14px;">Pause and resume change the current membership state. Cancel is intended for ending the membership; check the status message after any action.</p>
 
     <div id="actionStatus" class="muted" role="status" aria-live="polite" style="margin-top:12px;"></div>
 

@@ -1673,3 +1673,76 @@ body {
     display: none;
   }
 }
+
+/* COMMAND 3: PAGE-SPECIFIC CUSTOMER JOURNEYS */
+.experience-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--space-5); }
+.experience-card { min-height:17rem; padding:clamp(22px,3vw,34px); border:1px solid var(--border); border-radius:var(--radius-lg); background:var(--surface); display:flex; flex-direction:column; align-items:flex-start; }
+.experience-card:nth-child(2) { background:var(--surface-warm); }
+.experience-card:nth-child(3) { background:var(--ink); color:#fff; }
+.experience-card:nth-child(3) p { color:rgba(255,255,255,.74); }
+.experience-card:nth-child(3) a { color:var(--wheat); }
+.experience-card__number { font-weight:800; letter-spacing:.12em; color:var(--text-muted); }
+.experience-card h3 { margin-top:auto; font-size:clamp(1.55rem,2.4vw,2.2rem); }
+.experience-card p { color:var(--text-muted); }
+.experience-card a,.text-link { min-height:44px; display:inline-flex; align-items:center; font-weight:800; text-decoration:underline; text-underline-offset:.22em; }
+.image-split__media img { width:100%; height:100%; min-height:30rem; object-fit:cover; border-radius:inherit; }
+.home-story { overflow:hidden; background:var(--surface-warm); }
+.home-story .image-split__media { min-height:100%; }
+.closing-cta { display:grid; grid-template-columns:minmax(0,1.3fr) auto; align-items:end; gap:var(--space-7); padding:clamp(28px,5vw,56px); border-radius:var(--radius-xl); background:var(--ink); color:#fff; }
+.closing-cta h2 { max-width:16ch; color:inherit; }
+.closing-cta p { max-width:58ch; color:rgba(255,255,255,.74); }
+.closing-cta .btn.secondary { color:#fff; border-color:rgba(255,255,255,.65); }
+.page-journey-hero { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(19rem,.85fr); align-items:end; gap:clamp(28px,5vw,72px); padding:clamp(30px,5vw,64px); border:1px solid var(--border); border-radius:var(--radius-xl); background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(230,201,143,.26)); box-shadow:var(--shadow-sm); }
+.page-journey-hero h1 { max-width:13ch; }
+.page-journey-hero__aside { padding:var(--space-6); border-left:1px solid var(--border-strong); }
+.page-journey-hero__aside p { color:var(--text-muted); }
+.purpose-strip { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1px; overflow:hidden; border:1px solid var(--border); border-radius:var(--radius-lg); background:var(--border); }
+.purpose-strip > * { padding:var(--space-5); background:var(--surface); }
+.purpose-strip strong { display:block; margin-bottom:var(--space-2); font-size:1.05rem; }
+.purpose-strip p { margin:0; color:var(--text-muted); }
+.section-nav { position:sticky; top:96px; z-index:10; display:flex; gap:var(--space-2); padding:var(--space-3); overflow-x:auto; border:1px solid var(--border); border-radius:999px; background:rgba(250,248,243,.95); box-shadow:var(--shadow-sm); scrollbar-width:thin; }
+.section-nav a { min-height:42px; padding:10px 16px; border-radius:999px; white-space:nowrap; font-size:.9rem; font-weight:800; }
+.section-nav a:hover,.section-nav a:focus-visible { background:var(--surface-warm); }
+.menu-page > .container { gap:clamp(30px,5vw,56px) !important; }
+.menu-page .menu-section { scroll-margin-top:10rem; padding:clamp(24px,4vw,40px); border:1px solid var(--border); border-radius:var(--radius-lg); background:var(--surface); }
+.menu-page .menu-section:nth-of-type(even) { background:var(--surface-warm); }
+.menu-page .menu-section > h2 { max-width:24ch; }
+.menu-page .menu-section .card { box-shadow:none; }
+.menu-order-note { display:flex; justify-content:space-between; align-items:center; gap:var(--space-5); padding:var(--space-5); border-radius:var(--radius-lg); background:var(--ink); color:#fff; }
+.menu-order-note p { margin:0; color:rgba(255,255,255,.74); }
+.process-steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--space-4); counter-reset:steps; }
+.process-step { counter-increment:steps; padding:var(--space-6); border:1px solid var(--border); border-radius:var(--radius-lg); background:var(--surface); }
+.process-step::before { content:"0" counter(steps); display:block; margin-bottom:var(--space-5); color:var(--text-muted); font-weight:800; letter-spacing:.12em; }
+.process-step h3 { font-size:1.45rem; }
+.lead-form-intro { display:grid; grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr); gap:clamp(28px,5vw,64px); align-items:start; }
+.lead-form-intro__copy { position:sticky; top:120px; }
+.lead-form-intro__copy p { color:var(--text-muted); }
+.lead-form-panel { padding:clamp(20px,4vw,36px) !important; border-radius:var(--radius-xl) !important; background:var(--surface-warm) !important; }
+.lead-form-panel > div { box-shadow:none !important; }
+.form-help { margin-top:-4px; font-size:.9rem; color:var(--text-muted); }
+.choice-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--space-3); }
+.choice-actions .btn { width:100%; }
+.story-chapter { display:grid; grid-template-columns:minmax(12rem,.55fr) minmax(0,1.45fr); gap:clamp(24px,5vw,72px); padding:clamp(24px,4vw,48px) 0; border-top:1px solid var(--border); }
+.story-chapter h2 { position:sticky; top:120px; align-self:start; font-size:clamp(1.7rem,3vw,2.7rem); }
+.story-chapter__body { max-width:66ch; }
+.story-chapter__body p { font-size:1.06rem; }
+.account-guide { max-width:760px; margin:0 auto var(--space-6); padding:var(--space-5); border:1px solid var(--border); border-radius:var(--radius-lg); background:var(--surface-warm); }
+.account-guide h2 { font-size:1.4rem; }
+.site-header .site-logo,.site-footer .site-logo,.breadclub-darkpill,.account-card button { min-height:44px !important; }
+
+@media (max-width:61.25rem) {
+  .experience-grid,.process-steps { grid-template-columns:1fr; }
+  .experience-card { min-height:14rem; }
+  .closing-cta,.page-journey-hero,.lead-form-intro { grid-template-columns:1fr; }
+  .page-journey-hero__aside { padding:var(--space-5) 0 0; border-left:0; border-top:1px solid var(--border-strong); }
+  .lead-form-intro__copy { position:static; }
+}
+@media (max-width:43.75rem) {
+  .purpose-strip,.choice-actions { grid-template-columns:1fr; }
+  .section-nav { top:78px; margin-inline:-8px; border-radius:var(--radius-md); }
+  .menu-order-note { align-items:stretch; flex-direction:column; }
+  .story-chapter { grid-template-columns:1fr; }
+  .story-chapter h2 { position:static; }
+  .image-split__media img { min-height:20rem; }
+  .closing-cta .page-actions { align-items:stretch; }
+}

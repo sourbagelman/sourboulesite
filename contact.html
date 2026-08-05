@@ -36,27 +36,20 @@
 
 <div class="container stack" style="gap:28px;">
 
-<section style="padding-bottom:22px; border-bottom:1px solid rgba(0,0,0,.08);">
+<section class="page-journey-hero">
 
+<div>
 <span class="eyebrow">Contact</span>
-
-<div class="cards-2" style="align-items:start; gap:28px;">
-
-<div>
 <h1 class="page-title">Reach the right Sour Boule location</h1>
+<p>Choose a location for direct phone, menu, and directions. Use the message form for questions, feedback, or anything that needs more detail.</p>
+<div class="page-actions"><a class="btn primary" href="#contact-form">Send a message</a><a class="btn secondary" href="#contact-locations">Contact a location</a></div>
 </div>
 
-<div>
-<p style="max-width:560px; font-size:1.05rem; margin-bottom:0;">
-Questions, feedback, location details, or general inquiries can be sent through the form below. If your message is location-specific, choose Fort Worth or Willow Bend so it gets routed clearly.
-</p>
-</div>
-
-</div>
+<div class="page-journey-hero__aside"><span class="tag">Planning something?</span><h2>Use the most direct path.</h2><p>Catering and private events each have their own inquiry page. For order or location help, calling the correct kitchen is the fastest direct option.</p><div class="site-footer__links"><a href="catering.html">Catering inquiry</a><a href="events.html">Private-event request</a></div></div>
 
 </section>
 
-<section class="location-grid">
+<section class="location-grid" id="contact-locations">
 
 <article class="location-card">
 
@@ -88,7 +81,7 @@ Fort Worth, TX 76116
 
 <p>
 <strong>Phone</strong><br>
-682-250-3052
+<a href="tel:+16822503052">682-250-3052</a>
 </p>
 
 </div>
@@ -96,6 +89,7 @@ Fort Worth, TX 76116
 <div class="location-actions">
 <a class="btn primary" href="fort-worth.html">Fort Worth Info</a>
 <a class="btn secondary" href="menu.html">Fort Worth Menu</a>
+<a class="btn secondary" href="https://www.google.com/maps/search/?api=1&amp;query=3801+Southwest+Blvd+Fort+Worth+TX+76116" target="_blank" rel="noopener">Directions</a>
 </div>
 
 </article>
@@ -109,7 +103,7 @@ Fort Worth, TX 76116
 <h2>Pickup Kitchen</h2>
 
 <p>
-Lunch and dinner pickup-focused location serving burgers, hot dogs, sourdough sandwiches, salads, sides, drinks, and takeout-friendly comfort food.
+Lunch and dinner pickup-focused location serving burgers, Hit Dogs, sourdough sandwiches, salads, sides, drinks, and takeout-friendly comfort food.
 </p>
 
 </div>
@@ -117,11 +111,8 @@ Lunch and dinner pickup-focused location serving burgers, hot dogs, sourdough sa
 <div class="location-meta">
 
 <p>
-<strong>Hours</strong><br>
-Wednesday, Thursday &amp; Sunday<br>
-10:30 AM – 9:00 PM<br><br>
-Friday &amp; Saturday<br>
-10:30 AM – 10:00 PM
+<strong>Visit details</strong><br>
+See the Willow Bend location page for the current hours shown on this site.
 </p>
 
 <p>
@@ -132,7 +123,7 @@ Aledo, TX 76008
 
 <p>
 <strong>Phone</strong><br>
-682-224-0888
+<a href="tel:+16822240888">682-224-0888</a>
 </p>
 
 </div>
@@ -140,6 +131,7 @@ Aledo, TX 76008
 <div class="location-actions">
 <a class="btn primary" href="willow-bend.html">Willow Bend Info</a>
 <a class="btn secondary" href="willow-bend-menu.html">Willow Bend Menu</a>
+<a class="btn secondary" href="https://www.google.com/maps/search/?api=1&amp;query=280+Willow+Bend+Suite+300+Aledo+TX+76008" target="_blank" rel="noopener">Directions</a>
 </div>
 
 </article>
@@ -148,19 +140,20 @@ Aledo, TX 76008
 
 <div style="height:1px; background:rgba(0,0,0,.06); margin:10px 0;"></div>
 
-<section>
+<div class="lead-form-intro" id="contact-form">
+<section class="lead-form-intro__copy">
 
 <span class="tag">Inquiry Form</span>
 
-<h3>Send us a message</h3>
+<h2>Send us a message</h2>
 
 <p style="max-width:760px; margin-bottom:0;">
-Fill out the form below and we will get back to you as soon as possible.
+Choose the relevant location when you can. That gives your question useful context without making you repeat the address or menu.
 </p>
 
 </section>
 
-<section class="card" style="background:#efe7da; padding:26px; border:1px solid rgba(0,0,0,.08);">
+<section class="card lead-form-panel" style="background:#efe7da; padding:26px; border:1px solid rgba(0,0,0,.08);">
 
 <div style="
 background:#ffffff;
@@ -170,7 +163,9 @@ border:1px solid rgba(0,0,0,.08);
 box-shadow:0 22px 48px rgba(22,20,18,.12), 0 8px 20px rgba(22,20,18,.08);
 ">
 
-<form action="https://formspree.io/f/xojpwgwb" method="POST" style="display:grid; gap:14px;">
+<form action="https://formspree.io/f/xojpwgwb" method="POST" style="display:grid; gap:14px;" aria-describedby="contact-form-help">
+
+<p id="contact-form-help" class="form-help">Fields marked required must be completed. Your location choice helps route the message clearly.</p>
 
 <input type="hidden" name="_subject" value="The Sour Boule Contact Form Submission">
 
@@ -226,6 +221,8 @@ box-shadow:0 22px 48px rgba(22,20,18,.12), 0 8px 20px rgba(22,20,18,.08);
 </div>
 
 </section>
+
+</div>
 
 </div>
 
