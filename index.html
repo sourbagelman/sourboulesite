@@ -74,7 +74,16 @@
     </a>
     <nav class="site-nav" aria-label="Primary navigation">
       <a href="index.html" aria-current="page">Home</a>
-      <a href="locations.html#location-choices">Menus &amp; order</a>
+      <details>
+        <summary>Menus &amp; order</summary>
+        <div class="site-nav__popover">
+          <a href="menu.html">Fort Worth Menu<small>Breakfast, lunch, coffee &amp; bread</small></a>
+          <a href="willow-bend-menu.html">Willow Bend Menu<small>Lunch, dinner &amp; pickup</small></a>
+          <div class="site-nav__popover-divider" aria-hidden="true"></div>
+          <a href="https://cash.app/order/$thesourboule" target="_blank" rel="noopener">Order Fort Worth<small>Opens Cash App</small></a>
+          <a href="https://cash.app/$thesourboule" target="_blank" rel="noopener noreferrer">Order Willow Bend<small>Opens Cash App</small></a>
+        </div>
+      </details>
       <a href="locations.html">Locations</a>
       <a href="breadclub.html">Bread Club</a>
       <a href="catering.html">Catering</a>
@@ -91,7 +100,12 @@
       <summary aria-label="Open navigation menu">Menu</summary>
       <nav class="mobile-nav__panel" aria-label="Mobile navigation">
         <a href="index.html" aria-current="page">Home</a>
-        <a href="locations.html#location-choices">Menus &amp; order</a>
+        <span class="mobile-nav__label">Menus &amp; order</span>
+        <a href="menu.html">Fort Worth Menu</a>
+        <a href="willow-bend-menu.html">Willow Bend Menu</a>
+        <a href="https://cash.app/order/$thesourboule" target="_blank" rel="noopener">Order Fort Worth</a>
+        <a href="https://cash.app/$thesourboule" target="_blank" rel="noopener noreferrer">Order Willow Bend</a>
+        <span class="mobile-nav__label">Explore</span>
         <a href="locations.html">Locations</a>
         <a href="breadclub.html">Bread Club</a>
         <a href="catering.html">Catering</a>
@@ -100,7 +114,7 @@
         <a href="contact.html">Contact</a>
       </nav>
     </details>
-    <a class="btn primary site-header__order" href="locations.html#location-choices">Order by location</a>
+    <details class="site-order-choice"><summary class="btn primary site-header__order">Order online</summary><div class="site-order-choice__popover"><a href="https://cash.app/order/$thesourboule" target="_blank" rel="noopener">Order Fort Worth<small>Opens Cash App</small></a><a href="https://cash.app/$thesourboule" target="_blank" rel="noopener noreferrer">Order Willow Bend<small>Opens Cash App</small></a></div></details>
   </div>
 </header>
 

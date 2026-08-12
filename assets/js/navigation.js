@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const mobileNav = document.querySelector(".mobile-nav");
+  const disclosureMenus = Array.from(document.querySelectorAll(".site-nav details, .mobile-nav, .site-order-choice"));
 
   if (mobileNav) {
     const mobileSummary = mobileNav.querySelector("summary");
@@ -12,10 +13,20 @@ document.addEventListener("DOMContentLoaded", function () {
     syncMobileState();
   }
 
+  disclosureMenus.forEach(function (menu) {
+    menu.addEventListener("toggle", function () {
+      if (!menu.open) return;
+
+      disclosureMenus.forEach(function (otherMenu) {
+        if (otherMenu !== menu) otherMenu.open = false;
+      });
+    });
+  });
+
   document.addEventListener("keydown", function (event) {
     if (event.key !== "Escape") return;
 
-    const openMenu = document.querySelector(".site-nav details[open], .mobile-nav[open]");
+    const openMenu = document.querySelector(".site-nav details[open], .mobile-nav[open], .site-order-choice[open]");
     if (!openMenu) return;
 
     const summary = openMenu.querySelector("summary");

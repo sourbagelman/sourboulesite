@@ -1193,8 +1193,67 @@ body {
   background: var(--color-surface-subtle);
 }
 
+.site-nav__popover-divider {
+  height: 1px;
+  margin: var(--space-1) var(--space-3);
+  background: var(--color-border);
+}
+
+.site-order-choice {
+  position: relative;
+  min-width: max-content;
+}
+
 .site-header__order {
   min-width: max-content;
+  cursor: pointer;
+  list-style: none;
+}
+
+.site-header__order::-webkit-details-marker {
+  display: none;
+}
+
+.site-header__order::after {
+  content: "↓";
+  margin-inline-start: 0.5rem;
+  font-size: 0.72rem;
+}
+
+.site-order-choice__popover {
+  position: absolute;
+  inset-block-start: calc(100% + 0.6rem);
+  inset-inline-end: 0;
+  display: grid;
+  width: max-content;
+  min-width: 15rem;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: 0 18px 44px rgba(22, 20, 18, 0.18);
+}
+
+.site-order-choice__popover a {
+  display: grid;
+  gap: 0.1rem;
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-size: 0.92rem;
+  font-weight: 750;
+}
+
+.site-order-choice__popover a:hover,
+.site-order-choice__popover a:focus-visible {
+  background: var(--color-surface-subtle);
+}
+
+.site-order-choice__popover small {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-weight: 500;
 }
 
 .mobile-nav {
@@ -1283,6 +1342,21 @@ body {
 .page-intro--compact {
   min-height: auto;
   padding-block: clamp(var(--space-8), 5vw, var(--space-12));
+}
+
+.location-directory-intro {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.location-directory-intro :where(h1, p) {
+  margin: 0;
+}
+
+.location-directory-intro p {
+  max-width: 52rem;
+  color: var(--color-text-muted);
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
 }
 
 .page-intro__content {
@@ -1855,6 +1929,10 @@ body {
   .site-header__order {
     min-height: 44px;
     padding-inline: var(--space-4);
+  }
+
+  .site-order-choice__popover {
+    min-width: min(15rem, calc(100vw - 32px));
   }
 
   .image-split,
