@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const mobileNav = document.querySelector(".mobile-nav");
-  const disclosureMenus = Array.from(document.querySelectorAll(".site-nav details, .mobile-nav, .site-order-choice"));
+  const disclosureMenus = Array.from(document.querySelectorAll(".site-nav details, .mobile-nav"));
 
   if (mobileNav) {
     const mobileSummary = mobileNav.querySelector("summary");
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("keydown", function (event) {
     if (event.key !== "Escape") return;
 
-    const openMenu = document.querySelector(".site-nav details[open], .mobile-nav[open], .site-order-choice[open]");
+    const openMenu = document.querySelector(".site-nav details[open], .mobile-nav[open]");
     if (!openMenu) return;
 
     const summary = openMenu.querySelector("summary");
