@@ -17,7 +17,7 @@
 
 // Favicon
 (function () {
-  const faviconHref = "images/logo.png";
+  const faviconHref = "images/favicon-32.png";
 
   let favicon = document.querySelector("link[rel='icon']");
   if (!favicon) {
@@ -26,7 +26,7 @@
     document.head.appendChild(favicon);
   }
 
-  favicon.type = "image/jpeg";
+  favicon.type = "image/png";
   favicon.href = faviconHref;
 })();
 
