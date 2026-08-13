@@ -1,11 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Sour Boule Push Notifications</title>
-<meta name="robots" content="noindex, nofollow">
-<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
 
 <style>
 body{
@@ -120,13 +119,9 @@ button:hover{
     font-weight:bold;
 }
 </style>
-<link rel="stylesheet" href="assets/css/style.css">
 </head>
 
-<body class="utility-page">
-<a class="site-skip-link" href="#main-content">Skip to admin content</a>
-<header class="utility-header"><div class="utility-header__inner"><strong>Push Admin</strong><a href="index.html">Return to public site</a></div></header>
-<main id="main-content">
+<body>
 
 <div class="card" id="loginCard">
 
@@ -136,7 +131,6 @@ button:hover{
         Enter the admin password.
     </p>
 
-    <label class="visually-hidden" for="password">Admin password</label>
     <input
         type="password"
         id="password"
@@ -157,9 +151,9 @@ button:hover{
         </button>
     </div>
 
-    <h2>Send Push Notification</h2>
+    <h1>Send Push Notification</h1>
 
-    <label for="title">Title</label>
+    <label>Title</label>
 
     <input
         id="title"
@@ -167,7 +161,7 @@ button:hover{
         placeholder="Fresh Bread Alert"
     >
 
-    <label for="message">Message</label>
+    <label>Message</label>
 
     <textarea
         id="message"
@@ -185,7 +179,7 @@ button:hover{
         Send Notification
     </button>
 
-    <div id="status" role="status" aria-live="polite"></div>
+    <div id="status"></div>
 
 </div>
 
@@ -198,8 +192,6 @@ button:hover{
     </div>
 
 </div>
-
-</main>
 
 <script>
 
@@ -415,3 +407,4 @@ async function loadHistory(){
 
 </body>
 </html>
+```
