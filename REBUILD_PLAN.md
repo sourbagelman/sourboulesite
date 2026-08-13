@@ -25,7 +25,7 @@ Remote default branch at audit: `main` at the same commit
 | `/` (`index.html`) | Zero-content entry point: “Which Sour Boule location do I need?” | Automatic redirect to `brand-home.html` | Meta refresh and JS replace to brand home. |
 | `/brand-home.html` | Location chooser: “Fort Worth or Willow Bend?” | Select a location | Links to both location pages and telephone numbers. |
 | `/fort-worth.html` | Fort Worth landing page: “What is here, when is it open, and how do I order?” | Cash App order; secondary menu | Links to shared brand nav, Fort Worth menu, Bread Club, catering, events, contact. |
-| `/willow-bend.html` | Willow Bend/Aledo landing: “What can I order and where is pickup?” | Menu/order; secondary phone | Links to location chooser, Willow Bend menu, Bread Club/account. |
+| `/willow-bend.html` | Willow Bend/Willow Park landing: “What can I order and where is pickup?” | Menu/order; secondary phone | Links to location chooser, Willow Bend menu, Bread Club/account. |
 | `/menu.html` | Fort Worth menu: “What food and pricing are available?” | Cash App order | Shared brand nav and footer. |
 | `/willow-bend-menu.html` | Willow Bend menu: “What food and pricing are available?” | Return to Willow Bend/order pathway | Willow Bend navigation. |
 | `/breadclub.html` | Subscription signup: “How does Bread Club work and what will I receive/pay?” | Live Square/Supabase signup | Shared nav, account management, location/menu links. |
@@ -111,7 +111,7 @@ Remote default branch at audit: `main` at the same commit
 
 ### Low/content-quality findings
 
-1. The location chooser says Willow Bend is in Aledo while route and schema naming mix “Willow Bend” and “Aledo”; keep one customer-friendly naming convention with accurate locality schema.
+1. Public-facing geography identifies Willow Bend with Willow Park while the verified postal address and locality schema remain unchanged.
 2. `brand-home.html` contains the apparent typo “hit dogs.”
 3. The sitemap has no `lastmod` values and omits account/admin routes appropriately.
 4. Favicon injection declares the PNG logo as `image/jpeg`.

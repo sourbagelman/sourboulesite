@@ -137,7 +137,7 @@ The following are protected even though two Cash App URL shapes currently coexis
 
 - `https://cash.app/order/$thesourboule` in `about.html`, `breadclub.html`, `catering.html`, `contact.html`, `events.html`, `fort-worth.html`, and `menu.html`.
 - `https://cash.app/$thesourboule` in `breadclub-account.html` and `willow-bend.html`.
-- `tel:+16822503052` for Fort Worth and `tel:+16822240888` for Willow Bend/Aledo where present.
+- `tel:+16822503052` for Fort Worth and `tel:+16822240888` for Willow Bend/Willow Park where present.
 
 Do not normalize the URLs without owner validation. `assets/js/main.js` currently records order analytics only for `cash.app/order` (and `squareup.com`), so URL shape also affects reporting.
 
