@@ -181,7 +181,7 @@
 
     <form id="loginForm">
       <label for="email">Bread Club email</label>
-      <input id="email" type="email" placeholder="oscar@thesourboule.com" required />
+      <input id="email" type="email" autocomplete="email" placeholder="oscar@thesourboule.com" required />
       <button id="loginBtn" type="submit">Email Me a Login Link</button>
     </form>
 
@@ -510,6 +510,7 @@ signOutNoAccountBtn.onclick = async () => {
   await loadAccount();
 })();
 </script>
+<script src="assets/js/navigation.js"></script>
 
 </body>
 </html>

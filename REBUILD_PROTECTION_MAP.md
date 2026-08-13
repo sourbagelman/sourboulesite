@@ -17,7 +17,7 @@ Before changing any protected file, compare the proposed edit with this map. Vis
 | Path | Purpose | Protected region or contract | Why it must remain stable |
 | --- | --- | --- | --- |
 | `CNAME` | GitHub Pages custom domain | Exact value `thesourboule.com` | Changing it can detach the live domain or alter production routing. |
-| `index.html` | Root entry redirect | Meta refresh and `window.location.replace("brand-home.html")`; canonical target | Root traffic currently depends on this redirect. Any future consolidation needs explicit SEO/hosting validation. |
+| `index.html` | Canonical public homepage | Root canonical, homepage metadata/structured data, shared navigation, location discovery, and conversion paths | Root traffic and the sole canonical homepage depend on this page remaining a complete, indexable experience. |
 | `robots.txt` | Crawler policy | Sitemap URL and crawl policy | A mistake can de-index the public site or hide the sitemap. |
 | `sitemap.xml` | Search discovery | Production URLs under `https://thesourboule.com/` | URL changes must be coordinated with canonicals and redirects. |
 | `assets/js/main.js` lines 1–53 | GA4 bootstrap and order-click analytics | `GA_ID`, dynamic `gtag.js` URL, `window.dataLayer`, `window.gtag`, `order_click`, URL matching for `squareup.com` and `cash.app/order` | Renaming events or changing URL matching breaks analytics continuity. |
@@ -133,20 +133,15 @@ Why protected: Formspree routing and owner notifications depend on the exact end
 
 ### Ordering and telephone links
 
-The following are protected even though two Cash App URL shapes currently coexist:
-
-- `https://cash.app/order/$thesourboule` in `about.html`, `breadclub.html`, `catering.html`, `contact.html`, `events.html`, `fort-worth.html`, and `menu.html`.
-- `https://cash.app/$thesourboule` in `breadclub-account.html` and `willow-bend.html`.
+All public ordering actions use the protected shared URL `https://cash.app/order/$thesourboule`. Guests choose their pickup location after opening Square; no public order action claims to preselect Fort Worth or Willow Bend.
 - `tel:+16822503052` for Fort Worth and `tel:+16822240888` for Willow Bend/Willow Park where present.
 
-Do not normalize the URLs without owner validation. `assets/js/main.js` currently records order analytics only for `cash.app/order` (and `squareup.com`), so URL shape also affects reporting.
+Do not change the shared ordering URL without owner validation. `assets/js/main.js` records order analytics for `cash.app/order` (and `squareup.com`), so its URL shape also affects reporting.
 
 ### Third-party presentation/content dependencies
 
 - Google Fonts (`fonts.googleapis.com`, `fonts.gstatic.com`) on public pages.
 - Unsplash image URLs in `assets/css/style.css`.
-- Podcast cover host `https://media.thesourboule.com/artwork/podcast-cover.jpg` in `podcast.xml`.
-- Podcast self/canonical URLs under `https://thesourboule.com/`.
 
 These are not backend logic, but their URLs are current content/performance contracts. Replace only through the documented image/font migration plan, with visual and feed validation.
 
