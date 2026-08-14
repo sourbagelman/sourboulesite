@@ -1528,6 +1528,52 @@ body {
   color: inherit;
 }
 
+.payment-note {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid rgba(22, 20, 18, 0.12);
+  border-radius: var(--radius-md);
+  background: var(--surface-warm);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+}
+
+.payment-note p {
+  margin: 0;
+  color: inherit;
+}
+
+.payment-note__symbol {
+  display: grid;
+  flex: 0 0 2rem;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-text);
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.payment-note--compact {
+  padding: var(--space-2) var(--space-3);
+}
+
+.payment-note--compact .payment-note__symbol {
+  flex-basis: 1.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 0.9rem;
+}
+
 .image-split {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.95fr);
