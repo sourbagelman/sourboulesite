@@ -1,0 +1,5 @@
+# PREVIEW-ONLY ROBOTS POLICY
+# Keep this file blocking until the site is moved to the production domain.
+User-agent: *
+Disallow: /
+

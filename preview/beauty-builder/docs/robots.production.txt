@@ -1,0 +1,6 @@
+# PRODUCTION ROBOTS POLICY — activate only on thebeautybuilderco.com after launch approval.
+User-agent: *
+Allow: /
+
+Sitemap: https://thebeautybuilderco.com/sitemap.xml
+
