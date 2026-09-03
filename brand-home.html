@@ -1,4 +1,3 @@
-html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +9,7 @@ html
 
 <meta
   name="description"
-  content="Choose The Sour Boule in Fort Worth or Willow Bend in Aledo. View each location's menu, address, hours, phone number, and ordering information."
+  content="Choose The Sour Boule in Fort Worth or Willow Bend in Aledo. View each location's menu, address, hours, phone number, and order pickup online."
 >
 
 <link rel="canonical" href="https://thesourboule.com/brand-home.html">
@@ -115,10 +114,8 @@ html
 :root {
   --black: #111111;
   --white: #ffffff;
-  --soft: #f6f6f3;
   --muted: #666666;
   --line: rgba(17,17,17,.14);
-  --alert-red: #ef3f35;
 }
 
 * {
@@ -140,29 +137,12 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 28px;
   padding: 28px;
 }
 
 a {
   color: inherit;
   text-decoration: none;
-}
-
-.pickup-alert {
-  width: min(100%, 980px);
-  padding: 16px 22px;
-  background: var(--alert-red);
-  color: var(--black);
-  border: 3px solid var(--black);
-  border-radius: 14px;
-  font-size: clamp(.95rem, 2.2vw, 1.15rem);
-  font-weight: 800;
-  line-height: 1.4;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: .025em;
-  box-shadow: 5px 5px 0 var(--black);
 }
 
 .splash {
@@ -201,7 +181,7 @@ h1 {
 
 .sub {
   color: var(--muted);
-  max-width: 620px;
+  max-width: 660px;
   margin: 0 auto;
   font-size: 1.05rem;
   line-height: 1.7;
@@ -274,16 +254,49 @@ h1 {
   text-underline-offset: 3px;
 }
 
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
 .button {
   display: inline-flex;
+  flex: 1 1 150px;
   align-items: center;
   justify-content: center;
-  margin-top: 22px;
   min-height: 46px;
   padding: 12px 18px;
-  border-radius: 999px;
   border: 1px solid currentColor;
+  border-radius: 999px;
   font-weight: 800;
+  text-align: center;
+  transition:
+    background-color .16s ease,
+    color .16s ease,
+    transform .16s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button.primary {
+  background: var(--black);
+  color: var(--white);
+  border-color: var(--black);
+}
+
+.location-card.dark .button.primary {
+  background: var(--white);
+  color: var(--black);
+  border-color: var(--white);
+}
+
+.location-card.dark .button.secondary {
+  color: var(--white);
+  border-color: rgba(255,255,255,.7);
 }
 
 .footer-note {
@@ -299,12 +312,6 @@ h1 {
     padding: 18px;
   }
 
-  .pickup-alert {
-    padding: 14px 16px;
-    border-radius: 12px;
-    box-shadow: 4px 4px 0 var(--black);
-  }
-
   .location-grid {
     grid-template-columns: 1fr;
   }
@@ -312,16 +319,21 @@ h1 {
   .location-card {
     text-align: center;
   }
+
+  .card-actions {
+    flex-direction: column;
+  }
+
+  .button {
+    flex-basis: auto;
+    width: 100%;
+  }
 }
 </style>
 
 </head>
 
 <body>
-
-<div class="pickup-alert" role="alert">
-Please verify pickup location using the Location Picker on the ordering page
-</div>
 
 <main class="splash">
 
@@ -337,7 +349,7 @@ Please verify pickup location using the Location Picker on the ordering page
 <h1>Choose your location.</h1>
 
 <p class="sub">
-Two locations built around fresh sourdough, house-made food, and real ingredients. Choose where you are headed to see the correct menu, hours, and location information.
+Choose a location for menus, hours, and store information—or go directly to pickup ordering for the correct restaurant.
 </p>
 
 </section>
@@ -363,13 +375,27 @@ Wednesday–Sunday • 8 AM–2 PM<br>
 </a>
 </div>
 
+<div class="card-actions">
+
 <a
-  class="button"
+  class="button secondary"
   href="fort-worth.html"
-  aria-label="Visit The Sour Boule Fort Worth website"
+  aria-label="View The Sour Boule Fort Worth location information"
 >
-Go to Fort Worth
+Location Info
 </a>
+
+<a
+  class="button primary"
+  href="https://cash.app/$thesourboule/l/CALL_CAESDUwxS0FDNkRTS1NROU0/pickup"
+  target="_blank"
+  rel="noopener"
+  aria-label="Order pickup from The Sour Boule Fort Worth"
+>
+Order Pickup
+</a>
+
+</div>
 
 </article>
 
@@ -393,13 +419,27 @@ Friday–Sunday • 11 AM–9 PM<br>
 </a>
 </div>
 
+<div class="card-actions">
+
 <a
-  class="button"
+  class="button secondary"
   href="willow-bend.html"
-  aria-label="Visit The Sour Boule Willow Bend website"
+  aria-label="View The Sour Boule Willow Bend location information"
 >
-Go to Willow Bend
+Location Info
 </a>
+
+<a
+  class="button primary"
+  href="https://cash.app/$thesourboule/l/CALL_CAESDUxaVlhKOFBKRjI0MkM/pickup"
+  target="_blank"
+  rel="noopener"
+  aria-label="Order pickup from The Sour Boule Willow Bend"
+>
+Order Pickup
+</a>
+
+</div>
 
 </article>
 
@@ -413,4 +453,3 @@ Slow bread. Real ingredients. Built intentionally.
 
 </body>
 </html>
-
