@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>Bread Club Account | The Sour Boule</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="assets/css/style.css">
@@ -144,28 +147,33 @@
 
 <body>
 
-
 <header>
   <div class="container nav">
+
     <div class="brand">
-      <img src="images/logo.png" class="brand-mark">
+      <img
+        src="images/logo.png"
+        class="brand-mark"
+        alt="The Sour Boule logo"
+      >
       <span>The Sour Boule</span>
     </div>
 
     <nav class="nav-links">
-      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="brand-home.html">Home</a>
       <a class="nav-link active" href="breadclub.html">Bread Club</a>
       <a class="nav-link" href="about.html">About</a>
       <a class="nav-link" href="catering.html">Catering</a>
       <a class="nav-link" href="events.html">Private Events</a>
-      <a class="nav-link" href="gallery.html">Gallery</a>
       <a class="nav-link" href="contact.html">Contact</a>
     </nav>
 
     <div class="nav-actions">
       <a class="btn secondary" href="menu.html">Menu</a>
-      <a class="btn primary" href="https://cash.app/$thesourboule" target="_blank">Order Now</a>
+      <a class="btn secondary" href="brand-home.html">Locations</a>
+      <a class="btn primary" href="brand-home.html">Choose Pickup Location</a>
     </div>
+
   </div>
 </header>
 
@@ -173,19 +181,35 @@
 
   <div class="account-card">
     <p class="breadclub-kicker">The Sour Boule</p>
-    <h1 class="breadclub-title" style="margin-bottom:10px;">Bread Club Account</h1>
+
+    <h1 class="breadclub-title" style="margin-bottom:10px;">
+      Bread Club Account
+    </h1>
+
     <p class="muted" style="font-size:1rem;">
       Log in with your Bread Club email to view and manage your subscription.
     </p>
   </div>
 
   <div id="loginView" class="account-card">
+
     <h2>Bread Club Login</h2>
-    <p class="muted">Use your Bread Club email to access your account.</p>
+
+    <p class="muted">
+      Use your Bread Club email to access your account.
+    </p>
 
     <form id="loginForm">
-      <input id="email" type="email" placeholder="oscar@thesourboule.com" required />
-      <button id="loginBtn" type="submit">Email Me a Login Link</button>
+      <input
+        id="email"
+        type="email"
+        placeholder="oscar@thesourboule.com"
+        required
+      >
+
+      <button id="loginBtn" type="submit">
+        Email Me a Login Link
+      </button>
     </form>
 
     <div id="status" class="muted"></div>
@@ -193,36 +217,61 @@
     <div class="account-note">
       After you log in, you can review your subscription details and pause, resume, or cancel your membership.
     </div>
+
   </div>
 
   <div id="noAccountView" class="account-card" style="display:none;">
+
     <h2>No Bread Club Account Found</h2>
+
     <p class="muted">
       You are signed in, but we could not find a Bread Club membership for this email address.
     </p>
 
     <div class="account-actions">
-      <a class="btn secondary" href="breadclub.html">Back to Bread Club</a>
-      <button id="signOutNoAccountBtn" class="secondary" type="button">Sign Out</button>
+      <a class="btn secondary" href="breadclub.html">
+        Back to Bread Club
+      </a>
+
+      <button
+        id="signOutNoAccountBtn"
+        class="secondary"
+        type="button"
+      >
+        Sign Out
+      </button>
     </div>
+
   </div>
 
   <div id="accountView" class="account-card" style="display:none;">
+
     <div style="display:flex; justify-content:space-between; gap:16px; align-items:flex-start; flex-wrap:wrap;">
+
       <div>
         <h2 style="margin-bottom:8px;">Your Bread Club</h2>
         <p id="accountEmail" class="muted"></p>
       </div>
 
       <div>
-        <button id="logoutBtn" class="secondary" style="margin-top:0;">Sign Out</button>
+        <button
+          id="logoutBtn"
+          class="secondary"
+          style="margin-top:0;"
+        >
+          Sign Out
+        </button>
       </div>
+
     </div>
 
     <div class="account-grid">
+
       <div class="account-field">
         <div class="account-label">Status</div>
-        <div class="account-value"><span id="statusPill" class="account-status-pill">—</span></div>
+        <div class="account-value">
+          <span id="statusPill" class="account-status-pill">—</span>
+        </div>
       </div>
 
       <div class="account-field">
@@ -259,6 +308,7 @@
         <div class="account-label">Notes</div>
         <div id="notes" class="account-value">—</div>
       </div>
+
     </div>
 
     <div class="account-actions">
@@ -268,21 +318,34 @@
       <button id="reloadBtn" class="secondary">Reload</button>
     </div>
 
-    <div id="actionStatus" class="muted" style="margin-top:12px;"></div>
+    <div
+      id="actionStatus"
+      class="muted"
+      style="margin-top:12px;"
+    ></div>
 
     <div class="account-note">
       Need to make a new signup or review plan details? Go back to the main Bread Club page.
       <br><br>
-      <a href="breadclub.html" style="color:#f0cf6e; font-weight:700; text-decoration:none;">← Back to Bread Club</a>
+
+      <a
+        href="breadclub.html"
+        style="color:#f0cf6e; font-weight:700; text-decoration:none;"
+      >
+        ← Back to Bread Club
+      </a>
     </div>
+
   </div>
 
 </main>
 
 <footer>
   <div class="container footer-grid">
+
     <div>
       <strong>© The Sour Boule</strong>
+
       <p class="small">
         3801 Southwest Blvd • Fort Worth, TX 76116<br>
         Phone: 682-250-3052
@@ -290,23 +353,28 @@
     </div>
 
     <div class="footer-links small">
-      <a href="index.html">Home</a>
+      <a href="brand-home.html">Home</a>
       <a href="menu.html">Menu</a>
       <a href="breadclub.html">Bread Club</a>
       <a href="catering.html">Catering</a>
       <a href="events.html">Events</a>
       <a href="contact.html">Contact</a>
     </div>
+
   </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 const SUPABASE_URL = "https://wbhedqwubgmsqgcugimf.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_WZpmBHBuZXnFmpVVwQ871Q_zraxbOX_";
 const FUNCTION_URL = "https://wbhedqwubgmsqgcugimf.supabase.co/functions/v1/customer-manage-breadclub-subscription";
 
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
 
 const loginView = document.getElementById("loginView");
 const noAccountView = document.getElementById("noAccountView");
@@ -341,7 +409,10 @@ function showView(view) {
   loginView.style.display = "none";
   noAccountView.style.display = "none";
   accountView.style.display = "none";
-  if (view) view.style.display = "block";
+
+  if (view) {
+    view.style.display = "block";
+  }
 }
 
 function getCustomerRedirectUrl() {
@@ -351,10 +422,16 @@ function getCustomerRedirectUrl() {
 async function finishAuthRedirectIfNeeded() {
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
-  if (!code) return;
+
+  if (!code) {
+    return;
+  }
 
   const { error } = await sb.auth.exchangeCodeForSession(code);
-  if (error) throw error;
+
+  if (error) {
+    throw error;
+  }
 
   const cleanUrl = window.location.origin + window.location.pathname;
   window.history.replaceState({}, document.title, cleanUrl);
@@ -372,7 +449,10 @@ async function sendMagicLink(email) {
     }
   });
 
-  console.log("Bread Club login response:", { data, error });
+  console.log("Bread Club login response:", {
+    data,
+    error
+  });
 
   loginBtn.disabled = false;
 
@@ -384,10 +464,11 @@ async function sendMagicLink(email) {
   status.textContent = "Check your email for your Bread Club login link.";
 }
 
-loginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
 
   const email = emailInput.value.trim().toLowerCase();
+
   if (!email) {
     status.textContent = "Enter your email.";
     return;
@@ -410,7 +491,7 @@ function fillAccount(member) {
   notes.textContent = member.notes || "—";
 
   const statusValue = (member.status || "").toLowerCase();
-  const hasSubscription = !!member.square_subscription_id;
+  const hasSubscription = Boolean(member.square_subscription_id);
 
   const isActive = statusValue === "active";
   const isPaused = statusValue === "paused";
@@ -423,22 +504,29 @@ function fillAccount(member) {
 
 async function loadAccount() {
   const { data, error } = await sb.auth.getUser();
+
   if (error || !data.user) {
     showView(loginView);
     return;
   }
 
   const email = data.user.email?.toLowerCase().trim();
+
   if (!email) {
     showView(loginView);
     return;
   }
 
-  const { data: member, error: memberError } = await sb
+  const {
+    data: member,
+    error: memberError
+  } = await sb
     .from("bread_club_members")
     .select("*")
     .eq("email", email)
-    .order("created_at", { ascending: false })
+    .order("created_at", {
+      ascending: false
+    })
     .limit(1)
     .maybeSingle();
 
@@ -458,16 +546,28 @@ async function loadAccount() {
 }
 
 async function manage(action) {
-  if (!currentMember) return;
+  if (!currentMember) {
+    return;
+  }
 
-  actionStatus.textContent = `${action.charAt(0).toUpperCase() + action.slice(1)}ing subscription...`;
+  actionStatus.textContent =
+    `${action.charAt(0).toUpperCase() + action.slice(1)}ing subscription...`;
 
   try {
-    const { data: sessionData, error: sessionError } = await sb.auth.getSession();
-    if (sessionError) throw sessionError;
+    const {
+      data: sessionData,
+      error: sessionError
+    } = await sb.auth.getSession();
+
+    if (sessionError) {
+      throw sessionError;
+    }
 
     const accessToken = sessionData?.session?.access_token;
-    if (!accessToken) throw new Error("No active auth session.");
+
+    if (!accessToken) {
+      throw new Error("No active auth session.");
+    }
 
     const response = await fetch(FUNCTION_URL, {
       method: "POST",
@@ -485,14 +585,20 @@ async function manage(action) {
     const result = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(result?.error || `${action} failed.`);
+      throw new Error(
+        result?.error || `${action} failed.`
+      );
     }
 
-    actionStatus.textContent = `${action.charAt(0).toUpperCase() + action.slice(1)} complete.`;
+    actionStatus.textContent =
+      `${action.charAt(0).toUpperCase() + action.slice(1)} complete.`;
+
     await loadAccount();
-  } catch (err) {
-    console.error(err);
-    actionStatus.textContent = err?.message || `${action} failed.`;
+  } catch (error) {
+    console.error(error);
+
+    actionStatus.textContent =
+      error?.message || `${action} failed.`;
   }
 }
 
@@ -516,9 +622,11 @@ signOutNoAccountBtn.onclick = async () => {
 (async function boot() {
   try {
     await finishAuthRedirectIfNeeded();
-  } catch (err) {
-    console.error(err);
-    status.textContent = err?.message || "Login link could not be completed.";
+  } catch (error) {
+    console.error(error);
+
+    status.textContent =
+      error?.message || "Login link could not be completed.";
   }
 
   await loadAccount();
