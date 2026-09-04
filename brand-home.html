@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The Sour Boule | Fort Worth & Aledo Locations</title>
+<title>The Sour Boule | Fort Worth &amp; Aledo Locations</title>
 
 <meta
   name="description"
@@ -73,7 +73,7 @@
         "Cafe",
         "Sourdough Sandwiches",
         "Burgers",
-        "Hot Dogs",
+        "Hit Dogs",
         "Salads"
       ],
       "address": {
@@ -134,10 +134,9 @@ body {
 body {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 28px;
+  padding: 40px 28px;
 }
 
 a {
@@ -159,6 +158,7 @@ a {
 }
 
 .logo-wrap img {
+  display: block;
   width: 96px;
   height: 96px;
   border-radius: 999px;
@@ -166,23 +166,23 @@ a {
 }
 
 .brand-name {
+  font-size: .95rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .18em;
-  font-size: .95rem;
 }
 
 h1 {
+  margin: 0;
   font-family: "Playfair Display", Georgia, serif;
   font-size: clamp(2.6rem, 7vw, 5.4rem);
   line-height: .95;
-  margin: 0;
 }
 
 .sub {
-  color: var(--muted);
   max-width: 660px;
   margin: 0 auto;
+  color: var(--muted);
   font-size: 1.05rem;
   line-height: 1.7;
 }
@@ -190,14 +190,18 @@ h1 {
 .location-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
   gap: 18px;
   margin-top: 8px;
 }
 
 .location-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 30px;
   border: 1px solid var(--line);
   border-radius: 28px;
-  padding: 30px;
   background: var(--white);
   text-align: left;
   transition:
@@ -224,26 +228,28 @@ h1 {
 
 .kicker {
   display: inline-block;
+  margin-bottom: 14px;
   font-size: .72rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .18em;
-  margin-bottom: 14px;
 }
 
 .location-card h2 {
+  margin: 0 0 10px;
   font-family: "Playfair Display", Georgia, serif;
   font-size: 2.2rem;
-  margin: 0 0 10px;
 }
 
-.location-card p {
+.location-description {
+  min-height: calc(1.65em * 3);
+  margin: 0 0 18px;
   color: var(--muted);
   line-height: 1.65;
-  margin: 0 0 18px;
 }
 
 .meta {
+  margin: 0;
   color: var(--muted);
   font-size: .95rem;
   line-height: 1.75;
@@ -255,19 +261,20 @@ h1 {
 }
 
 .card-actions {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
-  margin-top: 22px;
+  margin-top: auto;
+  padding-top: 22px;
 }
 
 .button {
   display: inline-flex;
-  flex: 1 1 150px;
   align-items: center;
   justify-content: center;
+  min-width: 0;
   min-height: 46px;
-  padding: 12px 18px;
+  padding: 12px 14px;
   border: 1px solid currentColor;
   border-radius: 999px;
   font-weight: 800;
@@ -283,20 +290,20 @@ h1 {
 }
 
 .button.primary {
+  border-color: var(--black);
   background: var(--black);
   color: var(--white);
-  border-color: var(--black);
 }
 
 .location-card.dark .button.primary {
+  border-color: var(--white);
   background: var(--white);
   color: var(--black);
-  border-color: var(--white);
 }
 
 .location-card.dark .button.secondary {
-  color: var(--white);
   border-color: rgba(255,255,255,.7);
+  color: var(--white);
 }
 
 .footer-note {
@@ -309,7 +316,7 @@ h1 {
   body {
     align-items: center;
     justify-content: flex-start;
-    padding: 18px;
+    padding: 24px 18px;
   }
 
   .location-grid {
@@ -320,12 +327,17 @@ h1 {
     text-align: center;
   }
 
+  .location-description {
+    min-height: 0;
+  }
+
   .card-actions {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    margin-top: 22px;
+    padding-top: 0;
   }
 
   .button {
-    flex-basis: auto;
     width: 100%;
   }
 }
@@ -362,7 +374,7 @@ Choose a location for menus, hours, and store information—or go directly to pi
 
 <h2>Fort Worth</h2>
 
-<p>
+<p class="location-description">
 Breakfast, lunch, sourdough bread, bagels, coffee, Bread Club, catering, and private events.
 </p>
 
@@ -389,7 +401,7 @@ Location Info
   class="button primary"
   href="https://cash.app/$thesourboule/l/CALL_CAESDUwxS0FDNkRTS1NROU0/pickup"
   target="_blank"
-  rel="noopener"
+  rel="noopener noreferrer"
   aria-label="Order pickup from The Sour Boule Fort Worth"
 >
 Order Pickup
@@ -405,7 +417,7 @@ Order Pickup
 
 <h2>Willow Bend</h2>
 
-<p>
+<p class="location-description">
 Sourdough sandwiches, burgers, hit dogs, salads, brunch-ish favorites, fresh bread, drinks, desserts, and Bread Club pickup.
 </p>
 
@@ -433,7 +445,7 @@ Location Info
   class="button primary"
   href="https://cash.app/$thesourboule/l/CALL_CAESDUxaVlhKOFBKRjI0MkM/pickup"
   target="_blank"
-  rel="noopener"
+  rel="noopener noreferrer"
   aria-label="Order pickup from The Sour Boule Willow Bend"
 >
 Order Pickup
