@@ -54,6 +54,17 @@
   --wheat: var(--color-focus);
   --shadow-sm: 0 10px 28px rgba(22, 20, 18, 0.08);
 
+  /* Photography-remediation surfaces: reusable, still brand gradients only. */
+  --gradient-fort-worth:
+    radial-gradient(circle at 82% 18%, rgba(230, 201, 143, 0.62), transparent 32%),
+    linear-gradient(135deg, #fffdf8 0%, #f0dfbd 52%, #b88950 100%);
+  --gradient-willow-bend:
+    radial-gradient(circle at 78% 22%, rgba(230, 201, 143, 0.28), transparent 31%),
+    linear-gradient(135deg, #171411 0%, #34271f 54%, #6b4b2f 100%);
+  --gradient-neutral:
+    radial-gradient(circle at 78% 18%, rgba(230, 201, 143, 0.42), transparent 34%),
+    linear-gradient(135deg, #fffdf8 0%, #f6ecda 58%, #ddc49a 100%);
+
   /* Existing public tokens retained for current pages. */
   --bg: #f4f1ea;
   --paper: #ffffff;
@@ -374,9 +385,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,0.985) 0%, rgba(255,255,255,0.95) 42%, rgba(255,255,255,0.74) 100%),
-    url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1200&q=78') center/cover;
+  background: var(--gradient-neutral);
 }
 
 .hero-copy h1,
@@ -542,28 +551,13 @@ ul {
   background: linear-gradient(180deg, rgba(45,36,29,0.05), rgba(45,36,29,0.25));
 }
 
-.photo.one {
-  background-image: url('https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=1000&q=75');
-}
-
-.photo.two {
-  background-image: url('https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1000&q=75');
-}
-
-.photo.three {
-  background-image: url('https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1000&q=75');
-}
-
-.photo.four {
-  background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1000&q=75');
-}
-
-.photo.five {
-  background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=75');
-}
-
+.photo.one,
+.photo.two,
+.photo.three,
+.photo.four,
+.photo.five,
 .photo.six {
-  background-image: url('https://images.unsplash.com/photo-1483695028939-5bb13f8648b0?auto=format&fit=crop&w=1000&q=75');
+  background-image: var(--gradient-neutral);
 }
 
 footer {
@@ -904,9 +898,7 @@ MULTI LOCATION SYSTEM
 .location-hero {
   padding: 28px;
   border-radius: var(--radius);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.92)),
-    url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1200&q=78') center/cover;
+  background: var(--gradient-fort-worth);
   border: 1px solid rgba(17,17,17,.08);
   box-shadow: var(--shadow);
 }
@@ -1009,6 +1001,10 @@ MULTI LOCATION SYSTEM
   .location-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.location-hero--willow {
+  background: var(--gradient-willow-bend);
 }
 
 .breadclub-left > .breadclub-kicker {
@@ -1274,9 +1270,7 @@ body {
   padding: clamp(var(--space-8), 6vw, var(--space-16));
   border: 1px solid rgba(22, 20, 18, 0.1);
   border-radius: var(--radius-lg);
-  background:
-    linear-gradient(105deg, rgba(255, 253, 248, 0.98) 0%, rgba(255, 253, 248, 0.88) 58%, rgba(255, 253, 248, 0.45) 100%),
-    url("https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1200&q=78") center / cover;
+  background: var(--gradient-neutral);
   box-shadow: var(--shadow);
 }
 
@@ -1369,11 +1363,13 @@ body {
 }
 
 .menu-order-card--fort-worth .menu-order-card__image {
-  background-image: linear-gradient(rgba(22, 20, 18, 0.04), rgba(22, 20, 18, 0.18)), url("https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=78");
+  background-image: linear-gradient(rgba(22, 20, 18, 0.03), rgba(22, 20, 18, 0.2)), url("../images/site/menu-fort-worth-sandwich.webp");
+  background-position: center 48%;
 }
 
 .menu-order-card--willow .menu-order-card__image {
-  background-image: linear-gradient(rgba(22, 20, 18, 0.04), rgba(22, 20, 18, 0.18)), url("https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=1000&q=78");
+  background-image: linear-gradient(rgba(22, 20, 18, 0.03), rgba(22, 20, 18, 0.2)), url("../images/site/menu-willow-bend-sandwich.webp");
+  background-position: center 52%;
 }
 
 .menu-order-card__content {
@@ -1615,7 +1611,15 @@ body {
   z-index: 0;
   background:
     linear-gradient(180deg, rgba(22, 20, 18, 0.08), rgba(22, 20, 18, 0.9)),
-    var(--location-image) center / cover;
+    var(--location-image, var(--gradient-neutral)) center / cover;
+}
+
+.location-choice--fort-worth {
+  --location-image: url("../images/site/home-fort-worth-interior.webp");
+}
+
+.location-choice--willow {
+  --location-image: var(--gradient-willow-bend);
 }
 
 .location-choice > * {
@@ -1786,11 +1790,12 @@ body {
 }
 
 .location-directory-card__image--fort-worth {
-  background-image: linear-gradient(rgba(22, 20, 18, 0.12), rgba(22, 20, 18, 0.34)), url("https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=75");
+  background-image: var(--gradient-fort-worth);
 }
 
 .location-directory-card__image--willow {
-  background-image: linear-gradient(rgba(22, 20, 18, 0.12), rgba(22, 20, 18, 0.34)), url("https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=900&q=75");
+  background-image: linear-gradient(rgba(22, 20, 18, 0.08), rgba(22, 20, 18, 0.3)), url("../images/site/location-willow-bend-interior.webp");
+  background-position: center 58%;
 }
 
 .location-directory-card__body {
