@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const mobileNav = document.querySelector(".mobile-nav");
-  const disclosureMenus = Array.from(document.querySelectorAll(".site-nav details, .mobile-nav"));
+  const disclosureMenus = Array.from(document.querySelectorAll(".site-nav details, .mobile-nav, .site-order"));
 
   if (mobileNav) {
     const mobileSummary = mobileNav.querySelector("summary");
@@ -14,7 +14,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   disclosureMenus.forEach(function (menu) {
+    const summary = menu.querySelector("summary");
+    summary.setAttribute("aria-expanded", String(menu.open));
+
     menu.addEventListener("toggle", function () {
+      summary.setAttribute("aria-expanded", String(menu.open));
       if (!menu.open) return;
 
       disclosureMenus.forEach(function (otherMenu) {
@@ -26,13 +30,13 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("keydown", function (event) {
     if (event.key !== "Escape") return;
 
-    const openMenu = document.querySelector(".site-nav details[open], .mobile-nav[open]");
+    const openMenu = document.querySelector(".site-nav details[open], .mobile-nav[open], .site-order[open]");
     if (!openMenu) return;
 
     const summary = openMenu.querySelector("summary");
     openMenu.open = false;
+    summary?.setAttribute("aria-expanded", "false");
     if (openMenu.classList.contains("mobile-nav")) {
-      summary?.setAttribute("aria-expanded", "false");
       summary?.setAttribute("aria-label", "Open navigation menu");
     }
     summary?.focus();

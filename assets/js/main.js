@@ -40,7 +40,10 @@ document.addEventListener("click", function(e) {
     target.href &&
     (
       target.href.includes("squareup.com") ||
-      target.href.includes("cash.app/order")
+      [
+        "https://cash.app/$thesourboule/l/CALL_CAESDUwxS0FDNkRTS1NROU0/pickup",
+        "https://cash.app/$thesourboule/l/CALL_CAESDUxaVlhKOFBKRjI0MkM/pickup"
+      ].includes(target.href)
     )
   ) {
     if (window.gtag) {
