@@ -329,13 +329,7 @@ main {
 .cards-3,
 .cards-2,
 .gallery-grid,
-.footer-grid,
-.breadclub-wrap,
-.breadclub-grid3,
-.breadclub-mini,
-.breadclub-formgrid,
-.breadclub-row2,
-.breadclub-split {
+.footer-grid {
   display: grid;
   gap: 20px;
 }
@@ -360,14 +354,7 @@ main {
 .card,
 .hero-copy,
 .hero-side,
-.photo,
-.breadclub-left,
-.breadclub-right,
-.breadclub-card,
-.breadclub-note,
-.breadclub-pillbox,
-.breadclub-subcard,
-.breadclub-preview {
+.photo {
   background: rgba(255, 255, 255, 0.94);
   border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: var(--radius);
@@ -490,8 +477,7 @@ ul {
 
 .hero-actions,
 .chips,
-.footer-links,
-.breadclub-pills {
+.footer-links {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
@@ -638,200 +624,8 @@ select:focus {
   box-shadow: 0 8px 18px rgba(17, 17, 17, 0.12);
 }
 
-/* Bread Club */
-.breadclub-wrap {
-  grid-template-columns: 0.95fr 1.05fr;
-  gap: 28px;
-  align-items: start;
-}
-
-.breadclub-left {
-  background: #ffffff;
-  padding: 38px;
-}
-
-.breadclub-right {
-  background: linear-gradient(180deg, #161210 0%, #1d1714 100%);
-  color: #fff;
-  padding: 32px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.breadclub-kicker {
-  font-size: 0.82rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.26em;
-  color: #8f7f73;
-  margin-bottom: 12px;
-}
-
-.breadclub-title {
-  font-size: clamp(2.8rem, 4vw, 4.4rem);
-  line-height: 0.95;
-  margin-bottom: 18px;
-  max-width: none;
-}
-
-.breadclub-grid3 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin: 30px 0;
-}
-
-.breadclub-card {
-  border: 1px solid #dfdfda;
-  border-radius: 22px;
-  background: #faf9f6;
-  padding: 18px;
-}
-
-.breadclub-mini {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.breadclub-formgrid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin: 18px 0;
-}
-
-.breadclub-field label {
-  display: block;
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: #f3eee8;
-  margin-bottom: 8px;
-}
-
-.breadclub-input,
-.breadclub-select {
-  width: 100%;
-  padding: 13px 14px;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
-  appearance: none;
-}
-
-.breadclub-select option {
-  background: #1d1714;
-  color: #ffffff;
-}
-
-.breadclub-split {
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 18px;
-  align-items: start;
-}
-
-.breadclub-pillbox,
-.breadclub-subcard,
-.breadclub-preview,
-.breadclub-note {
-  border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.breadclub-pillbox {
-  padding: 18px;
-}
-
-.breadclub-best {
-  border: 1px solid rgba(70, 214, 125, 0.30);
-  background: rgba(70, 214, 125, 0.10);
-  border-radius: 18px;
-  padding: 10px 12px;
-  min-width: 138px;
-  text-align: right;
-}
-
-.breadclub-loaf {
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(0, 0, 0, 0.16);
-  padding: 14px;
-  display: grid;
-  grid-template-columns: 1fr 88px;
-  gap: 12px;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.breadclub-row2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 14px;
-}
-
-.breadclub-darkpill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 42px;
-  padding: 10px 14px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.breadclub-darkpill.active {
-  background: rgba(255, 255, 255, 0.16);
-}
-
-.breadclub-subcard {
-  padding: 16px;
-}
-
-.breadclub-next {
-  background: rgba(26, 123, 168, 0.22);
-  border-color: rgba(93, 185, 231, 0.34);
-}
-
-.breadclub-preview {
-  padding: 18px;
-  border-color: rgba(231, 180, 49, 0.30);
-  background: rgba(231, 180, 49, 0.08);
-}
-
-.breadclub-note {
-  padding: 18px;
-}
-
-.breadclub-cta {
-  width: 100%;
-  margin-top: 14px;
-  background: #fff;
-  color: #111;
-  border-color: #fff;
-}
-
-.breadclub-cta:hover {
-  background: var(--accent);
-  color: #111;
-  border-color: var(--accent);
-}
-
-.breadclub-wrap *,
-.breadclub-wrap *::before,
-.breadclub-wrap *::after {
-  min-width: 0;
-}
-
 /* Responsive */
 @media (max-width: 1100px) {
-  .breadclub-wrap,
-  .breadclub-split,
-  .breadclub-grid3,
-  .breadclub-mini,
-  .breadclub-formgrid,
-  .breadclub-row2,
   .gallery-grid {
     grid-template-columns: 1fr;
   }
@@ -873,9 +667,7 @@ select:focus {
 
   .hero-copy,
   .hero-side,
-  .card,
-  .breadclub-left,
-  .breadclub-right {
+  .card {
     padding: 22px;
   }
 
@@ -1005,10 +797,6 @@ MULTI LOCATION SYSTEM
 
 .location-hero--willow {
   background: var(--gradient-willow-bend);
-}
-
-.breadclub-left > .breadclub-kicker {
-  color: #6f5f54;
 }
 
 /* =========================
@@ -2229,11 +2017,7 @@ body {
 .story-chapter h2 { position:sticky; top:120px; align-self:start; font-size:clamp(1.7rem,3vw,2.7rem); }
 .story-chapter__body { max-width:66ch; }
 .story-chapter__body p { font-size:1.06rem; }
-.account-guide { max-width:760px; margin:0 auto var(--space-6); padding:var(--space-5); border:1px solid var(--border); border-radius:var(--radius-lg); background:var(--surface-warm); }
-.account-guide h2 { font-size:1.4rem; }
-.account-guide :where(h2, p, strong) { color:var(--color-text); }
-.account-guide .muted { color:var(--color-text-muted); }
-.site-header .site-logo,.site-footer .site-logo,.breadclub-darkpill,.account-card button { min-height:44px !important; }
+.site-header .site-logo,.site-footer .site-logo { min-height:44px !important; }
 
 @media (max-width:61.25rem) {
   .experience-grid,.process-steps { grid-template-columns:1fr; }
