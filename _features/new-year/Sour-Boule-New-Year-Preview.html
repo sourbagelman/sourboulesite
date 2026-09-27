@@ -1,0 +1,375 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>The Sour Boule | New Year 2027 - Working Preview</title><style>:root{color-scheme:dark;--ink:#101e28;--night:#101b25;--ivory:#f5f0e6;--silver:#aebdca;--muted:#b3c0ca;--line:rgba(223,233,239,.18);--gold:#b69a60;--mint:#bbdcd2;--serif:Georgia,'Times New Roman',serif;--sans:Arial,Helvetica,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--night);color:var(--ivory);font-family:var(--sans);-webkit-font-smoothing:antialiased}button,input,select{font:inherit}button,a,input,select{-webkit-tap-highlight-color:transparent}button,a{touch-action:manipulation}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.6}a{color:inherit}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #b9dfea;outline-offset:4px}button,input,select{min-height:46px}button{color:inherit}button:disabled:focus-visible{outline:none}.sb-sr{position:absolute!important;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}.sb-hidden{display:none!important}
+.sb-previewbar{position:relative;z-index:20;background:#e9e6df;color:#22323d;padding:10px 24px;display:flex;gap:18px;align-items:center;border-bottom:1px solid #c7c8c5;flex-wrap:wrap}.sb-previewbar strong{font-size:11px;letter-spacing:.11em}.sb-previewbar small{display:block;font-size:11px;line-height:1.6;letter-spacing:0;font-weight:400}.sb-preview-controls{display:flex;align-items:center;gap:5px;flex-wrap:wrap}.sb-previewbar button{min-height:36px;font-size:12px;border:1px solid #bdc5c7;border-radius:5px;padding:7px 11px;background:transparent;color:#24333f}.sb-previewbar button[aria-pressed=true]{background:#243641;color:#fff;border-color:#243641}.sb-preview-extra{margin-left:auto}.sb-previewbar button:focus-visible{outline-color:#335c71}
+.sb-app{position:relative;isolation:isolate;min-height:calc(100svh - 68px);overflow:hidden;background:radial-gradient(ellipse at 43% 45%,#273b4a 0,#15232e 40%,#101b25 78%)}.sb-app:before{content:'';position:absolute;inset:0;pointer-events:none;z-index:-1;opacity:.5;background-image:radial-gradient(circle at 10% 23%,#d4c18e 0 1px,transparent 1.6px),radial-gradient(circle at 31% 8%,#d4c18e 0 .8px,transparent 1.4px),radial-gradient(circle at 73% 34%,#bbccda 0 1px,transparent 1.4px),radial-gradient(circle at 52% 79%,#bbccda 0 1px,transparent 1.5px);background-size:247px 217px,347px 377px,419px 289px,317px 439px}.sb-header{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:88px;padding:20px clamp(20px,4vw,64px);border-bottom:1px solid var(--line);position:relative;z-index:3}.sb-brand{display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.15em;text-transform:uppercase;font-weight:700}.sb-brandmark{width:35px;height:35px;border:1px solid #9cabba;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:22px;font-weight:400;letter-spacing:0}.sb-header-actions{display:flex;align-items:center;gap:20px}.sb-linkbtn{border:0;background:none;padding:6px 0;font-size:12px;line-height:1.4;text-decoration:underline;text-underline-offset:5px}.sb-motion{border:1px solid var(--line);border-radius:30px;background:transparent;padding:8px 15px;font-size:11px}.sb-layout{max-width:1400px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:50px;padding:28px clamp(20px,4vw,64px) 26px;align-items:center}.sb-scene{position:relative;min-height:620px;display:flex;flex-direction:column}.sb-eyebrow{font-size:10px;line-height:1.8;letter-spacing:.23em;text-transform:uppercase;color:var(--muted);margin:0}.sb-year{font-family:var(--serif);font-size:clamp(82px,9.3vw,142px);font-weight:400;line-height:.93;letter-spacing:-.06em;color:var(--ivory);margin:8px 0 26px;position:relative;z-index:1}.sb-year:after{content:'';width:66px;height:1px;background:#a1b2c1;display:inline-block;margin-left:30px;vertical-align:middle;opacity:.55}.sb-story{position:relative;z-index:1;max-width:390px;margin-top:10px}.sb-story h1{font-family:var(--serif);font-size:clamp(37px,4vw,60px);font-weight:400;letter-spacing:-.035em;line-height:1.03;margin:0 0 18px}.sb-story p{font-size:13px;line-height:1.8;color:var(--muted);margin:0;max-width:250px}.sb-stage-art{position:absolute;right:-5px;top:8px;width:310px;height:390px;pointer-events:none}.sb-orbit{position:absolute;inset:37px 4px 37px;border:1px solid rgba(184,205,220,.13);border-radius:50%;transform:rotate(-21deg)}.sb-orbit:after{content:'';position:absolute;inset:19px -13px;border:1px solid rgba(184,205,220,.09);border-radius:50%;transform:rotate(50deg)}.sb-pole{position:absolute;width:1px;height:322px;top:0;left:50%;background:linear-gradient(transparent,#9bb7c8 18%,#55758a 75%,transparent);opacity:.7}.sb-pole:after{content:'';position:absolute;width:3px;left:-1px;top:0;bottom:0;background:repeating-linear-gradient(transparent 0 23px,#e8eee9 24px 25px,transparent 26px 48px)}.sb-ball{position:absolute;top:2px;left:50%;margin-left:-117px;width:234px;height:234px;will-change:transform;filter:drop-shadow(0 0 20px rgba(141,205,235,.28))}.sb-ball svg{width:100%;height:100%;overflow:visible}.sb-base{position:absolute;bottom:43px;left:50%;width:106px;height:10px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,#c2d5e9,rgba(107,162,196,.4) 40%,transparent 72%);filter:blur(1px)}.sb-art-label{position:absolute;bottom:9px;text-align:center;width:100%;font-size:9px;letter-spacing:.24em;color:#aabac7}.sb-clockblock{margin-top:auto;padding-top:28px}.sb-clocklabel{font-size:10px;letter-spacing:.19em;color:#cad5df;text-transform:uppercase;display:flex;align-items:center;gap:9px}.sb-dot{width:5px;height:5px;border-radius:50%;background:#c3dce8;box-shadow:0 0 9px #c3dce866}.sb-clock{display:flex;align-items:start;gap:20px;margin:10px 0 14px;font-variant-numeric:tabular-nums}.sb-clocknumber{font-size:clamp(64px,6vw,90px);letter-spacing:-.055em;font-weight:300;line-height:1.08}.sb-colon{font-size:58px;font-weight:100;color:#92a5b6;line-height:1.1}.sb-clockunit{display:block;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:5px}.sb-clockmeta{font-size:11px;line-height:1.5;color:var(--muted);margin:0}.sb-side{position:relative;z-index:2;width:100%;}.sb-card{padding:29px;border:1px solid #697c8b88;background:linear-gradient(140deg,#2b3c4966,#182631dd);border-radius:4px;box-shadow:0 18px 45px #0002}.sb-card-kicker{display:flex;align-items:center;gap:9px;font-size:9px;letter-spacing:.21em;text-transform:uppercase;color:#c4d3dc;margin:0 0 16px}.sb-cookie{width:30px;height:30px;flex-shrink:0}.sb-card h2{font-family:var(--serif);font-weight:400;font-size:32px;line-height:1.13;letter-spacing:-.025em;margin:0 0 16px}.sb-offer{font-size:13px;line-height:1.8;color:#d1dae1;margin:0 0 24px}.sb-label{display:block;font-size:11px;letter-spacing:.05em;color:#e4eaf0;margin-bottom:9px}.sb-input,.sb-select{background:#101c26;border:1px solid #7e929f;border-radius:3px;width:100%;padding:12px 13px;color:#f5f0e6;font-size:16px;min-height:49px}.sb-input::placeholder{color:#adbac5}.sb-primary{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;border:1px solid var(--ivory);border-radius:3px;padding:13px 16px;background:var(--ivory);color:#162530;font-size:12px;letter-spacing:.03em;font-weight:700;text-decoration:none;min-height:48px;margin-top:12px}.sb-secondary{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:1px solid #91a5b3;border-radius:3px;padding:12px;background:transparent;color:#edf0ef;font-size:12px;min-height:46px;text-decoration:none;margin-top:10px}.sb-small{font-size:11px;color:#afbfcb;line-height:1.65;margin:14px 0 0}.sb-rules{border-top:1px solid var(--line);margin-top:22px;padding-top:17px;display:flex;gap:9px;font-size:11px;line-height:1.6;color:#c5d0d8}.sb-rules span{font-family:var(--serif);font-size:22px}.sb-side-note{text-align:center;font-size:10px;color:#a5b8c5;line-height:1.7;margin:16px 10px 0}.sb-status{border:1px solid #7caa9888;background:#3d635a22;border-radius:3px;padding:13px;font-size:12px;color:#d1ebdf;line-height:1.65}.sb-status.warn{background:#745b3726;border-color:#bb976f88;color:#f1dbc1}.sb-error{font-size:12px;line-height:1.5;color:#ffe1c1;min-height:0;margin:12px 0 0}.sb-footer{border-top:1px solid var(--line);padding:17px clamp(20px,4vw,64px);display:flex;justify-content:space-between;gap:18px;font-size:10px;line-height:1.5;color:#acbdc9}.sb-footer button{min-height:26px;font-size:10px}.sb-fireworks{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}.sb-ticket{background:var(--ivory);color:#21323e;padding:27px 24px;border-radius:4px;position:relative;box-shadow:0 16px 40px #0002}.sb-ticket .sb-card-kicker{color:#4c626f}.sb-ticket h2{font-family:var(--serif);font-size:37px;font-weight:400;letter-spacing:-.03em;line-height:1.05;margin:18px 0 12px}.sb-ticket p{font-size:12px;line-height:1.65}.sb-ticket .sb-ticket-name{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#5a6c75}.sb-ticket-badge{display:inline-block;border:1px solid #78958b;background:#e0ebe0;color:#375b4d;padding:6px 8px;font-size:9px;letter-spacing:.06em;text-transform:uppercase}.sb-ticket-code{border-top:1px dashed #91a0a6;margin:22px -24px 0;padding:21px 24px 4px;position:relative}.sb-ticket-code:before,.sb-ticket-code:after{content:'';position:absolute;top:-8px;width:16px;height:16px;background:#182732;border-radius:50%}.sb-ticket-code:before{left:-8px}.sb-ticket-code:after{right:-8px}.sb-ticket code{font-family:monospace;font-size:15px;line-height:1.75;letter-spacing:.08em;overflow-wrap:anywhere;display:block}.sb-ticket .sb-demo-stamp{font-weight:700;font-size:10px;letter-spacing:.11em;color:#7f4c2e;border-top:1px solid #cec8bb;padding-top:12px;margin-top:16px}.sb-ticket-status{font-size:11px!important;color:#496157}.sb-return{position:relative;z-index:2;max-width:900px;padding:70px 26px 80px;margin:auto;text-align:center;min-height:600px}.sb-return .sb-year{margin-bottom:22px}.sb-return h1{font-family:var(--serif);font-size:44px;line-height:1.1;font-weight:400;margin:14px 0 20px}.sb-return>p{color:#bfccd7;line-height:1.8;max-width:530px;margin:0 auto 24px;font-size:14px}.sb-placeholder{border:1px dashed #8394a288;background:#31424d22;padding:24px;margin:30px auto;max-width:600px}.sb-placeholder p{font-size:12px;line-height:1.8;color:#c4d1da}.sb-inline-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}.sb-inline-actions button,.sb-inline-actions a{width:auto;min-width:190px}.sb-pass-page{max-width:400px;margin:34px auto}.sb-staff{position:relative;z-index:3;padding:42px 22px;max-width:640px;margin:auto;min-height:670px}.sb-staff h1{font-family:var(--serif);font-weight:400;font-size:38px;margin:18px 0}.sb-staff>p{color:var(--muted);font-size:13px;line-height:1.8}.sb-staff .sb-card{margin-top:25px}.sb-check{display:flex;align-items:center;gap:12px;font-size:13px;line-height:1.6;margin:18px 0}.sb-check input{width:21px;height:21px;min-height:21px;flex-shrink:0;accent-color:#d8e6e3}.sb-staff .sb-select{margin-bottom:20px}.sb-staff-result{margin-top:20px}.sb-lab-banner{position:relative;z-index:5;padding:10px 20px;text-align:center;background:#e9e6df;color:#243540;font-size:12px;line-height:1.6}.sb-connected{font-size:10px;color:#bdcddd;display:inline-flex;align-items:center;gap:8px}.sb-connected:before{content:'';width:5px;height:5px;border-radius:50%;background:#abd8c7}.sb-connected[data-online=false]:before{background:#e4b177}
+[data-motion=off] .sb-ball{transform:none!important;will-change:auto;filter:none}[data-motion=off] .sb-fireworks{display:none}
+@media(min-width:1500px){.sb-stage-art{right:22px;width:345px}.sb-scene{min-height:690px}.sb-story{margin-top:25px}.sb-layout{gap:70px}}
+@media(max-width:1130px) and (min-width:741px){.sb-layout{gap:25px;grid-template-columns:minmax(0,1fr) 325px}.sb-stage-art{width:210px;right:-12px;top:25px}.sb-ball{width:196px;height:196px;margin-left:-98px}.sb-story{max-width:270px;margin-top:30px}.sb-story h1{font-size:40px}.sb-year{font-size:98px}.sb-scene{min-height:630px}.sb-story p{max-width:195px}.sb-card{padding:24px}.sb-card h2{font-size:29px}.sb-stage-art .sb-orbit{display:none}}
+@media(max-width:740px){.sb-previewbar{padding:10px 14px;gap:9px}.sb-previewbar strong{font-size:10px}.sb-previewbar small{display:inline;margin-left:8px}.sb-preview-controls{gap:5px;flex-wrap:nowrap;overflow:auto;max-width:100%;padding-bottom:4px}.sb-previewbar button{white-space:nowrap;min-height:38px}.sb-preview-extra{margin-left:0}.sb-previewbar .sb-preview-extra button{min-height:32px}.sb-header{min-height:75px;padding:13px 18px;gap:12px;align-items:center}.sb-brand{font-size:10px;letter-spacing:.09em;gap:8px;max-width:140px;line-height:1.5}.sb-brandmark{width:29px;height:29px;flex-shrink:0;font-size:19px}.sb-header-actions{gap:12px}.sb-motion{padding:7px 10px;font-size:10px;min-height:40px}.sb-linkbtn{font-size:10px;max-width:104px;text-align:right;min-height:40px}.sb-layout{grid-template-columns:1fr;gap:26px;padding:24px 20px 26px;max-width:560px}.sb-scene{min-height:500px}.sb-year{font-size:96px;margin:9px 0 25px}.sb-year:after{width:38px;margin-left:16px}.sb-story{margin-top:16px;max-width:205px}.sb-story h1{font-size:35px;line-height:1.08}.sb-story p{max-width:185px;font-size:11px}.sb-stage-art{top:13px;right:-17px;width:195px;height:325px}.sb-ball{width:176px;height:176px;margin-left:-88px;top:0}.sb-orbit{inset:27px 5px 25px}.sb-pole{height:265px}.sb-base{bottom:22px;width:80px}.sb-art-label{font-size:7px;letter-spacing:.15em;bottom:0}.sb-clock{gap:17px;margin:9px 0 12px}.sb-clocknumber{font-size:73px}.sb-colon{font-size:52px}.sb-clocklabel{font-size:9px}.sb-clockmeta{font-size:10px}.sb-card{padding:25px}.sb-side-note{font-size:10px}.sb-footer{padding:17px 20px;font-size:9px;gap:14px;align-items:center}.sb-return{padding:35px 20px;min-height:550px}.sb-return h1{font-size:34px}.sb-return>p{font-size:13px}.sb-pass-page{max-width:350px}.sb-eyebrow{font-size:8px;letter-spacing:.18em}.sb-ticket h2{font-size:37px}.sb-staff{padding:24px 20px}.sb-staff h1{font-size:32px}}
+@media(max-width:359px){.sb-header{padding:11px 12px}.sb-header-actions{gap:8px}.sb-brand{font-size:9px}.sb-motion{font-size:9px;padding:6px 8px}.sb-layout{padding:20px 14px}.sb-stage-art{width:154px;right:-10px;top:20px}.sb-ball{width:146px;height:146px;margin-left:-73px}.sb-orbit{display:none}.sb-story{max-width:165px}.sb-story h1{font-size:31px}.sb-story p{max-width:160px}.sb-year{font-size:85px}.sb-year:after{display:none}.sb-card{padding:21px}.sb-previewbar small{display:block;margin-left:0}.sb-ticket{padding:24px 20px}.sb-ticket-code{margin-left:-20px;margin-right:-20px;padding-left:20px;padding-right:20px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}.sb-ball{filter:none}}
+@media print{.sb-previewbar,.sb-header,.sb-scene,.sb-footer,.sb-side-note,button,.sb-fireworks{display:none!important}.sb-layout{display:block;padding:0}.sb-ticket{box-shadow:none;max-width:400px;margin:20px auto}.sb-demo-stamp{display:block!important}body,.sb-app{background:white;color:black}}
+
+.sb-ticket-code-label{color:inherit}
+
+@media(max-width:740px){.sb-previewbar button,.sb-previewbar .sb-preview-extra button,.sb-motion,.sb-linkbtn,.sb-footer button{min-height:44px}}
+
+/* v2: crystal lighting, larger short codes, and a location-assigned phone station. */
+.sb-ball{filter:drop-shadow(0 0 21px #acd7ff66) drop-shadow(0 0 45px #90c8fd33)}
+.sb-crystal-twinkle{animation:sb-glint 4.6s ease-in-out infinite}
+.sb-crystal-twinkle:nth-child(3n){animation-delay:-1.9s}
+.sb-crystal-twinkle:nth-child(3n+1){animation-delay:-3.2s}
+.sb-glass-sweep{animation:sb-glass 8s ease-in-out infinite;transform-origin:120px 120px}
+@keyframes sb-glint{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes sb-glass{0%,100%{opacity:.4;translate:-8px 0}50%{opacity:.9;translate:35px 0}}
+[data-phase=midnight] .sb-ball{filter:drop-shadow(0 0 24px #d4eaff88) drop-shadow(0 0 52px #8ebfec55)}
+[data-motion=off] .sb-crystal-twinkle,[data-motion=off] .sb-glass-sweep{animation:none!important}
+.sb-ticket code{font:700 50px/1.3 var(--sans);font-variant-numeric:tabular-nums;letter-spacing:.11em;white-space:nowrap;overflow-wrap:normal}
+.sb-station{max-width:500px;padding:30px 22px 40px;min-height:calc(100svh - 100px)}
+.sb-station h1{font-size:36px;line-height:1.1;margin:24px 0 8px}
+.sb-station-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.sb-station-location{border:1px solid #7caa9866;border-radius:99px;background:#3d635a22;padding:8px 13px;margin:0;color:#d1ebdf;font-size:13px}
+.sb-station-lock{font-size:10px;text-transform:uppercase;letter-spacing:.12em;border:1px solid var(--line);padding:8px 10px;border-radius:30px;white-space:nowrap}
+.sb-station .sb-card{margin-top:21px;padding:24px}
+.sb-station .sb-numeric-code{font-size:clamp(34px,9vw,52px);font-variant-numeric:tabular-nums;letter-spacing:.19em;text-align:center;padding:14px 10px;min-height:84px;width:100%;border-radius:6px}
+.sb-numeric-code::placeholder{color:#738594;opacity:.72}
+.sb-station .sb-primary,.sb-station .sb-secondary{font-size:16px;min-height:54px;border-radius:6px}
+.sb-station .sb-label{font-size:13px}
+.sb-station #code-help{margin-top:9px;font-size:12px}
+.sb-station #staff-identity{font-size:11px;color:#adbecb}
+.sb-station-note{font-size:12px!important;text-align:center;line-height:1.7!important}
+.sb-station-result{border:1px solid #ba977366;background:#71583622;padding:20px 16px;border-radius:6px;text-align:center}
+.sb-station-result.good{border-color:#81b49c88;background:#3e635a33}
+.sb-result-mark{width:40px;height:40px;border:1px solid #adbcbb88;border-radius:50%;display:grid;place-items:center;font-size:23px;margin:0 auto 12px;color:#f0ddbd}
+.good .sb-result-mark{color:#d3f0e1;border-color:#90b8a4}
+.sb-station-result h2{font:400 29px/1.15 var(--serif);margin:0 0 8px}
+.sb-station-result p{font-size:13px;line-height:1.65;color:#d1ddd9;margin:0}
+.sb-station .sb-redeem{background:#cee4d7;border-color:#cee4d7;color:#172f28}
+.sb-demo-notice{font-size:10px!important;text-align:center;letter-spacing:.05em;color:#ebca9e!important}
+.sb-staff-demo-controls{background:#233742;color:#e7e9e4;padding:12px 20px;display:flex;justify-content:center;gap:12px;align-items:center;flex-wrap:wrap;font-size:11px}
+.sb-staff-demo-controls div{display:flex;gap:8px}
+.sb-staff-demo-controls button{background:transparent;color:inherit;border:1px solid #8fabb9;border-radius:5px;font-size:12px;padding:8px 12px;min-height:44px}
+.sb-staff-demo-controls button[aria-pressed=true]{background:#e9e6df;color:#1e303b}
+@media(max-width:390px){.sb-station .sb-card{padding:19px}.sb-ticket code{font-size:43px}.sb-station h1{font-size:32px}.sb-station .sb-numeric-code{letter-spacing:.14em}}
+.sb-station button[hidden],.sb-station form[hidden]{display:none!important}
+.sb-station h1{font-size:32px;margin-top:18px}
+.sb-station-result{padding:16px}
+.sb-station-result h2{font-size:26px}
+.sb-result-mark{width:32px;height:32px;font-size:20px;margin-bottom:8px}
+
+/* Accepted first names can contain forty unbroken characters. */
+.sb-ticket-name,.sb-station-result p,.sb-card h2{overflow-wrap:anywhere}
+</style></head><body><div class="sb-previewbar" aria-label="Simulation controls"><strong>EXPERIENCE PREVIEW<small>Simulated time. No real rewards.</small></strong><div class="sb-preview-controls"><button data-stage="opening" aria-pressed="true">11:50 / Opening</button><button data-stage="final" aria-pressed="false">Final minute</button><button data-stage="last10" aria-pressed="false">Last 10 seconds</button><button data-stage="midnight" aria-pressed="false">Midnight</button><button data-stage="reward" aria-pressed="false">Cookie unlocked</button><button data-stage="return" aria-pressed="false">12:05 / Return</button><button data-stage="staff" aria-pressed="false">Staff flow</button></div><div class="sb-preview-controls sb-preview-extra"><button data-sim="offline" aria-pressed="false">Connection loss</button><button data-sim="reset">Reset</button></div></div><div id="app"></div><noscript>This preview requires JavaScript.</noscript><script>
+(()=>{
+const OFFER = 'Ring in the New Year with us! Enter your name and stay until midnight to unlock one free cookie. No purchase required. Redeem at either Sour Boule location through January 3, 2027.';
+const ESC = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cookieIcon = `<svg class="sb-cookie" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M12 13l3-1 2 3-3 2zM25 11l3 3-2 3-3-2zM10 24l4-2 3 3-2 3zM24 24l3-2 3 3-2 3z" fill="currentColor" opacity=".8"/><circle cx="21" cy="20" r="1.5" fill="currentColor"/></svg>`;
+function ballSvg() {
+  // A projected, subdivided icosahedron: real curved facets, not a flat tile texture.
+  const phi=(1+Math.sqrt(5))/2;
+  const unit=v=>{const n=Math.hypot(...v);return v.map(x=>x/n);};
+  const raw=[[-1,phi,0],[1,phi,0],[-1,-phi,0],[1,-phi,0],[0,-1,phi],[0,1,phi],[0,-1,-phi],[0,1,-phi],[phi,0,-1],[phi,0,1],[-phi,0,-1],[-phi,0,1]].map(unit);
+  let faces=[[0,11,5],[0,5,1],[0,1,7],[0,7,10],[0,10,11],[1,5,9],[5,11,4],[11,10,2],[10,7,6],[7,1,8],[3,9,4],[3,4,2],[3,2,6],[3,6,8],[3,8,9],[4,9,5],[2,4,11],[6,2,10],[8,6,7],[9,8,1]].map(f=>f.map(i=>raw[i]));
+  const mid=(a,b)=>unit(a.map((v,i)=>(v+b[i])/2));
+  for(let k=0;k<2;k++)faces=faces.flatMap(([a,b,c])=>{const ab=mid(a,b),bc=mid(b,c),ca=mid(c,a);return [[a,ab,ca],[b,bc,ab],[c,ca,bc],[ab,bc,ca]];});
+  const rotate=([x,y,z])=>{const xx=x*Math.cos(.31)+z*Math.sin(.31),zz=-x*Math.sin(.31)+z*Math.cos(.31);return [xx,y*Math.cos(.21)-zz*Math.sin(.21),y*Math.sin(.21)+zz*Math.cos(.21)];};
+  const project=v=>[120+v[0]*100,120+v[1]*100];
+  const path=points=>'M'+points.map(v=>v.map(x=>x.toFixed(2)).join(' ')).join('L')+'Z';
+  let mesh='',lights='',seen=new Set();
+  faces.map(f=>f.map(rotate)).filter(f=>f.reduce((t,v)=>t+v[2],0)>0).sort((a,b)=>a[0][2]-b[0][2]).forEach((f,i)=>{
+    const n=unit(f[0].map((v,k)=>v+f[1][k]+f[2][k])),L=Math.max(0,n[0]*-.38+n[1]*-.45+n[2]*.81),shine=Math.pow(L,22),jitter=((i*37)%19)/19;
+    const rgb=[25+L*133+jitter*53+shine*65,55+L*133+jitter*44+shine*50,85+L*119+jitter*35+shine*36].map(v=>Math.min(250,Math.round(v)));
+    const pts=f.map(project),center=pts[0].map((v,k)=>(v+pts[1][k]+pts[2][k])/3);
+    mesh+=`<path d="${path(pts)}" fill="rgb(${rgb})" stroke="#d2e8f2" stroke-opacity=".75" stroke-width=".48"/>`;
+    mesh+=`<path d="${path([pts[0],pts[1],center])}" fill="#f5fbff" opacity="${(.09+jitter*.27).toFixed(2)}"/><path d="${path([pts[1],pts[2],center])}" fill="#061b36" opacity=".23"/><path d="${path(pts.map(v=>v.map((x,k)=>center[k]+(x-center[k])*.58)))}" fill="none" stroke="#f1faff" stroke-width=".35" opacity=".55"/>`;
+    for(const v of f){const key=v.map(x=>x.toFixed(3)).join(',');if(v[2]<.08||seen.has(key))continue;seen.add(key);const [x,y]=project(v);lights+=`<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="${v[2]>.6?'.95':'.65'}" fill="#eefbff"/>`;}
+  });
+  const stars=[[79,50,7],[52,105,4],[109,83,5],[161,63,5],[181,113,6],[123,162,5],[65,159,3],[159,182,4]];
+  const glints=stars.map(([x,y,q])=>`<g class="sb-crystal-twinkle"><circle cx="${x}" cy="${y}" r="${q*1.6}" fill="url(#sb-star-glow)"/><path d="M${x-q} ${y}Q${x} ${y-1} ${x} ${y-q*1.8}Q${x+1} ${y} ${x+q} ${y}Q${x} ${y+1} ${x} ${y+q*1.8}Q${x-1} ${y} ${x-q} ${y}" fill="#fffdf3"/></g>`).join('');
+  return `<svg viewBox="0 0 240 240" aria-hidden="true"><defs><clipPath id="sb-sphere-clip"><circle cx="120" cy="120" r="100"/></clipPath><radialGradient id="sb-halo"><stop stop-color="#a8d7ff" stop-opacity=".65"/><stop offset=".72" stop-color="#78b9ec" stop-opacity=".18"/><stop offset="1" stop-color="#65a8ec" stop-opacity="0"/></radialGradient><radialGradient id="sb-star-glow"><stop stop-color="#fff" stop-opacity=".85"/><stop offset=".24" stop-color="#c5eaff" stop-opacity=".36"/><stop offset="1" stop-color="#c5eaff" stop-opacity="0"/></radialGradient><radialGradient id="sb-sphere-core" cx=".28" cy=".25" r=".86"><stop stop-color="#c1e5fb"/><stop offset=".48" stop-color="#527e9a"/><stop offset="1" stop-color="#0a2038"/></radialGradient><radialGradient id="sb-edge-shade" cx=".38" cy=".3" r=".72"><stop offset=".48" stop-color="#001733" stop-opacity="0"/><stop offset="1" stop-color="#02152f" stop-opacity=".6"/></radialGradient><linearGradient id="sb-glass-sweep" x1="0" x2="1"><stop stop-color="#fff" stop-opacity="0"/><stop offset=".48" stop-color="#ddf3ff" stop-opacity=".23"/><stop offset=".52" stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><filter id="sb-led-bloom" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.8"/></filter></defs><circle cx="120" cy="120" r="120" fill="url(#sb-halo)"/><circle cx="120" cy="120" r="100" fill="url(#sb-sphere-core)"/><g clip-path="url(#sb-sphere-clip)">${mesh}<circle cx="120" cy="120" r="100" fill="url(#sb-edge-shade)"/><g filter="url(#sb-led-bloom)" opacity=".85">${lights}</g><g>${lights}</g><ellipse class="sb-glass-sweep" cx="81" cy="105" rx="23" ry="116" fill="url(#sb-glass-sweep)" transform="rotate(27 120 120)"/></g><circle cx="120" cy="120" r="100" fill="none" stroke="#cde8fa" stroke-width="1.2"/><path d="M28 83A100 100 0 0 1 160 28" fill="none" stroke="#f0fbff" stroke-width="1.7" opacity=".8"/><rect x="116" y="15" width="8" height="6" rx="2" fill="#c9deed"/>${glints}</svg>`;
+}
+function phase(now,e) {return now<e.start?'before':now<e.midnight-60000?'opening':now<e.midnight?'final':now<e.end?'midnight':'ended';}
+function mountExperience(root, adapter, options={}) {
+  let data = null, anchor=0, perfAnchor=performance.now(), view=options.passPage?'pass':'celebration', dismissed=false;
+  let lastCard='', lastPass='', lastPhase='', busy=false, online=true, forceReduce=false, destroyed=false, syncVersion=0;
+  const media = matchMedia('(prefers-reduced-motion: reduce)');
+  let reduce = media.matches, wakeLock=null, raf=0, fireworksUntil=0, particles=[], rockets=[], particleTime=0, lastBurst=0, fireworkStart=0, launchIndex=0;
+  const demo=!!options.demo;
+  const eventAbort=new AbortController();
+  root.innerHTML = `<div class="sb-app" id="sb-experience" data-motion="${reduce?'off':'on'}"><canvas class="sb-fireworks" aria-hidden="true"></canvas><header class="sb-header"><div class="sb-brand"><span class="sb-brandmark" aria-hidden="true">b</span><span>The Sour Boule</span></div><div class="sb-header-actions"><button class="sb-motion" data-action="motion" aria-pressed="${!reduce}">${reduce?'Motion off':'Motion on'}</button><button class="sb-linkbtn" data-action="exit">Continue to the website <span aria-hidden="true">&rarr;</span></button></div></header><div id="sb-content"></div><footer class="sb-footer"><span>Two locations. One community.<br>Fort Worth &amp; Willow Bend</span><span id="sb-network" class="sb-connected" data-online="true">${demo?'Preview only':'Connecting to server'}</span><button class="sb-linkbtn" data-action="pass">My cookie pass</button></footer><div class="sb-sr" id="sb-announcer" role="status" aria-live="polite" aria-atomic="true"></div></div>`;
+  const app=root.querySelector('.sb-app'),content=root.querySelector('#sb-content'),announcer=root.querySelector('#sb-announcer');
+  function announce(text){announcer.textContent=text;}
+  function now(){return anchor+(performance.now()-perfAnchor);}
+  function stamp(){return demo||data?.mode==='local-lab';}
+  // The hero year follows the same server-anchored event clock as the ball drop.
+  // Never use the phone's calendar or alter reward dates to choose this label.
+  function displayYear(){return now()<data.event.midnight?'2026':'2027';}
+  function updateYear(){
+    const el=root.querySelector('.sb-year');if(!el||!data)return;
+    const year=displayYear();
+    if(el.textContent!==year)el.textContent=year;
+    if(el.getAttribute('aria-label')!==year)el.setAttribute('aria-label',year);
+  }
+  function showError(text){const el=root.querySelector('#sb-error');if(el)el.textContent=text;announce(text);}
+  const connectionError='Connection interrupted. Keep this page open while we reconnect. No reward is confirmed yet.';
+  function network(value){online=value;const el=root.querySelector('#sb-network');el.dataset.online=String(value);el.textContent=value?(demo?'Preview only':data?.mode==='local-lab'?'Local test server':'Server connected'):'Reconnecting'; if(!value)showError(connectionError);else{const error=root.querySelector('#sb-error');if(error?.textContent===connectionError)error.textContent='';}}
+  function layout() {
+    content.innerHTML=`<main class="sb-layout"><section class="sb-scene" aria-labelledby="sb-title"><p class="sb-eyebrow">December 31 &middot; A midnight moment, together</p><div class="sb-year" aria-label="${displayYear()}">${displayYear()}</div><div class="sb-story"><h1 id="sb-title">Here&rsquo;s to a<br>sweeter year.</h1><p id="sb-subtitle">A little sparkle. A fresh beginning.<br>Ring in the New Year with us.</p></div><div class="sb-stage-art" aria-hidden="true"><div class="sb-orbit"></div><div class="sb-pole"></div><div class="sb-ball">${ballSvg()}</div><div class="sb-base"></div><div class="sb-art-label">The Sour Boule &middot; Midnight Central</div></div><div class="sb-clockblock"><div class="sb-clocklabel"><span class="sb-dot"></span><span id="sb-clocklabel">${demo?'Simulated countdown':'Countdown to midnight'}</span></div><div class="sb-clock" role="timer" aria-label="Countdown to midnight" aria-live="off"><div><span class="sb-clocknumber" id="sb-minutes">10</span><span class="sb-clockunit">Minutes</span></div><span class="sb-colon" aria-hidden="true">:</span><div><span class="sb-clocknumber" id="sb-seconds">00</span><span class="sb-clockunit">Seconds</span></div></div><p class="sb-clockmeta" id="sb-clockmeta">December 31, 2026 &middot; America/Chicago</p></div></section><aside class="sb-side" id="sb-card-holder" aria-label="Cookie promotion"></aside></main>`;
+    lastCard='';lastPhase='';
+  }
+  function ticket(p) {
+    return `<article class="sb-ticket" aria-label="Cookie pass"><div class="sb-card-kicker">${cookieIcon}Your midnight reward</div><span class="sb-ticket-badge">${stamp()?'SIMULATED PASS':p.status==='issued'?'Cookie unlocked':ESC(p.status)}</span><h2>One sweet<br>start to 2027.</h2><p class="sb-ticket-name">For ${ESC(p.firstName)}</p><p><strong>One free cookie</strong><br>No purchase required.</p><p>Either Sour Boule location.<br>Through <strong>January 3, 2027</strong>, during that location&rsquo;s operating hours.</p><div class="sb-ticket-code"><p class="sb-eyebrow sb-ticket-code-label">Your five-digit code</p><code>${ESC(p.code)}</code><p class="sb-ticket-status">${p.status==='redeemed'?'Already redeemed. Not valid for another cookie.':p.status==='expired'?'Expired. Redemption has ended.':'Staff must verify this code before redemption.'}</p></div>${stamp()?'<div class="sb-demo-stamp">TEST ONLY &middot; NOT VALID FOR REDEMPTION</div>':''}</article><button class="sb-primary" data-action="save">Save ${stamp()?'sample ':''}pass as an image <span aria-hidden="true">&darr;</span></button><button class="sb-secondary" data-action="copy">Copy pass code</button><p class="sb-side-note">A screenshot works, too. Keep your code private.<br>A copied pass can still be redeemed only once.</p><p id="sb-error" class="sb-error" role="status"></p>`;
+  }
+  function card(p) {
+    const holder=root.querySelector('#sb-card-holder');if(!holder)return;
+    const cardPhase=p==='before'?'before':(p==='midnight'||p==='ended')?'after':'before-midnight';
+    const signature=JSON.stringify([data?.entry,data?.pass,cardPhase,data?.entry?online:null,!!data?.entry&&now()>data.event.midnight+data.event.postWindow]);if(signature===lastCard)return;lastCard=signature;
+    if(data?.pass){holder.innerHTML=ticket(data.pass);return;}
+    if(data?.entry) {
+      const waiting=p==='midnight'||p==='ended';
+      const missed=now()>data.event.midnight+data.event.postWindow&&!data.entry.eligible;
+      holder.innerHTML=`<div class="sb-card"><p class="sb-card-kicker">${cookieIcon}${waiting?'Your midnight moment':'Your spot is saved'}</p><h2>${missed?'Thanks for joining us.':waiting?'Happy New Year,<br>'+ESC(data.entry.firstName)+'!':'You&rsquo;re in,<br>'+ESC(data.entry.firstName)+'.'}</h2><div class="sb-status ${missed||!online?'warn':''}">${missed?'We could not verify your presence around midnight. No cookie pass was issued.':waiting?'Checking your midnight presence. Your pass appears here only after verification.':online?'Stay on this countdown page until midnight. Your cookie pass will unlock here once your presence is verified.':'Connection interrupted. We will try to reconnect automatically.'}</div><p class="sb-small">Keep this tab visible and your phone unlocked. Switching apps or locking your phone can prevent qualification.</p>${!waiting?'<button class="sb-secondary" data-action="wake">Keep my screen awake</button>':''}<div class="sb-rules"><span aria-hidden="true">01</span><div>One free cookie. No purchase required.<br>Either location, through January 3, 2027.</div></div><p id="sb-error" class="sb-error" role="status"></p></div><p class="sb-side-note">${demo?'Simulation only. No real entry has been stored.':'No email. No guest account. Just a first name.'}</p>`;
+      return;
+    }
+    if(p==='midnight'||p==='ended') {
+      holder.innerHTML=`<div class="sb-card"><p class="sb-card-kicker">${cookieIcon}Hello, 2027</p><h2>Thanks for celebrating with us.</h2><p class="sb-offer">Cookie entry closed at midnight. Enjoy the fireworks and a fresh start to the year.</p><button class="sb-primary" data-action="pass">Check for an earned pass</button><p class="sb-small">Already joined on another device? Open your saved pass there. A name alone cannot recover a pass.</p><p id="sb-error" class="sb-error" role="status"></p></div>`;return;
+    }
+    holder.innerHTML=`<div class="sb-card"><p class="sb-card-kicker">${cookieIcon}A little midnight treat</p><h2>Make midnight<br>a little sweeter.</h2><p class="sb-offer">${OFFER}</p><form id="sb-register"><label class="sb-label" for="sb-first-name">Your first name</label><input class="sb-input" id="sb-first-name" name="firstName" autocomplete="given-name" maxlength="40" required placeholder="First name" ${p==='before'?'disabled':''}><button class="sb-primary" type="submit" ${p==='before'?'disabled':''}>${p==='before'?'Entry opens at 11:50 PM':'Count me in'} <span aria-hidden="true">&rarr;</span></button></form><p class="sb-small">No email. No account. Keep this page visible until midnight.</p><div class="sb-rules"><span aria-hidden="true">01</span><div>One free cookie. No purchase required.<br>A sweet start at either location.</div></div><p id="sb-error" class="sb-error" role="status"></p></div><p class="sb-side-note">${demo?'PREVIEW ONLY &middot; No real rewards are issued.':'Secure anonymous browser session. Save your pass.'}</p>`;
+  }
+  function returned() {
+    view='website';
+    content.innerHTML=`<main class="sb-return"><p class="sb-eyebrow">${dismissed?'Celebration minimized':'12:05 AM &middot; The takeover has ended'}</p><div class="sb-year" aria-label="${displayYear()}">${displayYear()}</div><h1>Back to The Sour Boule.</h1><p>The celebration steps away. Your earned cookie pass stays available.</p><div class="sb-placeholder"><p class="sb-eyebrow">Website integration placeholder</p><p>Your current website and its <strong>already-approved New Year&rsquo;s theme</strong> remain underneath. They are intentionally not reproduced or redesigned in this preview.</p><p>No menu, hours, prices, or ordering links are replaced.</p></div><div class="sb-inline-actions"><button class="sb-primary" data-action="pass">My cookie pass</button><a class="sb-secondary" href="https://thesourboule.com" target="_blank" rel="noopener noreferrer">Open existing website &rarr;</a></div>${now()<data.event.end?'<button class="sb-linkbtn" data-action="resume">Return to countdown</button>':''}</main>`;
+  }
+  function showPass() {
+    const beforeEnd=now()<data.event.end,signature=JSON.stringify([data?.pass,beforeEnd]);
+    if(view==='pass'&&root.querySelector('.sb-pass-page')&&signature===lastPass)return;
+    view='pass';lastPass=signature;
+    content.innerHTML=`<main class="sb-return"><p class="sb-eyebrow">The Sour Boule &middot; New Year 2027</p><h1>Your cookie pass.</h1><div class="sb-pass-page">${data?.pass?ticket(data.pass):'<div class="sb-card"><h2>No pass in this browser.</h2><p class="sb-offer">An earned pass appears here after midnight presence is verified. Open a saved pass or use the browser where you joined.</p><p class="sb-small">Without an account or email, a lost session cannot be recovered by name alone.</p></div>'}</div><button class="sb-linkbtn" data-action="${beforeEnd?'resume':'exit'}">${beforeEnd?'Back to countdown':stamp()?'Back to website preview':'Continue to the website'}</button></main>`;
+  }
+  function fireworks() {
+    if(reduce)return;
+    fireworkStart=performance.now();fireworksUntil=fireworkStart+32000;lastBurst=0;launchIndex=0;particles=[];rockets=[];particleTime=fireworkStart;
+  }
+  function drawFireworks(t) {
+    const canvas=root.querySelector('.sb-fireworks');if(!canvas)return;
+    const ctx=canvas.getContext('2d');
+    if(reduce||t>fireworksUntil||view!=='celebration'||document.visibilityState==='hidden'){
+      if(particles.length||rockets.length){ctx.clearRect(0,0,canvas.width,canvas.height);particles=[];rockets=[];}return;
+    }
+    const w=app.clientWidth,h=Math.min(app.clientHeight,w<600?720:1000),dpr=Math.min(window.devicePixelRatio||1,1.5),mobile=w<600;
+    if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);canvas.style.height=h+'px';}
+    ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+    const dt=Math.min((t-particleTime)/1000,.04)||.016;particleTime=t;
+    const elapsed=t-fireworkStart,finale=elapsed>22500&&elapsed<27800;
+    // A staggered opening, mixed shells, and a denser finale. No full-screen flashes.
+    if(elapsed<27500 && (lastBurst===0||t-lastBurst>(finale?420:850))){
+      lastBurst=t;
+      const positions=[.21,.57,.83,.34,.72,.11,.47,.88];
+      const x=w*positions[launchIndex%positions.length],y=h*(.26+(launchIndex%3)*.09);
+      rockets.push({x0:w*(.1+Math.random()*.8),y0:h*.86,x,y,start:t,duration:800+Math.random()*400,type:launchIndex%3,tail:[]});launchIndex++;
+      if(launchIndex===1)rockets.push({x0:w*.9,y0:h*.85,x:w*.78,y:h*.3,start:t+180,duration:930,type:1,tail:[]});
+    }
+    function burst(x,y,type){
+      const count=mobile?(type===1?95:115):(type===1?185:235),max=mobile?800:2000;
+      const colors=type===0?['#f4dfa7','#d6ac60','#fff3cf']:type===1?['#d3a15c','#ebc880','#fff0b3']:['#badff6','#ecf8ff','#a9c6de'];
+      for(let i=0;i<count&&particles.length<max;i++){
+        const a=(i/count)*Math.PI*2+Math.random()*.028,outer=i%3!==0,speed=(mobile?152:220)*(outer?.6+Math.random()*.4:.12+Math.random()*.59),life=type===1?4.5+Math.random()*1.2:2.5+Math.random()*1.1;
+        particles.push({x,y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life,total:life,type,color:colors[i%3],size:i%7===0?1.55:1.05,tail:[]});
+      }
+    }
+    ctx.lineCap='round';
+    rockets=rockets.filter(r=>{
+      const progress=(t-r.start)/r.duration;if(progress<0)return true;
+      if(progress>=1){burst(r.x,r.y,r.type);return false;}
+      const eased=1-Math.pow(1-progress,1.65),x=r.x0+(r.x-r.x0)*progress,y=r.y0+(r.y-r.y0)*eased;
+      r.tail.push([x,y]);if(r.tail.length>12)r.tail.shift();
+      ctx.strokeStyle='#e6c689';ctx.globalAlpha=.55;ctx.lineWidth=1.3;ctx.beginPath();r.tail.forEach(([a,b],i)=>i?ctx.lineTo(a,b):ctx.moveTo(a,b));ctx.stroke();
+      ctx.globalAlpha=.95;ctx.fillStyle='#fff4d1';ctx.beginPath();ctx.arc(x,y,1.6,0,Math.PI*2);ctx.fill();return true;
+    });
+    particles=particles.filter(p=>p.life>0);
+    for(const p of particles){
+      p.life-=dt;const age=p.total-p.life,drag=Math.exp(-(p.type===1?.42:.62)*dt);
+      p.vx*=drag;p.vy=p.vy*drag+(p.type===1?29:20)*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;
+      p.tail.push([p.x,p.y]);if(p.tail.length>(p.type===1?36:25))p.tail.shift();
+      const alpha=Math.pow(Math.max(0,p.life/p.total),.65)*Math.min(1,age*7);
+      ctx.strokeStyle=p.color;ctx.lineWidth=p.type===1?1.15:.95;ctx.globalAlpha=alpha*.82;ctx.beginPath();p.tail.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.stroke();
+      ctx.globalAlpha=alpha;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();
+      if(p.size>1.4&&alpha>.6){ctx.globalAlpha=alpha*.12;ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);ctx.fill();}
+    }
+    ctx.globalAlpha=1;
+  }
+  function tick(t) {
+    if(data&&view==='celebration') {
+      const n=now(),p=phase(n,data.event),seconds=p==='before'?600:Math.max(0,Math.ceil((data.event.midnight-n)/1000));
+      if(p==='ended'){returned();adapter.exit?.(true);}
+      else {
+        if(!root.querySelector('#sb-title'))layout();
+        const mins=root.querySelector('#sb-minutes'),secs=root.querySelector('#sb-seconds');
+        if(mins)mins.textContent=String(Math.floor(seconds/60)).padStart(2,'0');if(secs)secs.textContent=String(seconds%60).padStart(2,'0');
+        const ball=root.querySelector('.sb-ball');if(ball)ball.style.transform=`translateY(${Math.max(0,Math.min(1,1-(data.event.midnight-n)/60000))*126}px)`;
+        if(p!==lastPhase){
+          app.dataset.phase=p;
+          const title=root.querySelector('#sb-title'),sub=root.querySelector('#sb-subtitle'),label=root.querySelector('#sb-clocklabel');
+          title.innerHTML=p==='midnight'?'Happy<br>New Year!':p==='final'?'One minute.<br>A fresh start.':'Here&rsquo;s to a<br>sweeter year.';
+          sub.innerHTML=p==='midnight'?'Here&rsquo;s to good bread, good company,<br>and a sweeter year together.':p==='final'?'The ball is on its way down.<br>Keep this page open. We&rsquo;re almost there.':'A little sparkle. A fresh beginning.<br>Ring in the New Year with us.';
+          label.textContent=p==='midnight'?'Welcome to 2027':p==='final'?'The final minute':p==='before'?'Countdown opens at 11:50 PM':demo?'Simulated countdown':'Countdown to midnight';
+          root.querySelector('#sb-clockmeta').textContent=p==='midnight'?'January 1, 2027 / America/Chicago':'December 31, 2026 / America/Chicago';
+          if(p==='midnight'){fireworks();void heartbeat();announce('Happy New Year! Checking eligible cookie passes.');}
+          if(p==='final')announce('One minute until midnight. The ball is descending.');
+          lastPhase=p;
+        }
+        card(p);
+      }
+    }
+    updateYear();drawFireworks(t);raf=requestAnimationFrame(tick);
+  }
+  async function sync(){const version=++syncVersion;try{const d=await adapter.state();if(destroyed||version!==syncVersion)return false;setState(d);network(true);return true;}catch{if(!destroyed&&version===syncVersion)network(false);return false;}}
+  function setState(d){if(destroyed)return;data=d;anchor=d.serverNow;perfAnchor=performance.now();if(!content.children.length)layout();if(view==='pass')showPass();}
+  async function heartbeat(visible=document.visibilityState==='visible') {
+    if(!data?.entry || view!=='celebration' || dismissed)return;
+    try{const result=await adapter.presence(visible);if(destroyed)return;if(result?.pass){data.pass=result.pass;data.entry.eligible=true;lastCard='';announce(stamp()?'Simulated cookie pass unlocked. Not valid for redemption.':'Your cookie pass is unlocked. Save it now.');}network(true);}catch{if(!destroyed)network(false);}
+  }
+  function setMotion(){reduce=media.matches||forceReduce;app.dataset.motion=reduce?'off':'on';const b=root.querySelector('[data-action="motion"]');b.textContent=reduce?'Motion off':'Motion on';b.setAttribute('aria-pressed',String(!reduce));}
+  media.addEventListener('change',setMotion);
+  root.addEventListener('submit',async event=>{
+    if(event.target.id!=='sb-register')return;event.preventDefault();if(busy)return;busy=true;
+    const button=event.target.querySelector('button');button.disabled=true;button.textContent='Joining...';
+    try{await adapter.register(new FormData(event.target).get('firstName'));if(destroyed)return;if(!await sync())throw new Error('Your entry may have been saved. Reconnect and try again to recover it.');lastCard='';await heartbeat();announce('You are registered. Stay on this page until midnight.');}
+    catch(err){if(destroyed)return;showError(err.message||'Unable to register. Please try again.');button.disabled=false;button.textContent='Count me in';}finally{busy=false;}
+  },{signal:eventAbort.signal});
+  root.addEventListener('click',async event=>{
+    const button=event.target.closest('[data-action]');if(!button)return;
+    const action=button.dataset.action;
+    if(action==='motion'){forceReduce=!reduce;setMotion();if(media.matches)announce('Reduced motion follows your device setting.');}
+    if(action==='wake'){
+      try{if(!navigator.wakeLock)throw new Error('Not supported');wakeLock=await navigator.wakeLock.request('screen');button.textContent='Screen will stay awake';announce('Keep this page visible. Screen wake lock is active.');wakeLock.addEventListener('release',()=>{if(button.isConnected)button.textContent='Keep my screen awake';});}
+      catch{showError('Automatic screen wake is unavailable. Keep your phone unlocked and this page visible.');}
+    }
+    if(action==='exit'){if(!data){adapter.exit?.(false);return;}void heartbeat(false);dismissed=true;returned();adapter.exit?.(false);wakeLock?.release();}
+    if(action==='resume'){dismissed=false;if(now()>=data.event.end)returned();else{view='celebration';layout();void heartbeat();}}
+    if(action==='pass'){void heartbeat(false);if(data)showPass();await sync();}
+    if(action==='retry')void sync();
+    if(action==='save'&&data?.pass)savePassImage(data.pass,stamp());
+    if(action==='copy'&&data?.pass){try{await navigator.clipboard.writeText(data.pass.code);announce('Pass code copied.');button.textContent='Code copied';}catch{showError('Copy is unavailable here. Save or screenshot the pass instead.');}}
+  },{signal:eventAbort.signal});
+  // Escape pressed inside an iframe never reaches the parent dialog's cancel
+  // event. Use the same dismissal/leave path as the visible Continue control.
+  document.addEventListener('keydown',event=>{if(options.embedded&&event.key==='Escape'&&!event.isComposing){event.preventDefault();root.querySelector('[data-action="exit"]')?.click();}},{signal:eventAbort.signal});
+  function visibility(){if(document.visibilityState==='hidden'){void heartbeat(false);}else{void sync().then(()=>heartbeat(true));}}
+  document.addEventListener('visibilitychange',visibility);
+  const onOnline=()=>void sync().then(()=>heartbeat());window.addEventListener('online',onOnline);
+  const onOffline=()=>network(false);window.addEventListener('offline',onOffline);
+  const onPageShow=()=>void sync().then(()=>heartbeat());window.addEventListener('pageshow',onPageShow);
+  const onPageHide=()=>{void heartbeat(false);wakeLock?.release();};window.addEventListener('pagehide',onPageHide);
+  const beat=setInterval(()=>{if(document.visibilityState==='visible')void heartbeat();},5000);
+  const syncer=setInterval(()=>{if(document.visibilityState==='visible')void sync();},15000);
+  content.innerHTML='<main class="sb-return"><h1>Connecting to the celebration.</h1><p>The regular website is always available.</p><p id="sb-error" class="sb-error" role="status"></p><button class="sb-secondary" data-action="retry">Try again</button></main>';
+  // The requested initial view belongs to the controller, not to one request:
+  // pageshow/reconnect may supersede the bootstrap state request.
+  void sync();raf=requestAnimationFrame(tick);
+  return {sync,setState,showPass,showWebsite:()=>{dismissed=true;returned();},resetView:()=>{dismissed=false;view='celebration';layout();},fireworks,
+    destroy(){destroyed=true;syncVersion++;eventAbort.abort();cancelAnimationFrame(raf);clearInterval(beat);clearInterval(syncer);document.removeEventListener('visibilitychange',visibility);window.removeEventListener('online',onOnline);window.removeEventListener('offline',onOffline);window.removeEventListener('pageshow',onPageShow);window.removeEventListener('pagehide',onPageHide);media.removeEventListener('change',setMotion);wakeLock?.release();}}
+}
+function savePassImage(pass,demo){
+  const c=document.createElement('canvas');c.width=1000;c.height=1300;const x=c.getContext('2d');
+  x.fillStyle='#f5f0e6';x.fillRect(0,0,1000,1300);x.strokeStyle='#a4b1b7';x.lineWidth=2;x.strokeRect(45,45,910,1210);x.fillStyle='#243742';x.textAlign='center';
+  x.font='22px Arial';x.fillText('THE SOUR BOULE / NEW YEAR',500,130);x.font='130px Georgia';x.fillText('2027',500,285);
+  x.font='64px Georgia';x.fillText('One free cookie.',500,405);x.font='30px Arial';x.fillText('No purchase required.',500,480);
+  x.font='26px Arial';const name=[...pass.firstName].slice(0,40).join('');x.fillText('For '+name,500,565,850);
+  x.font='25px Arial';x.fillText('Either Sour Boule location.',500,650);x.fillText('Through January 3, 2027,',500,695);x.fillText('during that location\'s operating hours.',500,737);
+  x.setLineDash([6,8]);x.beginPath();x.moveTo(100,820);x.lineTo(900,820);x.stroke();x.setLineDash([]);
+  x.font='22px Arial';x.fillText('SINGLE-USE PASS / STAFF MUST VERIFY',500,885);
+  x.font='bold 115px monospace';x.fillText(pass.code,500,1010,810);
+  x.font='20px Arial';x.fillText('Keep your code private. A screenshot cannot be used twice.',500,1095,850);
+  x.fillStyle=demo?'#8f4b29':'#385e4d';x.font='bold 26px Arial';x.fillText(demo?'TEST ONLY - NOT VALID FOR REDEMPTION':pass.status==='issued'?'ONE COOKIE. ONE REDEMPTION.':pass.status.toUpperCase(),500,1190,860);
+  c.toBlob(blob=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=demo?'Sour-Boule-SAMPLE-pass.png':'Sour-Boule-cookie-pass.png';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000);},'image/png');
+}
+
+// Shared station UI. Production uses the protected API; preview uses a marked fake adapter.
+function mountStaff(root, adapter, {demo=false}={}) {
+  let station=null, busy=false, ready=false, checked=null, requestId=null, destroyed=false;
+  const abort=new AbortController();
+  const label=loc=>loc==='fort-worth'?'Fort Worth':loc==='willow-bend'?'Willow Bend':'Checking station';
+  root.innerHTML=`<div class="sb-app sb-staff-app"><header class="sb-header"><div class="sb-brand"><span class="sb-brandmark" aria-hidden="true">b</span>The Sour Boule</div><span class="sb-station-lock">Staff only</span></header><main class="sb-staff sb-station"><div class="sb-station-heading"><p class="sb-eyebrow">Cookie pass redemption</p><p class="sb-station-location" id="station-location">Checking station</p></div><h1>Cookie passes.</h1><p id="staff-identity" class="sb-small">Checking protected session</p><div class="sb-card"><form id="verify"><label class="sb-label" for="code">Guest's five-digit code</label><input class="sb-input sb-numeric-code" id="code" name="code" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="12345" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go" aria-describedby="code-help" required><p class="sb-small" id="code-help">Enter the five numbers on their cookie pass.</p><button class="sb-primary" type="submit" disabled>Check code</button></form><div class="sb-staff-result" id="result" role="status" aria-live="polite" aria-atomic="true"></div></div><p class="sb-station-note">One free cookie. No purchase required.<br>Only give a cookie after redemption is confirmed.</p>${demo?'<p class="sb-demo-notice">SIMULATION ONLY. No real pass is verified or redeemed.</p>':''}</main></div>`;
+  const form=root.querySelector('#verify'),input=root.querySelector('#code'),checkButton=form.querySelector('button'),result=root.querySelector('#result');
+  function controls() {checkButton.hidden=!!checked;input.disabled=busy||!ready;checkButton.disabled=busy||!ready||!/^\d{5}$/.test(input.value);checkButton.textContent=busy?'Checking...':'Check code';}
+  function panel(title,description,tone='warn') {
+    result.replaceChildren();const box=document.createElement('div');box.className='sb-station-result '+tone;
+    const symbol=document.createElement('span');symbol.className='sb-result-mark';symbol.setAttribute('aria-hidden','true');symbol.textContent=tone==='good'?'\u2713':'!';
+    const h=document.createElement('h2');h.textContent=title;const p=document.createElement('p');p.textContent=description;box.append(symbol,h,p);result.append(box);return box;
+  }
+  function next() {form.hidden=false;checked=null;requestId=null;result.replaceChildren();input.value='';controls();input.focus();}
+  function nextButton() {const b=document.createElement('button');b.className='sb-secondary';b.type='button';b.textContent='Next guest';b.onclick=next;result.append(b);}
+  function stamp(ms) {return ms?new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(ms):'';}
+  function unavailable(d={}) {
+    checked=null;requestId=null;
+    if(d.status==='redeemed')panel('Already used',`Redeemed${d.location?' at '+label(d.location):''}${d.redeemedAt?' / '+stamp(d.redeemedAt):''}. Do not give another cookie.`);
+    else if(d.status==='expired')panel('Pass expired','This cookie offer has ended.');
+    else if(d.status==='outside_hours')panel('Redemption is closed','This pass cannot be redeemed outside this location\'s configured operating hours. Ask a manager.');
+    else panel('Code not found','Check all five digits and try again.');
+  }
+  async function redeem(button) {
+    if(busy||!checked)return;busy=true;controls();button.disabled=true;button.textContent='Redeeming...';
+    try {
+      // Redeem the verified pass. No purchase or order details are required.
+      const d=await adapter.redeem({code:checked,requestId});
+      if(destroyed)return;
+      if(d.status==='redeemed_now')panel('Redeemed',`Give one cookie. Recorded at ${label(station)}${d.redeemedAt?' / '+stamp(d.redeemedAt):''}.`,'good');
+      else if(d.status==='already_confirmed')panel('Already recorded','Your previous redemption was saved. Do not give a second cookie.','good');
+      else unavailable(d);
+      checked=null;requestId=null;form.hidden=true;nextButton();
+    } catch(err) {
+      if(destroyed)return;
+      if(err.data?.status) {unavailable(err.data);nextButton();}
+      else if(err.data) {panel('Unable to redeem',err.message);checked=null;requestId=null;nextButton();}
+      else {panel('Confirmation interrupted','Do not give a cookie yet. Retry the same redemption to check its status.');button.textContent='Retry confirmation';button.disabled=false;result.append(button);}
+    } finally {busy=false;if(!destroyed)controls();}
+  }
+  input.addEventListener('input',()=>{input.value=input.value.replace(/[^0-9]/g,'').slice(0,5);checked=null;requestId=null;result.replaceChildren();controls();},{signal:abort.signal});
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();if(busy||!ready||!/^\d{5}$/.test(input.value))return;
+    busy=true;checked=null;requestId=null;controls();input.blur();result.replaceChildren();
+    try {
+      const code=input.value,d=await adapter.verify({code});if(destroyed)return;
+      if(d.status!=='valid'){unavailable(d);return;}
+      checked=code;
+      requestId=crypto.randomUUID?crypto.randomUUID():Array.from(crypto.getRandomValues(new Uint8Array(16)),b=>b.toString(16).padStart(2,'0')).join('').replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/,'$1-$2-$3-$4-$5');
+      panel('Ready to redeem',`For ${d.firstName}. One free cookie.`,'good');
+      const note=document.createElement('p');note.className='sb-small';note.textContent='Tap Redeem, then give one cookie after confirmation.';
+      const b=document.createElement('button');b.type='button';b.className='sb-primary sb-redeem';b.textContent='Redeem cookie';b.onclick=()=>redeem(b);result.append(note,b);
+    } catch(err) {if(!destroyed){if(err.data?.status)unavailable(err.data);else panel('Check unavailable',err.message||'Reconnect and try again. No redemption is confirmed.');}}
+    finally {busy=false;if(!destroyed)controls();}
+  },{signal:abort.signal});
+  const loaded=adapter.me().then(me=>{if(destroyed)return;station=me.location;if(!['fort-worth','willow-bend'].includes(station))throw Error('Ask a manager to assign this phone to one location.');ready=true;root.querySelector('#station-location').textContent=label(station);root.querySelector('#staff-identity').textContent=demo?'Simulated signed-in location phone':me.mode==='local-lab'?'LOCAL TEST ONLY / '+label(station)+' station':'This phone is assigned to '+label(station)+'.';controls();}).catch(err=>{if(!destroyed){panel('Manager sign-in needed',err.message||'Ask a manager to sign in on this phone.');controls();}});
+  return {loaded,destroy(){destroyed=true;abort.abort();}};
+}
+
+// SIMULATION ONLY. This adapter never calls the production API or issues a reward.
+const E={start:Date.parse('2027-01-01T05:50:00Z'),midnight:Date.parse('2027-01-01T06:00:00Z'),end:Date.parse('2027-01-01T06:05:00Z'),expires:Date.parse('2027-01-04T06:00:00Z'),preWindow:30000,postWindow:90000};
+const KEY='sb-nye-preview-only-v2';
+let saved=null;try{saved=JSON.parse(localStorage.getItem(KEY));}catch{}
+let entry=saved?.entry||null,pass=saved?.pass||null,offline=false,server=E.start,anchor=performance.now(),controller,screen='opening',staffStation='fort-worth';
+const now=()=>server+(performance.now()-anchor);
+function persist(){try{localStorage.setItem(KEY,JSON.stringify({entry,pass}));}catch{}}
+function reward(){entry ||= {firstName:'Jamie',eligible:true};entry.eligible=true;pass||={code:'04271',firstName:entry.firstName,status:'issued',issuedAt:E.midnight,expiresAt:E.expires};persist();}
+const adapter={async state(){if(offline)throw new Error('Simulated connection loss');return{serverNow:now(),event:E,entry,pass,mode:'simulation'};},async register(firstName){if(offline)throw new Error('Simulated connection loss');firstName=String(firstName).trim();if(!firstName||[...firstName].length>40)throw new Error('Enter your first name.');entry||={firstName,eligible:false};persist();},async presence(visible){if(offline)throw new Error('Simulated connection loss');if(visible&&entry&&now()>=E.midnight&&now()<=E.midnight+E.postWindow)reward();return{pass};}};
+function mount(){controller?.destroy();document.querySelector('#app').innerHTML='';controller=mountExperience(document.querySelector('#app'),adapter,{demo:true});}
+function pick(value){screen=value;offline=false;document.querySelector('[data-sim="offline"]').setAttribute('aria-pressed','false');server=value==='final'?E.midnight-60000:value==='last10'?E.midnight-10000:value==='midnight'?E.midnight:value==='reward'?E.midnight+15000:value==='return'?E.end:E.start;anchor=performance.now();if(value==='reward')reward();if(value==='staff'){controller?.destroy();renderStaff();}else{mount();if(value==='return')void controller.sync().then(()=>controller.showWebsite());}document.querySelectorAll('[data-stage]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.stage===value)));}
+function renderStaff(){
+  reward();
+  const app=document.querySelector('#app');
+  app.innerHTML='<div class="sb-staff-demo-controls"><span>STAFF SIMULATION / try code <strong>04271</strong></span><div><button type="button" data-station="fort-worth">Fort Worth phone</button><button type="button" data-station="willow-bend">Willow Bend phone</button></div><span>Demo codes begin with 0 and cannot be live passes.</span></div><div id="demo-staff-root"></div>';
+  app.querySelectorAll('[data-station]').forEach(b=>{b.setAttribute('aria-pressed',String(b.dataset.station===staffStation));b.onclick=()=>{controller?.destroy();staffStation=b.dataset.station;renderStaff();};});
+  controller=mountStaff(app.querySelector('#demo-staff-root'),{
+    async me(){return {location:staffStation,mode:'simulation'};},
+    async verify({code}){if(offline)throw Error('Simulated connection loss.');if(code!==pass?.code)return {status:'not_found'};return {status:pass.status==='redeemed'?'redeemed':'valid',firstName:pass.firstName,location:pass.location,redeemedAt:pass.redeemedAt};},
+    async redeem({code,requestId}){if(offline)throw Error('Simulated connection loss.');if(code!==pass?.code)return {status:'not_found'};if(pass.status==='redeemed')return {status:'redeemed',location:pass.location,redeemedAt:pass.redeemedAt};pass.status='redeemed';pass.location=staffStation;pass.redeemedAt=E.midnight+43200000;persist();return {status:'redeemed_now',location:staffStation,redeemedAt:pass.redeemedAt};}
+  },{demo:true});
+}
+document.querySelectorAll('[data-stage]').forEach(b=>b.onclick=()=>pick(b.dataset.stage));
+document.querySelector('[data-sim="offline"]').onclick=()=>{offline=!offline;document.querySelector('[data-sim="offline"]').setAttribute('aria-pressed',String(offline));if(screen!=='staff')void controller.sync?.();};
+document.querySelector('[data-sim="reset"]').onclick=()=>{entry=null;pass=null;persist();staffStation='fort-worth';pick('opening');};
+mount();
+
+})();
+</script></body></html>

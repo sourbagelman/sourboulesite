@@ -1,0 +1,9 @@
+node_modules/
+.wrangler/
+.local/
+.dev.vars
+.env*
+*.sqlite*
+__pycache__/
+*.pyc
+.venv/

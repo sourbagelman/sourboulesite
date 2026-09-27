@@ -1,0 +1,10 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+const root=new URL('../',import.meta.url);
+let html=readFileSync(new URL('preview/index.html',root),'utf8');
+const css=readFileSync(new URL('public/assets/nye.css',root),'utf8');
+const view=readFileSync(new URL('public/assets/view.js',root),'utf8').replace('export function mountExperience','function mountExperience');
+const staff=readFileSync(new URL('public/assets/staff-ui.js',root),'utf8').replace('export function mountStaff','function mountStaff');
+const demo=readFileSync(new URL('preview/preview.js',root),'utf8').replace(/^import[^\n]*\n/gm,'');
+html=html.replace('<link rel="stylesheet" href="../public/assets/nye.css">','<style>'+css+'</style>').replace('<script type="module" src="preview.js"></script>','<script>\n(()=>{\n'+view+'\n'+staff+'\n'+demo+'\n})();\n</script>');
+writeFileSync(new URL('Sour-Boule-New-Year-Preview.html',root),html);
+console.log('Built self-contained offline preview; no API calls or external assets.');
