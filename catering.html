@@ -26,6 +26,9 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://thesourboule.com/catering.html#webpage","url":"https://thesourboule.com/catering.html","name":"Catering in Fort Worth | The Sour Boule","mainEntity":{"@id":"https://thesourboule.com/catering.html#service"}},{"@type":"Service","@id":"https://thesourboule.com/catering.html#service","name":"The Sour Boule Catering","serviceType":"Catering inquiries","provider":{"@id":"https://thesourboule.com/fort-worth.html#restaurant"},"areaServed":"Fort Worth, Texas"}]}
 </script>
+<link rel="stylesheet" href="assets/css/seasonal.css">
+<script src="assets/js/seasonal-config.js" defer></script>
+<script src="assets/js/seasonal.js" data-seasonal-controller defer></script>
 </head>
 
 <body>
@@ -44,11 +47,12 @@
 
 <div class="container stack" style="gap:28px;">
 
-<section class="page-journey-hero">
+<section class="page-journey-hero" data-seasonal-anchor>
+<div data-seasonal-art hidden aria-hidden="true"></div>
 
 <div>
 <span class="eyebrow">Catering</span>
-<h1 class="page-title">Custom catering from our Southwest Blvd kitchen</h1>
+<span data-seasonal-year hidden></span><h1 class="page-title">Custom catering from our Southwest Blvd kitchen</h1>
 <p>Catering is currently handled through our original Fort Worth location. Tell us what you need, how many people you are feeding, and when you need it.</p>
 <div class="page-actions"><a class="btn primary" href="#catering-inquiry">Start an inquiry</a><a class="btn secondary" href="menu.html">Browse the Fort Worth menu</a></div>
 </div>
@@ -238,6 +242,7 @@ box-shadow:0 22px 48px rgba(22,20,18,.12), 0 8px 20px rgba(22,20,18,.08);
 
 </div>
 
+<div data-seasonal-trim hidden aria-hidden="true"></div>
 </main>
 
 <footer class="site-footer"><div class="container"><div class="site-footer__grid">

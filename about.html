@@ -26,6 +26,9 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"AboutPage","@id":"https://thesourboule.com/about.html#webpage","url":"https://thesourboule.com/about.html","name":"Our Story | Misner Family Farms to The Sour Boule","description":"The story of how Misner Family Farms grew from a home kitchen into The Sour Boule sourdough bakery and café in Fort Worth.","mainEntity":{"@id":"https://thesourboule.com/#organization"}}
 </script>
+<link rel="stylesheet" href="assets/css/seasonal.css">
+<script src="assets/js/seasonal-config.js" defer></script>
+<script src="assets/js/seasonal.js" data-seasonal-controller defer></script>
 </head>
 
 <body>
@@ -44,8 +47,9 @@
 
 <div class="container stack" style="gap:28px;">
 
-<section class="page-journey-hero">
-<div><span class="eyebrow">Our story</span><h1 class="page-title">From our home kitchen to The Sour Boule</h1><p>Before there was a bakery or a café, we were Lance and Alexis Misner baking at home as Misner Family Farms. What we make—and where we make it—has grown from there.</p></div>
+<section class="page-journey-hero" data-seasonal-anchor>
+<div data-seasonal-art hidden aria-hidden="true"></div>
+<div><span class="eyebrow">Our story</span><span data-seasonal-year hidden></span><h1 class="page-title">From our home kitchen to The Sour Boule</h1><p>Before there was a bakery or a café, we were Lance and Alexis Misner baking at home as Misner Family Farms. What we make—and where we make it—has grown from there.</p></div>
 <div class="page-journey-hero__aside"><span class="tag">Where it began</span><h2>Home-baked. Market-tested. Guest-grown.</h2><p>Sourdough bread, cookies, muffins, farmers markets, and local deliveries gave us our start.</p></div>
 </section>
 
@@ -65,6 +69,7 @@
 
 </div>
 
+<div data-seasonal-trim hidden aria-hidden="true"></div>
 </main>
 
 <footer class="site-footer"><div class="container"><div class="site-footer__grid">

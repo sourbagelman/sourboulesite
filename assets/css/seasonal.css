@@ -1,0 +1,338 @@
+/* Seasonal palettes are isolated from the site's content and shared design tokens. */
+html[data-sb-season] {
+  --sb-cream: #f3e2c6;
+  --sb-rust: #914629;
+  --sb-edge: #c18a48;
+  --sb-hero: #fff8ea;
+  --sb-ink: #302820;
+  --sb-copy: #51483f;
+  --sb-year-ink: #435061;
+  --sb-focus: #275879;
+  --sb-control-border: var(--sb-rust);
+  --sb-body: radial-gradient(ellipse at top left, #e8c99455, transparent 55%), linear-gradient(180deg, #fff9ee, var(--sb-cream));
+  --sb-scene: none;
+  --sb-art-height: 180px;
+}
+
+html[data-sb-season="halloween"] {
+  --sb-cream: #f0d9bd;
+  --sb-rust: #a14a24;
+  --sb-edge: #c9773d;
+  --sb-hero: #292536;
+  --sb-scene: url('../../images/seasonal/halloween-scene.svg');
+}
+
+html[data-sb-season="winter"] {
+  --sb-cream: #dde9ee;
+  --sb-rust: #305769;
+  --sb-edge: #7194a5;
+  --sb-hero: #f7fbfc;
+  --sb-body: linear-gradient(160deg, #eff6f8, var(--sb-cream));
+  --sb-scene: url('../../images/seasonal/winter-scene.svg');
+}
+
+html[data-sb-season="christmas"] {
+  --sb-cream: #e3e9dc;
+  --sb-rust: #7b3039;
+  --sb-edge: #466650;
+  --sb-hero: #fffaf0;
+  --sb-body: linear-gradient(160deg, #f5f5ec, var(--sb-cream));
+  --sb-scene: url('../../images/seasonal/christmas-scene.svg');
+}
+
+html[data-sb-season="newyear"] {
+  --sb-cream: #e6e7ef;
+  --sb-rust: #303c60;
+  --sb-edge: #b28c46;
+  --sb-hero: #202b44;
+  --sb-body: linear-gradient(160deg, #f5f3ed, var(--sb-cream));
+  --sb-scene: url('../../images/seasonal/newyear-scene.svg');
+}
+
+html[data-sb-season="valentine"] {
+  --sb-cream: #efdae0;
+  --sb-rust: #80374d;
+  --sb-edge: #b7798b;
+  --sb-hero: #fff7f8;
+  --sb-body: linear-gradient(160deg, #fff7f8, var(--sb-cream));
+  --sb-scene: url('../../images/seasonal/valentine-scene.svg');
+  --sb-art-height: 160px;
+}
+
+html[data-sb-season="spring"] {
+  --sb-cream: #e4ebd9;
+  --sb-rust: #486347;
+  --sb-edge: #94a77c;
+  --sb-hero: #fbfcf5;
+  --sb-body: linear-gradient(160deg, #fbfcf5, var(--sb-cream));
+  --sb-scene: url('../../images/seasonal/spring-scene.svg');
+  --sb-art-height: 160px;
+}
+
+html[data-sb-season="easter"] {
+  --sb-cream: #ece4ef;
+  --sb-rust: #694b75;
+  --sb-edge: #b9a0c3;
+  --sb-hero: #fffbfd;
+  --sb-body: linear-gradient(160deg, #fffbfd, var(--sb-cream));
+  --sb-scene: url('../../images/seasonal/easter-scene.svg');
+  --sb-art-height: 160px;
+}
+
+html[data-sb-season="summer"] {
+  --sb-cream: #f5e8c9;
+  --sb-rust: #855127;
+  --sb-edge: #d4a34d;
+  --sb-hero: #fffcf0;
+  --sb-body: linear-gradient(160deg, #fffcf0, var(--sb-cream));
+  --sb-scene: url('../../images/seasonal/summer-scene.svg');
+  --sb-art-height: 160px;
+}
+
+html[data-sb-season="independence"] {
+  --sb-cream: #e2e8ee;
+  --sb-rust: #354e70;
+  --sb-edge: #a45350;
+  --sb-hero: #fffcf5;
+  --sb-body: linear-gradient(160deg, #fffcf5, var(--sb-cream));
+  --sb-scene: url('../../images/seasonal/independence-scene.svg');
+  --sb-art-height: 160px;
+}
+
+html:is([data-sb-season="halloween"], [data-sb-season="newyear"]) {
+  --sb-ink: #fff4df;
+  --sb-copy: #e4dce5;
+  --sb-year-ink: #f3f0e8;
+  --sb-focus: #f3f0e8;
+  --sb-control-border: #f3f0e8;
+}
+
+html[data-sb-season] body {
+  background: var(--sb-body);
+}
+
+/* Only the dedicated introduction area receives a seasonal surface. */
+html[data-sb-season] [data-seasonal-anchor] {
+  background: var(--sb-hero);
+  color: var(--sb-ink);
+  border-top: 5px solid var(--sb-edge);
+  border-radius: 26px;
+  box-sizing: border-box;
+}
+
+html[data-sb-season] :is(.logo-wrap, .menu-order-intro, .location-directory-intro)[data-seasonal-anchor] {
+  padding: clamp(16px, 3vw, 24px);
+}
+
+html[data-sb-season] .page-journey-hero[data-seasonal-anchor] {
+  row-gap: 16px;
+}
+
+html[data-sb-season] [data-seasonal-anchor] :is(h1, h2, h3) {
+  color: var(--sb-ink);
+  text-shadow: none;
+}
+
+html[data-sb-season] [data-seasonal-anchor] p:not(.payment-note) {
+  color: var(--sb-copy);
+}
+
+html[data-sb-season] [data-seasonal-anchor] :is(.tag, .eyebrow, .wb-banner) {
+  color: #302820;
+  background: #ede3d4;
+}
+
+html[data-sb-season] [data-seasonal-anchor] .brand-name {
+  color: var(--sb-rust);
+}
+
+html:is([data-sb-season="halloween"], [data-sb-season="newyear"]) [data-seasonal-anchor] .brand-name {
+  color: #eccc91;
+}
+
+html[data-sb-season] [data-seasonal-anchor] a:not(.btn) {
+  color: var(--sb-ink);
+}
+
+/* The contact introduction has explicit inline link colors. */
+html[data-sb-season] [data-seasonal-anchor] .site-footer__links a[style] {
+  color: var(--sb-ink) !important;
+}
+
+/* Explicit foregrounds keep both Willow Bend heroes readable in every palette. */
+html[data-sb-season] [data-seasonal-anchor] .btn.primary {
+  color: #fff;
+  background: var(--sb-rust);
+  border: 1px solid var(--sb-control-border);
+}
+
+html[data-sb-season] [data-seasonal-anchor] .btn.secondary {
+  color: #302820;
+  background: #fff;
+  border: 1px solid #6c5b49;
+}
+
+html:not([data-sb-season]) .wb-hero[data-seasonal-anchor] .btn.secondary {
+  color: #302820;
+  background: #fff;
+  border: 1px solid #6c5b49;
+}
+
+html:not([data-sb-season]) .location-hero[data-seasonal-anchor]:not(.location-hero--willow) .location-hero-copy {
+  color: #302820;
+}
+
+html[data-sb-season] [data-seasonal-anchor] .btn:hover {
+  filter: brightness(.94);
+}
+
+html[data-sb-season] [data-seasonal-anchor] :is(a, button):focus-visible {
+  outline: 3px solid var(--sb-focus);
+  outline-offset: 4px;
+}
+
+html:is([data-sb-season="winter"], [data-sb-season="christmas"]) [data-seasonal-anchor] {
+  border-top: 8px solid #fff;
+  box-shadow: 0 -4px 0 #dce6e8, 0 15px 30px #28444412;
+}
+
+/* Empty hooks reserve no space when seasonal JavaScript is disabled or unavailable. */
+[data-seasonal-art]:not(.sb-seasonal-art),
+[data-seasonal-trim]:not(.sb-seasonal-trim),
+[data-seasonal-year][hidden] {
+  display: none !important;
+}
+
+html[data-sb-season] .sb-seasonal-art {
+  display: block;
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+  height: var(--sb-art-height);
+  margin: 0 0 16px;
+  pointer-events: none;
+  user-select: none;
+  background: var(--sb-scene) center / 100% 100% no-repeat;
+}
+
+html[data-sb-season="fall"] .sb-seasonal-art {
+  height: 100px;
+  background: url('../../images/seasonal/fall-full.svg') left center / 240px 100px no-repeat,
+    url('../../images/seasonal/fall-full.svg') right center / 240px 100px no-repeat;
+}
+
+html[data-sb-season] .sb-seasonal-trim {
+  width: 100%;
+  height: 100px;
+  margin: 24px 0 0;
+  pointer-events: none;
+  user-select: none;
+  background: var(--sb-scene) center / min(500px, 100%) 100px no-repeat;
+}
+
+/* The year mark is independent of the seasonal palette and remains readable in off mode. */
+.sb-year {
+  display: block;
+  font-family: Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3.3rem);
+  letter-spacing: .18em;
+  line-height: 1.15;
+  color: #435061;
+  margin: 12px 0 18px;
+  font-weight: 400;
+}
+
+:is(.location-hero--willow, .wb-hero) .sb-year {
+  color: #f3f0e8;
+}
+
+html[data-sb-season] [data-seasonal-anchor] .sb-year {
+  color: var(--sb-year-ink);
+}
+
+.logo-wrap .sb-year {
+  margin: 4px 0;
+}
+
+/* Let enlarged text wrap without crowding the existing navigation or contact actions. */
+body:has([data-seasonal-anchor]) .site-header__inner {
+  flex-wrap: wrap;
+}
+
+body:has([data-seasonal-anchor]) .mobile-nav {
+  flex-shrink: 0;
+}
+
+body:has([data-seasonal-anchor]) .section-nav {
+  top: var(--sb-header-clearance, 12rem);
+}
+
+body:has([data-seasonal-anchor]) main,
+body:has([data-seasonal-anchor]) main [id] {
+  scroll-margin-block-start: calc(var(--sb-header-clearance, 12rem) + var(--sb-section-nav-clearance, 0px) + 16px);
+}
+
+body:has([data-seasonal-anchor]) main.menu-page,
+body:has([data-seasonal-anchor]) main.menu-page [id] {
+  scroll-margin-block-start: calc(var(--sb-header-clearance, 12rem) + var(--sb-section-nav-clearance, 3rem) + 16px);
+}
+
+body:has([data-seasonal-anchor]) .closing-cta[aria-labelledby="contact-next-title"] > .page-actions {
+  min-width: 0;
+}
+
+@media (min-width: 981px) {
+  body:has([data-seasonal-anchor]) .closing-cta[aria-labelledby="contact-next-title"] {
+    grid-template-columns: minmax(min(20rem, 28%), 1.3fr) minmax(0, auto);
+  }
+}
+
+@media (max-width: 61.25rem) {
+  body:has([data-seasonal-anchor]) .mobile-nav__panel {
+    max-height: min(72vh, 34rem, max(3rem, calc(100dvh - var(--sb-header-clearance, 12rem) - 24px)));
+  }
+
+  body:has([data-seasonal-anchor]) .site-header__order {
+    position: static;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  body:has([data-seasonal-anchor]) .site-header__order > .site-nav__popover {
+    min-width: min(15rem, 100%);
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  html[data-sb-season] .sb-seasonal-art {
+    height: 100px;
+    margin-bottom: 10px;
+  }
+
+  html[data-sb-season="fall"] .sb-seasonal-art {
+    height: 68px;
+    background: url('../../images/seasonal/fall-full.svg') center / min(200px, 100%) 76px no-repeat;
+  }
+
+  html:is([data-sb-season="valentine"], [data-sb-season="spring"], [data-sb-season="easter"], [data-sb-season="summer"], [data-sb-season="independence"]) .sb-seasonal-art {
+    height: 90px;
+  }
+
+  html[data-sb-season] .sb-seasonal-trim {
+    height: 72px;
+    margin-top: 16px;
+    background-size: min(360px, 100%) 72px;
+  }
+}
+
+@media print {
+  .sb-seasonal-art,
+  .sb-seasonal-trim {
+    display: none !important;
+  }
+
+  html[data-sb-season] body {
+    background: #fff;
+  }
+}

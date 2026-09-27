@@ -27,6 +27,9 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"ContactPage","@id":"https://thesourboule.com/contact.html#webpage","url":"https://thesourboule.com/contact.html","name":"Contact The Sour Boule","about":{"@id":"https://thesourboule.com/#organization"},"mainEntity":[{"@id":"https://thesourboule.com/fort-worth.html#restaurant"},{"@id":"https://thesourboule.com/willow-bend.html#restaurant"}]}
 </script>
+<link rel="stylesheet" href="assets/css/seasonal.css">
+<script src="assets/js/seasonal-config.js" defer></script>
+<script src="assets/js/seasonal.js" data-seasonal-controller defer></script>
 </head>
 
 <body>
@@ -44,11 +47,12 @@
 
 <div class="container stack" style="gap:28px;">
 
-<section class="page-journey-hero">
+<section class="page-journey-hero" data-seasonal-anchor>
+<div data-seasonal-art hidden aria-hidden="true"></div>
 
 <div>
 <span class="eyebrow">Contact</span>
-<h1 class="page-title">Reach the right Sour Boule location</h1>
+<span data-seasonal-year hidden></span><h1 class="page-title">Reach the right Sour Boule location</h1>
 <p>Choose a location for direct phone, menu, and directions. Use the message form for questions, feedback, or anything that needs more detail.</p>
 <div class="page-actions"><a class="btn primary" href="#contact-form">Send a message</a><a class="btn secondary" href="#contact-locations">Contact a location</a></div>
 </div>
@@ -237,6 +241,7 @@ box-shadow:0 22px 48px rgba(22,20,18,.12), 0 8px 20px rgba(22,20,18,.08);
 
 <section class="closing-cta" aria-labelledby="contact-next-title"><div><span class="eyebrow">Choose the right path</span><h2 id="contact-next-title">Need a menu, order link, or location details?</h2><p>Compare both locations for the correct menu and ordering destination, or use the dedicated catering and private-event pages for those inquiries.</p></div><div class="page-actions"><a class="btn primary" href="locations.html">Compare Locations</a><a class="btn secondary" href="catering.html">Catering Inquiry</a><a class="btn secondary" href="events.html">Private Event Inquiry</a></div></section>
 </div>
+<div data-seasonal-trim hidden aria-hidden="true"></div>
 </main>
 
 <footer class="site-footer"><div class="container"><div class="site-footer__grid">

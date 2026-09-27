@@ -26,6 +26,9 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebPage","@id":"https://thesourboule.com/events.html#webpage","url":"https://thesourboule.com/events.html","name":"Private Events in Fort Worth | The Sour Boule","about":{"@id":"https://thesourboule.com/fort-worth.html#restaurant"}}
 </script>
+<link rel="stylesheet" href="assets/css/seasonal.css">
+<script src="assets/js/seasonal-config.js" defer></script>
+<script src="assets/js/seasonal.js" data-seasonal-controller defer></script>
 </head>
 
 <body>
@@ -44,11 +47,12 @@
 
 <div class="container stack" style="gap:28px;">
 
-<section class="page-journey-hero">
+<section class="page-journey-hero" data-seasonal-anchor>
+<div data-seasonal-art hidden aria-hidden="true"></div>
 
 <div>
 <span class="eyebrow">Private Events</span>
-<h1 class="page-title">Host something unique at our Fort Worth café</h1>
+<span data-seasonal-year hidden></span><h1 class="page-title">Host something unique at our Fort Worth café</h1>
 <p>Use this page to ask about hosting a private gathering, workshop, class, or creative event at the original Southwest Boulevard café.</p>
 <div class="page-actions"><a class="btn primary" href="#event-inquiry">Request an event</a><a class="btn secondary" href="fort-worth.html">See the café</a></div>
 </div>
@@ -235,6 +239,7 @@ box-shadow:0 22px 48px rgba(22,20,18,.12), 0 8px 20px rgba(22,20,18,.08);
 
 </div>
 
+<div data-seasonal-trim hidden aria-hidden="true"></div>
 </main>
 
 <footer class="site-footer"><div class="container"><div class="site-footer__grid">
