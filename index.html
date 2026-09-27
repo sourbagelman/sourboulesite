@@ -60,6 +60,9 @@
   ]
 }
 </script>
+<link rel="stylesheet" href="assets/css/seasonal.css">
+<script src="assets/js/seasonal-config.js" defer></script>
+<script src="assets/js/seasonal.js" data-seasonal-controller defer></script>
 </head>
 <body class="home-page">
 <a class="site-skip-link" href="#main-content">Skip to main content</a>
@@ -104,10 +107,11 @@
 
 <main id="main-content" class="site-main home-main">
   <div class="container stack home-main__stack">
-    <section class="page-intro home-opening" aria-labelledby="home-title">
+    <section class="page-intro home-opening" aria-labelledby="home-title" data-seasonal-anchor>
+<div data-seasonal-art hidden aria-hidden="true"></div>
       <div class="page-intro__content">
         <span class="eyebrow">Fort Worth born • Naturally leavened</span>
-        <h1 id="home-title">The Sour Boule is a sourdough bakery &amp; café.</h1>
+        <span data-seasonal-year hidden></span><h1 id="home-title">The Sour Boule is a sourdough bakery &amp; café.</h1>
         <p>Naturally fermented bread, handcrafted sandwiches, and two local kitchens with their own menus. Choose Fort Worth or Willow Bend for location-specific details and online ordering.</p>
       </div>
     </section>
@@ -174,6 +178,7 @@
       <div class="page-actions"><a class="btn primary" href="locations.html">Compare Locations</a></div>
     </section>
   </div>
+<div data-seasonal-trim hidden aria-hidden="true"></div>
 </main>
 
 <footer class="site-footer">

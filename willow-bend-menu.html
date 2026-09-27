@@ -182,6 +182,9 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://thesourboule.com/willow-bend-menu.html#webpage","url":"https://thesourboule.com/willow-bend-menu.html","name":"Willow Bend Menu | Burgers, Sandwiches & Sourdough in Willow Park","mainEntity":{"@id":"https://thesourboule.com/willow-bend-menu.html#menu"}},{"@type":"Menu","@id":"https://thesourboule.com/willow-bend-menu.html#menu","name":"The Sour Boule Willow Bend Menu","url":"https://thesourboule.com/willow-bend-menu.html","inLanguage":"en-US","provider":{"@id":"https://thesourboule.com/willow-bend.html#restaurant"}}]}
 </script>
+<link rel="stylesheet" href="assets/css/seasonal.css">
+<script src="assets/js/seasonal-config.js" defer></script>
+<script src="assets/js/seasonal.js" data-seasonal-controller defer></script>
 </head>
 
 <body class="wb-page">
@@ -200,9 +203,10 @@
 
 <div class="container stack" style="gap:28px;">
 
-<section class="wb-hero">
+<section class="wb-hero" data-seasonal-anchor>
+<div data-seasonal-art hidden aria-hidden="true"></div>
 <span class="wb-banner">Everything Comes As Take Out</span>
-<h1>Willow Bend Menu</h1>
+<span data-seasonal-year hidden></span><h1>Willow Bend Menu</h1>
 <p>
 The Sour Boule – Willow Bend is built around lunch, dinner, pickup, sourdough, burgers, Hit Dogs, salads, brunch-ish favorites, sides, drinks, desserts, and the bread that started it all.
 </p>
@@ -434,6 +438,7 @@ Consumption of undercooked meat, poultry, eggs, or seafood may increase the risk
 
 </div>
 
+<div data-seasonal-trim hidden aria-hidden="true"></div>
 </main>
 
 <footer class="site-footer"><div class="container"><div class="site-footer__grid">

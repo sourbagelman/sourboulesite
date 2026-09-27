@@ -93,6 +93,9 @@
   ]
 }
 </script>
+<link rel="stylesheet" href="assets/css/seasonal.css">
+<script src="assets/js/seasonal-config.js" defer></script>
+<script src="assets/js/seasonal.js" data-seasonal-controller defer></script>
 </head>
 
 <body>
@@ -111,11 +114,12 @@
 
 <div class="container stack" style="gap:28px;">
 
-<section class="location-hero location-hero--willow willow-card" style="padding:34px;">
+<section class="location-hero location-hero--willow willow-card" style="padding:34px;" data-seasonal-anchor>
+<div data-seasonal-art hidden aria-hidden="true"></div>
 
 <span class="tag">Willow Bend</span>
 
-<h1>The Sour Boule – Willow Bend</h1>
+<span data-seasonal-year hidden></span><h1>The Sour Boule – Willow Bend</h1>
 
 <p class="location-hero-copy">
 Willow Bend is our takeout-focused lunch and dinner location built around sourdough sandwiches, burgers, Hit Dogs, salads, brunch-ish favorites, drinks, desserts, and the fresh bread that started it all.
@@ -221,6 +225,7 @@ Order Willow Bend
 
 </div>
 
+<div data-seasonal-trim hidden aria-hidden="true"></div>
 </main>
 
 <footer class="site-footer"><div class="container"><div class="site-footer__grid">

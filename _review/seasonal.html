@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" data-review-enabled="false">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Seasonal design review | The Sour Boule</title>
+<link rel="stylesheet" href="/seasonal-review.css">
+<script src="/assets/js/seasonal-config.js" defer></script>
+<script src="/seasonal-review.js" defer></script>
+</head>
+<body>
+<main>
+  <header><p class="eyebrow">The Sour Boule · October update</p><h1>Seasonal design review</h1><p>Review the supplied artwork, the annual calendar, and the separate 2027 year mark on current pages.</p></header>
+  <p id="review-status" role="status">Controls are available only in the isolated review build.</p>
+  <form id="review-controls">
+    <fieldset disabled><legend>Page and seasonal state</legend>
+      <label>Page<select id="review-page"><option value="index.html">Homepage</option><option value="brand-home.html">Location chooser</option><option value="fort-worth.html">Fort Worth</option><option value="willow-bend.html">Willow Bend</option><option value="menus-order.html">Menus &amp; Order</option><option value="menu.html">Fort Worth menu</option><option value="willow-bend-menu.html">Willow Bend menu</option><option value="locations.html">Locations</option><option value="about.html">About</option><option value="catering.html">Catering</option><option value="events.html">Events</option><option value="contact.html">Contact</option></select></label>
+      <label>Theme<select id="review-theme"><option value="auto">Automatic calendar</option><option value="off">Off / normal website</option></select></label>
+      <label>Chicago calendar date<input id="review-date" type="date"><small>Leave blank for today. A date affects only this review.</small></label>
+      <label>2027 year mark<select id="review-year"><option value="auto">Follow the calendar</option><option value="2027">Show 2027 intentionally</option><option value="off">Hide 2027</option></select><small id="year-help">Available with New Year’s, winter, Valentine’s, and off mode; omitted from other themes.</small></label>
+      <label>Preview width<select id="review-width"><option value="100%">Fit available width</option><option value="320px">320px mobile</option><option value="390px">390px mobile</option><option value="1366px">1366px desktop</option></select></label>
+      <div class="actions"><button type="submit">Apply review</button><a id="open-page" href="#" target="_blank" rel="noopener">Open page in a new tab</a></div>
+    </fieldset>
+  </form>
+  <div class="frame-wrap"><iframe id="review-frame" title="Selected Sour Boule page" loading="eager"></iframe></div>
+  <section aria-labelledby="calendar-title"><h2 id="calendar-title">Recurring schedule · America/Chicago</h2><p>Holiday overrides take precedence. New Year’s continues across December and January. There is no automatic off period.</p><div class="table-wrap"><table><thead><tr><th scope="col">Dates</th><th scope="col">Theme</th><th scope="col">Priority</th></tr></thead><tbody id="schedule-rows"></tbody></table></div></section>
+  <section aria-labelledby="year-title"><h2 id="year-title">The separate 2027 year mark</h2><p>Production shows 2027 from January 1 through February 28, 2027 in Chicago, then removes it on March 1. It does not appear automatically in December 2026 or later years. Hiding the year never disables seasonal decorations.</p><p>The countdown, registration, cookie passes, and staff redemption are outside this integration.</p></section>
+</main>
+</body>
+</html>

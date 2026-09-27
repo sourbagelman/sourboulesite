@@ -27,6 +27,9 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://thesourboule.com/menu.html#webpage","url":"https://thesourboule.com/menu.html","name":"Fort Worth Menu | The Sour Boule Sourdough Bakery & Cafe","mainEntity":{"@id":"https://thesourboule.com/menu.html#menu"}},{"@type":"Menu","@id":"https://thesourboule.com/menu.html#menu","name":"The Sour Boule Fort Worth Menu","url":"https://thesourboule.com/menu.html","inLanguage":"en-US","provider":{"@id":"https://thesourboule.com/fort-worth.html#restaurant"}}]}
 </script>
+<link rel="stylesheet" href="assets/css/seasonal.css">
+<script src="assets/js/seasonal-config.js" defer></script>
+<script src="assets/js/seasonal.js" data-seasonal-controller defer></script>
 </head>
 
 <body>
@@ -45,11 +48,12 @@
 
 <div class="container stack" style="gap:28px;">
 
-<section class="page-journey-hero">
+<section class="page-journey-hero" data-seasonal-anchor>
+<div data-seasonal-art hidden aria-hidden="true"></div>
 
 <div>
 <span class="eyebrow">Fort Worth Menu</span>
-<h1 class="page-title">The Sour Boule Fort Worth Menu</h1>
+<span data-seasonal-year hidden></span><h1 class="page-title">The Sour Boule Fort Worth Menu</h1>
 <p>Breakfast, lunch, fresh sourdough, coffee, and house-made food from our original Southwest Boulevard café.</p>
 <div class="page-actions"><a class="btn primary" href="https://cash.app/$thesourboule/l/CALL_CAESDUwxS0FDNkRTS1NROU0/pickup" target="_blank" rel="noopener">Order Fort Worth</a><a class="btn secondary" href="fort-worth.html">Fort Worth Location</a></div>
 </div>
@@ -367,6 +371,7 @@ Consumption of undercooked meat, poultry, eggs, or seafood may increase the risk
 
 </div>
 
+<div data-seasonal-trim hidden aria-hidden="true"></div>
 </main>
 
 <footer class="site-footer"><div class="container"><div class="site-footer__grid">

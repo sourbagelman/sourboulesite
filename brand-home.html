@@ -233,6 +233,9 @@ h1 {
 </style>
 <link rel="stylesheet" href="assets/css/style.css">
 
+<link rel="stylesheet" href="assets/css/seasonal.css">
+<script src="assets/js/seasonal-config.js" defer></script>
+<script src="assets/js/seasonal.js" data-seasonal-controller defer></script>
 </head>
 
 <body class="brand-compatibility">
@@ -254,7 +257,8 @@ This is a legacy site link. <a href="index.html">Continue to the current Sour Bo
 
 <main id="main-content" class="splash site-main">
 
-<section class="logo-wrap">
+<section class="logo-wrap" data-seasonal-anchor>
+<div data-seasonal-art hidden aria-hidden="true"></div>
 
 <img
   src="images/logo.png"
@@ -265,6 +269,7 @@ This is a legacy site link. <a href="index.html">Continue to the current Sour Bo
 
 <div class="brand-name">The Sour Boule</div>
 
+<span data-seasonal-year hidden></span>
 <h1>Choose your location.</h1>
 
 <p class="sub">
@@ -341,6 +346,7 @@ Willow Bend Details
 
 <div class="footer-note">Slow bread. Real ingredients. Built intentionally.</div>
 
+<div data-seasonal-trim hidden aria-hidden="true"></div>
 </main>
 
 <footer class="site-footer"><div class="container"><div class="site-footer__grid">

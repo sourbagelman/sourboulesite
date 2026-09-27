@@ -55,6 +55,9 @@
   }
 }
 </script>
+<link rel="stylesheet" href="assets/css/seasonal.css">
+<script src="assets/js/seasonal-config.js" defer></script>
+<script src="assets/js/seasonal.js" data-seasonal-controller defer></script>
 </head>
 <body>
 <a class="site-skip-link" href="#main-content">Skip to main content</a>
@@ -70,8 +73,9 @@
 
 <main id="main-content" class="site-main location-directory-main">
   <div class="container stack location-directory">
-    <section class="location-directory-intro" aria-labelledby="locations-title">
-      <h1 id="locations-title">Locations</h1>
+    <section class="location-directory-intro" aria-labelledby="locations-title" data-seasonal-anchor>
+<div data-seasonal-art hidden aria-hidden="true"></div>
+      <span data-seasonal-year hidden></span><h1 id="locations-title">Locations</h1>
       <p>Visit The Sour Boule in Fort Worth or Willow Bend.</p>
       <p class="payment-note payment-note--compact"><span class="payment-note__symbol" aria-hidden="true">₿</span><strong>Bitcoin accepted in person at both locations.</strong></p>
     </section>
@@ -122,6 +126,7 @@
 
     <section class="closing-cta" aria-labelledby="locations-help-title"><div><span class="eyebrow">Plan your visit</span><h2 id="locations-help-title">Need help finding the right kitchen?</h2><p>Contact The Sour Boule with a location question, or return home to keep exploring.</p></div><div class="page-actions"><a class="btn primary" href="contact.html">Contact The Sour Boule</a><a class="btn secondary" href="index.html">Return Home</a></div></section>
   </div>
+<div data-seasonal-trim hidden aria-hidden="true"></div>
 </main>
 
 <footer class="site-footer"><div class="container"><div class="site-footer__grid">
