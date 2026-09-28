@@ -1,49 +1,69 @@
-# Release gate
+# New Year requirements inside the October release
 
-All unchecked items are still required. This is not permission to deploy.
+**Included in the release plan; not deployed or production-verified.**
+The current combined decision, exact candidate lineage, approval gates and
+release procedure are in
+[the October release checklist](../../../docs/october-release-checklist.md).
+This file records the feature-specific checks that travel with that release.
 
-- [x] Approved offer and dates reproduced in an isolated preview.
-- [x] Simulations labeled and sample passes watermarked.
-- [x] Current repository inspected read-only; Pages enabled and static source observed.
-- [x] Backend target chosen without assuming an existing website database.
-- [x] Local storage, eligibility, duplicate issuance and redemption logic implemented.
-- [x] 72 backend/auth/content-regression tests passed locally.
-- [x] 41 Chromium UI checks and 13 focused year-transition checks passed.
-- [x] 10 combined local browser/backend checks passed with disclosed transport/auth substitutes.
-- [x] Live website and approved seasonal designs untouched.
-- [x] Final visual lock: hero 2026 before midnight -> 2027 at midnight; unchanged ivory styling.
-- [x] Final offer lock: one free cookie, no purchase required; client and backend purchase gate removed.
-- [ ] Verify the no-purchase offer and redemption without purchase data in actual cloud staging.
-- [ ] Owner confirms January 1-3 hours/closures at both locations.
-- [ ] Confirm Cloudflare account/zone and actual live DNS/proxy routing.
-- [ ] Approve staff identities and location permissions.
-- [ ] Provision separate authorized staging resources and secret.
-- [ ] Pin tooling, validate config and run a Worker build/dry run.
-- [ ] Apply real D1 migration; never copy the local lab database or artificial windows.
-- [ ] Real Access sign-in/JWKS/role checks and alternate-origin protection verified.
-- [ ] Native HTTPS cookie, iframe, CORS and CSP behavior verified.
-- [ ] Real iPhone Safari and Android Chrome foreground/background/reconnect tests.
-- [ ] True simultaneous cross-location cloud redemption and lost-response retry verified.
-- [ ] Test all exact time, grace and operating-hours boundaries remotely.
-- [ ] Review code-entry usability; QR/camera scanning is an optional later feature, not implemented.
-- [ ] Keyboard, screen reader, text zoom, safe-area and reduced-motion checks on actual devices.
-- [ ] Midnight burst/load, outage behavior, backup restore, logs and retention cleanup reviewed.
-- [ ] Re-fetch latest website HEAD and apply only additive integration changes.
-- [ ] Verify menus, prices, hours, ordering URLs and seasonal themes are unchanged.
-- [ ] Confirm all preview/local clock controls are excluded from production assets/entrypoint.
-- [ ] Record explicit October release approval before enabling any live integration.
+## Approved and retained
 
+- [x] Locked experience, 2026 → 2027 ivory year, fireworks and Chicago schedule.
+- [x] One free cookie, no purchase required, either location through January 3
+  during that location's confirmed operating hours; no purchase/receipt gate.
+- [x] Server-authoritative eligibility/reconnect rules and five-digit single-use
+  code flow; names are not identifiers.
+- [x] Additive disabled loader on the current twelve website pages; seasonal and
+  business content preserved at the approved checkpoint.
+- [x] Private staging delivered. Its labeled results remain in
+  [CLOUD_REHEARSAL.md](../staging/CLOUD_REHEARSAL.md) and
+  [PRIVATE_DELIVERY.md](../staging/PRIVATE_DELIVERY.md). This is not production sign-off.
+- [x] Complete feature included in the same October release plan: production
+  Worker/D1, public guest/pass, protected fixed stations, recovery and scheduled
+  loader. No separate feature launch or manual New Year's Eve activation.
 
-## Revision 2 station and code gates
+## Production setup and release checks — pending
 
-- Provision a fresh v2 schema; do not mistake CREATE IF NOT EXISTS for a v1 upgrade.
-- Confirm exactly one location per station identity, one designated iPhone each.
-- Configure manager-run sign-in and shift-length Access sessions; test session expiry.
-- Confirm numeric input, Check code -> Redeem cookie -> Next guest without scrolling
-  to hunt for the redeem action on the actual phones. No location picker/checkbox.
-- Test guest recovery still needs the long session cookie; no anonymous code lookup.
-- Verify 0xxxx samples cannot be issued/redeemed by the real backend.
-- Test unique code assignment, collision fallback, non-recycling and capacity failure
-  against real D1. Keep redeemed codes reserved through the support window.
-- Review authenticated wrong-code limits, privacy-safe logging and station-level audit.
-- Rehearse upgraded fireworks on both iPhones; tune particle limits if needed.
+- [ ] Exact final October candidate SHA approved after reconciling newest website
+  changes; compare all menus, prices, hours, addresses, links, forms and seasons.
+- [ ] Production resource/account/zone/cost/DNS proposal approved; service endpoint
+  provisioned separately from private staging with a fresh D1 and secret.
+- [ ] Production Worker/assets built from the production entrypoint, never staging
+  or preview exports; no artificial dates, fixtures, tester guest gate or test data.
+- [ ] Fresh schema and production marker applied; production binding/AUD verified.
+- [ ] Real January 1–3 hours/closures explicitly confirmed and UTC windows checked
+  at exact opening, closing and final campaign boundaries for both locations.
+- [ ] Production station subjects/emails, one location per phone, responsible
+  managers, session/sign-in policy approved and entered through secure setup.
+- [ ] Public guest access plus staff-only Access/JWT protection, wrong audience,
+  expired/revoked identity, missing/multiple assignment, direct origin and alternate
+  asset/API route protection verified in the production configuration.
+- [ ] Real HTTPS cookie/iframe/CORS/CSP behavior and earned-pass recovery verified.
+- [ ] D1 persistence, duplicate-claim recovery, simultaneous cross-location atomic
+  redemption/audit, lost-response retry and no-purchase payload verified for the
+  final configuration. Prior staging results remain evidence, not an automatic pass.
+- [ ] Code uniqueness/collision fallback/capacity, no code recycling, reserved
+  `0xxxx` demo rejection, wrong-code limits and station audit reviewed.
+- [ ] Actual Fort Worth and Willow Bend iPhones, guest iPhone/Android, screen lock,
+  foreground/background, Wi-Fi/cellular reconnect inside/outside grace, saved
+  passes, private mode and multiple tabs verified.
+- [ ] Numeric keypad and Check → Redeem → Next guest usable on both actual phones;
+  no per-guest login, location picker, purchase checkbox or QR requirement.
+- [ ] Physical screen reader, keyboard/focus restoration, text zoom, reduced motion,
+  safe areas and fireworks accessibility verified.
+- [ ] Actual 12-hour expiry if retained for production, real JWKS rotation/outage,
+  sustained midnight load/capacity and outage recovery verified.
+- [ ] Support owner, retention/cleanup, privacy-safe logging, backup/restore policy
+  and a tested restore completed. Code reservations last through support.
+- [ ] Exact October install smoke check: before event, no takeover; trusted server
+  schedule opens 23:50, descends 23:59, changes year/fireworks 00:00, closes 00:05;
+  Continue prevents reopening and recovery remains accessible afterward.
+- [ ] Owner explicitly authorizes the finalized October release, including service
+  deployment and loader enablement. No additional New Year's Eve activation step.
+- [ ] Deploy and verify service first, then enable the real loader in that same
+  authorized website release; record final commit/Worker version and rollback.
+- [ ] Post-release real-origin smoke checks pass without synthetic production
+  eligibility, forged clocks, sample rewards or production data resets.
+
+Unchecked items must not be silently skipped. Production settings and holiday
+hours remain unresolved until supplied; the approved design/offer are not reopened.

@@ -1,6 +1,32 @@
 # CODEX HANDOFF: The Sour Boule New Year's Eve celebration
 
-## Current delivery: private staging complete
+## Current decision: included in the October website release
+
+The owner has locked the approved celebration and requires the complete feature
+in the **finalized October website release**, not a separate launch. The current
+[October release checklist](../../docs/october-release-checklist.md) records the
+candidate lineage, production scope, fixed schedule, setup inputs, outstanding
+device/security/operational checks and release approvals.
+
+The approved private-delivery checkpoint is
+`651a435e8ef840eac5b0d84f73a86a7131a092a8` on
+`feature/new-year-cookie-promotion`. It includes the approved redesign and seasonal
+baseline. Production preparation includes the real Worker/D1 configuration,
+public guest/pass recovery, protected fixed-station staff pages/API and scheduled
+website loader. Private simulation/tester restrictions, artificial clocks and
+test records are excluded from production.
+
+**Included in the release plan and locally prepared does not mean integrated into
+the final release branch or production-verified.** No final October release SHA
+or production deployment is approved yet. Production DNS, resource/cost and
+release permissions remain separate. Both shipped loaders stay disabled until
+the explicitly authorized October release. That release must enable the real
+server-timed schedule: December 31, 2026 at 11:50 PM Chicago opening, 11:59 PM
+descent, January 1 midnight 2027/fireworks, and 12:05 AM return. Installing in
+October does not open the takeover then, and requires no manual New Year's Eve
+activation. Approved design, no-purchase terms and eligibility are not reopened.
+
+## Completed private delivery retained
 
 The deployed private review links, simulation controls, verification results and
 pending release checks are in [staging/PRIVATE_DELIVERY.md](staging/PRIVATE_DELIVERY.md).
@@ -11,7 +37,9 @@ is still required. No further timed rehearsal is scheduled.
 
 The original package handoff below records the Revision 4 design and offer lock.
 Its original statements about deployment/local-only status describe the package
-at delivery; the current private-staging status above supersedes those statements.
+at delivery; the current October decision and private-delivery status above
+supersede those statements. Holiday hours and unresolved production inputs remain
+unconfigured release gates, not blockers to the completed private handoff.
 
 ## Original Revision 4 package handoff
 

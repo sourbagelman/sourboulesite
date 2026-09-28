@@ -1,117 +1,111 @@
-# Production release gate and historical local setup record
+# Production setup for the combined October release
 
-Historical local-implementation record below. The subsequent owner request
-authorizes **private staging only**, subject to its explicit account, identity,
-cost and DNS approval boundaries. Current staging preparation and approval state
-are documented in [staging/README.md](../staging/README.md). Production remains
-unapproved and disabled; that staging request does not authorize live release.
+The owner has approved inclusion of the locked New Year feature in the finalized
+October website release, not a separate launch. This is **not deployment approval**.
+The authoritative combined checklist is
+[docs/october-release-checklist.md](../../../docs/october-release-checklist.md).
+The approved feature checkpoint is `651a435e8ef840eac5b0d84f73a86a7131a092a8`.
 
-## Environment verified read-only on September 27, 2026
+## Current boundary
 
-- GitHub Pages serves `sourbagelman/sourboulesite`, `main`, root `/`, with custom
-  domain `thesourboule.com`. Latest built commit is
-  `6d7ba10f370727f86d63a7e2d285152e23790f45` (September 26).
-- The domain resolves to the four GitHub Pages IPv4 addresses. Authoritative DNS
-  nameservers are `alfred.ns.cloudflare.com` and `lily.ns.cloudflare.com`.
-- Proposed `celebrate.thesourboule.com` had no DNS answer. It remains a proposal.
-- Local Wrangler `whoami` could not authenticate (token refresh failed; not
-  logged in). No account, zone, Worker, D1 database, Access application, policy,
-  identities, bindings or secrets could be verified from an authenticated cloud
-  account. Nothing was provisioned.
-- Existing separate seasonal review hosting was not changed or reused.
+The latest remote seasonal candidate `b08545e` contains redesign `d49eea7`; the
+approved New Year checkpoint already descends from both. Preparation remains on
+`feature/new-year-cookie-promotion`. No existing website or seasonal file needs
+replacement. Re-read remote heads and reconcile newer business edits before the
+final October candidate is approved. Never restore pages from this package.
 
-Cloudflare documents D1 batches as transactions, so the eligibility batch and
-single conditional redemption update plus audit trigger fit the target model.
-The application still must be exercised on real D1. Access JWT validation must
-verify signature, trusted issuer, application audience and validity, followed by
-the application's approved active identity and fixed station assignment.
+Private staging is complete; its evidence is in
+[PRIVATE_DELIVERY.md](../staging/PRIVATE_DELIVERY.md) and
+[CLOUD_REHEARSAL.md](../staging/CLOUD_REHEARSAL.md). Those are not production
+verification. Do not deploy the staging entrypoint, assets, database, audience,
+tester allowlist, artificial time anchors or preview controls to production.
 
-Primary references checked during implementation:
+## Prepared production artifacts
 
-- [D1 batch transactions and bindings](https://developers.cloudflare.com/d1/worker-api/d1-database/)
-- [Cloudflare Access JWT validation](https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/authorization-cookie/validating-json/)
-- [Workers static asset routing](https://developers.cloudflare.com/workers/static-assets/routing/advanced/html-handling/)
+Run locally from `_features/new-year`:
 
-## Owner inputs needed before dependent cloud work
+```sh
+node production/prepare.mjs
+```
 
-1. Explicit authorization for isolated cloud staging, approved Cloudflare account
-   and zone, staging hostname/access policy, and eventual production service
-   hostname. Cloud credentials should be entered through Cloudflare/CLI secret
-   facilities, not sent in chat or committed.
-2. Actual January 1, 2 and 3, 2027 opening/closing times or closures for **both**
-   locations in America/Chicago. Do not infer them from regular website hours.
-3. Two approved station identities: verified Access subject and email for Fort
-   Worth, and a distinct subject/email for Willow Bend. Each identity gets one
-   active staff record and exactly one backend location assignment. Identify the
-   manager responsible for signing in the two designated iPhones.
-4. Approved shift session length (handoff proposes 12 hours), MFA/access policy,
-   manager reauthentication procedure, expected peak attendance, support owner,
-   operational data retention/cleanup date, and backup/restore expectations.
+This creates a fresh ignored `.local/production-build-*` directory containing:
 
-The event times, no-purchase offer, design, code length and guest/staff flows are
-already approved; they are not new decisions.
+- Exactly seven real guest/staff service assets. Guest renderers, offer, recovery
+  and visual design remain unchanged. Staff HTML/client references use the
+  authenticated `/staff/assets/*` and `/staff/api/*` namespace already exercised
+  in staging, without staging labels or simulated responses.
+- A production-specific Wrangler configuration targeting
+  `production/worker.mjs`, separate `sour-boule-nye-production` Worker/D1 names,
+  Worker-first assets, disabled workers.dev/version-preview access and no routes.
+- The existing fresh schema plus a production environment marker migration.
+  Both contain zero guest/test/staff records and no guessed holiday hours.
+- A manifest clearly marked preparation only, with current source hashes and
+  pending setup. It does not copy, replace, enable or deploy website pages.
 
-## Exact remaining setup, once separately authorized
+The template intentionally has no account assignment or DNS route, unresolved
+production D1/AUD placeholders, and `PRODUCTION_ENABLED=false`. The actual
+website loader remains `ENABLED=false`. These gates must be changed only during
+preparation of the explicitly authorized final October release.
 
-- Create separate new staging and production Worker/D1 resources and separate
-  keys. Confirm resource/zone ownership and billing before provisioning. No
-  reusable cloud database is assumed. Keep source on the approved release branch.
-- Replace the staging `database_id` placeholder with the created D1 binding ID;
-  retain `ASSETS` and `DB`. Apply `migrations/0001_initial.sql` **only to a fresh
-  database**. The reviewed initial schema adds `entries.pre_observed_ms`. A
-  populated older database requires a separately reviewed migration, not this
-  `CREATE IF NOT EXISTS` file.
-- Set `PASS_SECRET` through Worker secrets with at least 32 random bytes. It is a
-  server-only rate-key salt. Never copy `.local`, lab staff/control tokens, test
-  station rows, sample passes, or artificial opening windows.
-- Configure the actual Access issuer/team URL and staff application's audience
-  in `ACCESS_ISSUER`/`ACCESS_AUD`. Protect both `/staff*` and `/api/staff/*`. Keep
-  Worker JWT verification enabled. Keep workers.dev and public preview URLs
-  disabled; test direct origins and alternate hostnames cannot bypass staff auth.
-- Provision each actual verified subject/email into `staff_users`, active=1, and
-  one corresponding `staff_locations` row. Verify missing/multiple assignments
-  fail closed. Client input must not choose the station.
-- Enter owner-confirmed dated windows into `redemption_windows` with half-open UTC
-  boundaries `[opens_ms, closes_ms)`. January dates are CST (UTC−06:00); validate
-  every conversion against America/Chicago. Closed days get no window. No window
-  means no redemption. No window may extend redemption beyond
-  `2027-01-04T06:00:00Z`. Keep ordinary website hours unchanged.
-- Configure the approved service domain/HTTPS only after DNS authorization. Allow
-  only actual website origins in `WEBSITE_ORIGINS` and iframe CSP. If choosing a
-  different hostname, review the explicit service/parent allowlists together.
-- Use a staging-only server clock harness and isolated data for rehearsal; never
-  ship that clock or test auth in the production entrypoint. Production's default
-  entrypoint uses server time, real Access validation and live cookie policy.
-- Agree and implement scheduled cleanup/backup operations after the owner chooses
-  retention. Current code intentionally does not invent a retention date or run a
-  purge. Retain code reservations through support; never recycle used codes.
+The production target is `https://celebrate.thesourboule.com`, as already used by
+both disabled loader copies. It is a **proposed production hostname**, not an
+already provisioned or DNS-approved production endpoint. Production links will
+be `/` for guests, `/?pass=1` for recovery and `/staff/` for stations. No staging
+URL is a production fallback.
 
-## Release checklist
+## Required setup and owner inputs
 
-- [ ] Real cloud staging: migrations; persistence across Worker revisions; same
-  pass after retry/reconnect; simultaneous issuance; two-location atomic
-  redemption/audit; no-purchase payload; expiry and every approved closing time.
-- [ ] Real Access: two fixed stations, session expiry/revocation, removed users,
-  forged/expired/wrong-audience JWTs, JWKS rotation/outage, direct-origin bypass.
-- [ ] Physical iPhone Safari at each station and guest iPhone/Android: native HTTPS
-  Secure/HttpOnly cookie handling, same-site iframe storage, private mode, saved
-  pass, numeric keyboard, orientation/safe areas, screen lock, app/tab switching,
-  Wi-Fi/cell loss, reconnect inside/outside grace, and multi-tab behavior.
-- [ ] Accessibility: physical screen reader, keyboard focus trap/restoration,
-  text zoom, reduced motion, touch targets, clear connection failure and no strobe.
-- [ ] Operational load/burst, database capacity, retry behavior, backup/restore,
-  log redaction (no names/codes/secrets/request bodies), retention and support.
-- [ ] Recheck current site and seasonal baseline at release time; apply additive
-  loader only. No snapshots, ordering/form/price/hour/content replacements.
-- [ ] Build only Worker `src/worker.mjs` plus `public/`; inspect bundle for absence
-  of local clock/auth routes. Never upload offline previews or lab data. Re-run
-  local suites and dry-run with final reviewed configuration.
-- [ ] Obtain separate explicit production release approval, including the
-  authorized website branch/release, service/DNS changes and enabling the loader.
-  Until then `ENABLED=false` stays in both source and generated website asset.
-- [ ] With that approval only: deploy service, verify health/protection, point the
-  versioned loader to the approved HTTPS service and enable it, then run live
-  smoke checks without creating fake production eligibility or sample passes.
+1. Confirm the production account/zone, exact Worker/D1/domain proposal and costs,
+   then obtain the existing separate DNS/cost approvals. The account verified
+   for private staging does not itself authorize production resource creation.
+2. Create a fresh production D1 and Worker only with authorization. Set the actual
+   D1 ID; apply `0001_initial.sql` then `0002_production_environment.sql` to that
+   fresh database. Never migrate by copying staging/lab databases. The production
+   wrapper requires its own marker and rejects a staging database.
+3. Provision a fresh server-side `PASS_SECRET` with at least 32 random bytes via
+   secure Worker secret input. No secret belongs in JSON, source, Git or chat.
+4. Configure a separate production staff Access application and real production
+   `ACCESS_AUD`. Use the verified team issuer only after production configuration
+   is approved. Protect `/staff`, `/staff/*`, `/api/staff` and `/api/staff/*` at the
+   edge. The Worker also verifies JWT signature/issuer/audience/expiry, active
+   staff identity and exactly one backend station. Verify all alternative paths.
+   **Do not put a tester-only Access application over the public guest service.**
+5. Confirm the production managers, distinct station emails/verified subjects,
+   fixed assignments, session length and sign-in/MFA policy. Existing private
+   staging assignments are evidence, not production setup approval. Shared-phone
+   flow stays five digits → Check code → Redeem cookie → Next guest.
+6. Obtain actual January 1–3 hours or explicit closures for both locations. Enter
+   dated half-open UTC windows validated against America/Chicago, ending no later
+   than `2027-01-04T06:00:00Z`. No window means redemption remains closed. Do not
+   infer holiday hours from the website or change the website's ordinary hours.
+7. Resolve support ownership, expected traffic, load acceptance, retention/
+   cleanup, privacy-safe logs and backup/restore policy. Implement and verify
+   the approved operations without inventing dates, credentials or policies.
+8. Complete every outstanding physical-device, security and operational check
+   in the combined checklist before launch. Keep production verification distinct
+   from local mocks and prior private-cloud results.
 
-No cloud staging, public preview, production deployment, DNS changes, pushes,
-merges or cloud resource creation occurred in this implementation pass.
+## One October release, automatic New Year schedule
+
+After explicit authorization of the exact final October website release and its
+resource/DNS/cost changes: deploy the production service with the reviewed fresh
+bindings and real staff protection; verify public guest/time access, session/pass
+recovery and protected station behavior; then enable the scheduled loader in that
+same October website release. Rebuild the loader only from its current approved
+source; the current disabled-only builder deliberately refuses an enabled source
+and must be updated under that release authorization. Do not ship a private build.
+
+The real loader polls the server clock. Installing/enabling it in October does
+not display the takeover or permit October registration. It automatically opens
+December 31 at 23:50 Chicago, descends at 23:59, changes to 2027/fireworks at
+January 1 00:00, and removes the takeover at 00:05. No New Year's Eve manual
+activation or browser clock override is needed. Continue remains session-scoped;
+recovery uses the service's existing secure session cookie after the takeover.
+
+Keep `CNAME`, Pages configuration and the approved seasonal calendar intact.
+If a service/release gate fails, leave the website loader disabled and report the
+blocker; do not turn the feature into an unapproved separate launch.
+
+Cloudflare references: [Worker-first routing](https://developers.cloudflare.com/workers/static-assets/routing/advanced/html-handling/),
+[Access JWT validation](https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/authorization-cookie/validating-json/),
+[D1 transactions](https://developers.cloudflare.com/d1/worker-api/d1-database/).

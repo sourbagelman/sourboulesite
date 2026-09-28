@@ -1,0 +1,27 @@
+{
+  "name": "sour-boule-nye-production",
+  "main": "./worker.mjs",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": {"enabled": false},
+  "assets": {
+    "directory": "REQUIRES_LOCAL_PRODUCTION_BUILD",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "html_handling": "none",
+    "not_found_handling": "none"
+  },
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "sour-boule-nye-production",
+    "database_id": "REQUIRES_FRESH_PRODUCTION_D1_ID"
+  }],
+  "vars": {
+    "PRODUCTION_ENABLED": "false",
+    "PRODUCTION_SERVICE_ORIGIN": "https://celebrate.thesourboule.com",
+    "WEBSITE_ORIGINS": "https://thesourboule.com,https://www.thesourboule.com",
+    "ACCESS_ISSUER": "https://sourbagelman.cloudflareaccess.com",
+    "ACCESS_AUD": "REQUIRES_PRODUCTION_STAFF_ACCESS_AUDIENCE"
+  }
+}
