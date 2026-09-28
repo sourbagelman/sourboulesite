@@ -6,7 +6,7 @@ function decode(segment) {
   if (!/^[A-Za-z0-9_-]+$/.test(segment)) throw new Error('Bad JWT encoding');
   return Uint8Array.from(atob(segment.replace(/-/g,'+').replace(/_/g,'/')), c => c.charCodeAt(0));
 }
-export async function verifyAccess(request, env, now, fetcher = fetch) {
+export async function verifyAccessToken(request, env, now, fetcher = fetch) {
   const issuer = env.ACCESS_ISSUER;
   if (!/^https:\/\/[a-z0-9-]+\.cloudflareaccess\.com$/.test(issuer || '') || !env.ACCESS_AUD)
     throw new Error('Staff authentication unavailable');
@@ -37,6 +37,11 @@ export async function verifyAccess(request, env, now, fetcher = fetch) {
   const key = await crypto.subtle.importKey('jwk',jwk,{name:'RSASSA-PKCS1-v1_5',hash:'SHA-256'},false,['verify']);
   if (!await crypto.subtle.verify('RSASSA-PKCS1-v1_5',key,decode(parts[2]),new TextEncoder().encode(parts[0]+'.'+parts[1])))
     throw new Error('Invalid staff signature');
+  return claims;
+}
+// Staff authorization remains independent of the cryptographic token check.
+export async function verifyAccess(request, env, now, fetcher = fetch) {
+  const claims = await verifyAccessToken(request,env,now,fetcher);
   const user = await env.DB.prepare('SELECT * FROM staff_users WHERE subject=? AND email=? AND active=1').bind(claims.sub,claims.email.toLowerCase()).first();
   if (!user) throw new Error('Staff access not authorized');
   return {subject: user.subject, email: user.email};

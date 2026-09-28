@@ -1,4 +1,10 @@
-# Cloud setup and release gate — not authorized or executed
+# Production release gate and historical local setup record
+
+Historical local-implementation record below. The subsequent owner request
+authorizes **private staging only**, subject to its explicit account, identity,
+cost and DNS approval boundaries. Current staging preparation and approval state
+are documented in [staging/README.md](../staging/README.md). Production remains
+unapproved and disabled; that staging request does not authorize live release.
 
 ## Environment verified read-only on September 27, 2026
 
