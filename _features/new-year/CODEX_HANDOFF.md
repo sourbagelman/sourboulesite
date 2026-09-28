@@ -1,5 +1,20 @@
 # CODEX HANDOFF: The Sour Boule New Year's Eve celebration
 
+## Current delivery: private staging complete
+
+The deployed private review links, simulation controls, verification results and
+pending release checks are in [staging/PRIVATE_DELIVERY.md](staging/PRIVATE_DELIVERY.md).
+The visual preview works at any time without changing the server event clock.
+Real API-backed guest and fixed-station staff pages remain separate. Production
+is unchanged, both shipped loaders remain disabled, and production authorization
+is still required. No further timed rehearsal is scheduled.
+
+The original package handoff below records the Revision 4 design and offer lock.
+Its original statements about deployment/local-only status describe the package
+at delivery; the current private-staging status above supersedes those statements.
+
+## Original Revision 4 package handoff
+
 Delivery date: September 27, 2026 / Revision 4 (final no-purchase lock)
 
 **This package supersedes revisions 1, 2 and 3, including the earlier Final package. The approved experience and no-purchase offer are locked; release authorization is still separate.**

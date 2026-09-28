@@ -9,6 +9,7 @@ import {resolve,relative} from 'node:path';
 import vm from 'node:vm';
 import {buildStaging,buildStagingLoader,WEBSITE_PAGES,SERVICE_FILES} from '../staging/build.mjs';
 import {STAGING_LABEL} from '../staging/client-transform.mjs';
+import {PREVIEW_FILES} from '../staging/visual-preview.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url)),repo=resolve(root,'../..');
 const config={websiteOrigin:'https://website.staging.example.test',serviceOrigin:'https://celebration.staging.example.test'};
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
@@ -28,6 +29,7 @@ test('full staging build uses current tracked pages/assets, exact transforms, is
   assert.equal(manifest.sourceHead,(await run('git',['rev-parse','HEAD'],{cwd:repo})).stdout.trim());
   assert.equal(manifest.testLabel,STAGING_LABEL);assert.equal(manifest.cloudDeployed,false);
   assert.deepEqual(await walk(resolve(built.assetsDirectory,'service')),[...SERVICE_FILES].sort());
+  assert.deepEqual(await walk(resolve(built.assetsDirectory,'site/new-year-preview')),Object.values(PREVIEW_FILES).sort());
   assert.deepEqual((await readdir(resolve(built.assetsDirectory,'site'))).filter(path=>path.endsWith('.html')).sort(),[...WEBSITE_PAGES].sort());
   for(const file of WEBSITE_PAGES) {
     const page=await readFile(resolve(built.assetsDirectory,'site',file),'utf8');

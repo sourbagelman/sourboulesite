@@ -118,6 +118,27 @@ test('staging maps only authorized site/service assets and pins service framing'
   assert.equal((await f.request('/api/time',{host:SITE})).status,404);
   assert.equal((await f.request('/%2f..%2fsite/index.html')).status,503);
 }));
+test('visual preview remains tester-authenticated, read-only and disconnected from guest and staff APIs',()=>using(async f=>{
+  const paths=['/new-year-preview/','/new-year-preview/index.html','/new-year-preview/preview.js','/new-year-preview/view.js','/new-year-preview/staff-ui.js','/new-year-preview/nye.css'];
+  const before=await f.DB.prepare('SELECT total_changes() AS changes').first();
+  for(const path of paths) {
+    assert.equal((await f.request(path,{host:SITE,auth:false})).status,401);
+    assert.equal((await f.request(path,{host:SITE,claims:{email:'outsider@example.invalid'}})).status,401);
+  }
+  assert.deepEqual(f.assets,[]);
+  for(const path of paths) {
+    const r=await f.request(path,{host:SITE});assert.equal(r.status,200);
+    assert.equal(f.assets.at(-1),'/site'+(path.endsWith('/')?path+'index.html':path));
+    const csp=r.headers.get('content-security-policy');
+    for(const directive of ["connect-src 'none'","frame-src 'none'","form-action 'none'","worker-src 'none'","script-src 'self'"])assert.ok(csp.includes(directive));
+    assert.ok(!csp.includes(SERVICE));assert.equal(r.headers.get('set-cookie'),null);
+    assert.equal((await f.post(path,{},{host:SITE})).status,405);
+  }
+  const redirect=await f.request('/new-year-preview',{host:SITE});assert.equal(redirect.status,302);assert.equal(redirect.headers.get('location'),SITE+'/new-year-preview/');
+  assert.equal((await f.request('/staff/',{audience:'service-application'})).status,401);
+  assert.equal((await f.request('/staff/',{station:'fw'})).status,200);
+  assert.deepEqual(await f.DB.prepare('SELECT total_changes() AS changes').first(),before);
+}));
 test('staging credentialed time CORS is restricted to the exact approved website',()=>using(async f=>{
   const allowed=await f.request('/api/time',{origin:SITE});assert.equal(allowed.headers.get('Access-Control-Allow-Origin'),SITE);assert.equal(allowed.headers.get('Access-Control-Allow-Credentials'),'true');
   const forbidden=await f.request('/api/time',{origin:'https://evil.example'});assert.equal(forbidden.headers.get('Access-Control-Allow-Origin'),null);

@@ -82,12 +82,18 @@ export function createStagingApp({wallClock=()=>Date.now(),fetcher=fetch}={}) {
     if(!siteRequest&&['/assets/staff.js','/assets/staff-ui.js'].includes(path))return failure(404,'Use the protected staff asset path');
     if(siteRequest) {
       if(path.startsWith('/api/')||isStaffPath(path))return failure(404,'Use the protected staging service');
+      const visualPreview=path==='/new-year-preview'||path.startsWith('/new-year-preview/');
+      if(visualPreview&&!['GET','HEAD'].includes(request.method))return failure(405,'Visual preview is read-only');
+      if(path==='/new-year-preview')return new Response(null,{status:302,headers:{...privacy,Location:config.site+'/new-year-preview/'}});
       try {
         const response=await env.ASSETS.fetch(assetRequest(request,'site',path));
         const headers=headersFor(response);
         // Response-only rehearsal guard: keep existing fonts/layout, but block
         // production telemetry, form submission and unrelated network writes.
         headers.set('Content-Security-Policy',"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' "+config.service+"; frame-src "+config.service+"; form-action 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; worker-src 'none'");
+        // The existing visual simulator has no API adapter. Block all network
+        // connections and form/iframe submission as an additional boundary.
+        if(visualPreview)headers.set('Content-Security-Policy',"default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'none'; frame-src 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; worker-src 'none'");
         return new Response(response.body,{status:response.status,headers});
       } catch {return failure(503,'Private staging website unavailable');}
     }

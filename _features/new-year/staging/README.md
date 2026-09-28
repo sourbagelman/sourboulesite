@@ -2,6 +2,11 @@
 
 **TEST ONLY — NOT REDEEMABLE**
 
+Private staging delivery is complete. Use [PRIVATE_DELIVERY.md](PRIVATE_DELIVERY.md)
+for the final review links, the always-available visual simulation, actual test
+results and pending release checks. The setup instructions below are retained for
+operators; they are not a request to schedule or start another rehearsal.
+
 This separate entrypoint builds on local checkpoint
 `84dfcb3c77e7f2e233de39e9817668b82f4ab89e` on
 `feature/new-year-cookie-promotion`. It does not enable the production loader,

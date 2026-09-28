@@ -27,8 +27,9 @@ function banner(html,markup) {
 export function addStagingWebsiteBanner(html,options={}) {
   const serviceOrigin=stagingOrigin(options.serviceOrigin);
   const markup='<aside data-nye-staging-notice role="note"><mark><strong>'+STAGING_LABEL+'</strong></mark> '+
-    '<a href="'+escapeHtml(serviceOrigin+'/?pass=1')+'" target="_blank" rel="noopener noreferrer">Sign in to the private countdown</a> '+
-    '<span>in a separate tab before the rehearsal. This private copy does not change the live website.</span></aside>';
+    '<a href="/new-year-preview/">Visual celebration preview (simulation)</a> · '+
+    '<a href="'+escapeHtml(serviceOrigin+'/?pass=1')+'" target="_blank" rel="noopener noreferrer">API-backed guest / saved pass</a> '+
+    '<span>This private copy does not change the live website.</span></aside>';
   return banner(html,markup);
 }
 export function transformServiceAsset(relativePath,source,options={}) {

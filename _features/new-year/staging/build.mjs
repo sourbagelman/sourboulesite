@@ -5,6 +5,7 @@ import {readFile,writeFile,mkdir,mkdtemp,lstat,realpath} from 'node:fs/promises'
 import {resolve,relative,dirname,extname,basename,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {STAGING_LABEL,stagingOrigin,transformServiceAsset,addStagingWebsiteBanner} from './client-transform.mjs';
+import {PREVIEW_FILES,transformVisualPreview} from './visual-preview.mjs';
 const run=promisify(execFile);
 const FEATURE_ROOT=fileURLToPath(new URL('../',import.meta.url));
 const REPOSITORY_ROOT=resolve(FEATURE_ROOT,'../..');
@@ -77,6 +78,10 @@ export async function buildStaging(options={}) {
   for(const path of SERVICE_FILES) {
     const file=resolve(FEATURE_ROOT,'public',path),input=await readSource(file);
     add('service/'+path,input,transformServiceAsset(path,input.toString('utf8'),config),relative(REPOSITORY_ROOT,file).split(sep).join('/'));
+  }
+  for(const [source,path] of Object.entries(PREVIEW_FILES)) {
+    const file=resolve(FEATURE_ROOT,source),input=await readSource(file);
+    add('site/new-year-preview/'+path,input,transformVisualPreview(source,input.toString('utf8'),config),relative(REPOSITORY_ROOT,file).split(sep).join('/'));
   }
   // Validation/transforms finish before a new directory is allocated. Build output
   // never overwrites source pages, production assets, or a previous rehearsal.

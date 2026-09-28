@@ -2,6 +2,11 @@
 
 **TEST ONLY — NOT REDEEMABLE**
 
+This is the historical rehearsal evidence from checkpoint `d87788f`. For the
+completed private delivery, final URLs and focused closeout results, see
+[PRIVATE_DELIVERY.md](PRIVATE_DELIVERY.md). The closeout preserves the clock and
+records below and adds an independent visual simulation; it schedules no rehearsal.
+
 This record covers the private deployment authorized September 27, 2026
 (America/Chicago). It does not authorize production. Work started from local
 checkpoint `84dfcb3c77e7f2e233de39e9817668b82f4ab89e` on
@@ -137,7 +142,7 @@ not final whole-rehearsal totals. Worker CPU quantile fields returned raw values
 so no CPU limit/headroom conclusion is claimed. Load acceptance remains pending.
 [Cloudflare metric semantics](https://developers.cloudflare.com/workers/observability/metrics-and-analytics/)
 
-The final private Worker version is
+The private Worker version at that rehearsal checkpoint was
 `c477e24c-bcc5-4cbc-bfc7-ba8d14a895d5`. It was left **after the takeover**, anchored
 at real `2026-09-28T01:41:30.227Z` to virtual `2027-01-01T06:07:00.000Z`, advancing
 one second per real second. The current website is visible and existing test
@@ -152,7 +157,7 @@ belong in this record or in Git. Generated builds and test state stay in ignored
 
 ## Local checkpoint scope
 
-The local commit contains only 30 feature source, test and documentation files.
+That local checkpoint contains only 30 feature source, test and documentation files.
 The staged boundary and `git diff --check` passed. No credentials, databases,
 profiles, generated deployment artifacts or unrelated files were staged. The
 website/seasonal baseline comparison passed: every original tracked file is
