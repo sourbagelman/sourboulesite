@@ -14,9 +14,18 @@ candidate. Its loader is disabled; website release authorization is still needed
 | [Combined website PREVIEW — private, TEST ONLY](https://nye-staging.thesourboule.com/) | Existing authenticated review site containing the approved redesign and automatic seasonal implementation. Both manager sessions opened it. Its website HTML/seasonal source is unchanged by this delivery; the private banner is review-only. |
 | [Celebration visual PREVIEW — TEST ONLY](https://nye-staging.thesourboule.com/new-year-preview/) | Existing clock-independent visual simulation; never a production guest or employee endpoint. Prior closeout evidence remains applicable. |
 
-Release branch: `release/2026-10-01`. The release commit and draft PR are recorded
-below after publication of this non-production branch. Do not merge or enable
-auto-merge until the owner approves the finalized website release.
+Pushed release branch: [`release/2026-10-01`](https://github.com/sourbagelman/sourboulesite/tree/release/2026-10-01).
+Release implementation commit:
+[`2d4619624dc03f8d10c12ba7db8a1ce80a0b898c`](https://github.com/sourbagelman/sourboulesite/commit/2d4619624dc03f8d10c12ba7db8a1ce80a0b898c).
+[Draft release PR #4](https://github.com/sourbagelman/sourboulesite/pull/4) targets
+`main`; verified OPEN/DRAFT with a clean merge state and auto-merge unset.
+This subsequent documentation receipt does not change the implementation;
+the PR displays the exact current branch head. Do not merge or enable auto-merge
+until the owner approves the finalized website release.
+
+After publication of the release branch, the latest production Pages build was
+still `6d7ba10f370727f86d63a7e2d285152e23790f45`, status `built`, last updated
+`2026-09-26T01:06:32Z`. No website deployment resulted from the release push/PR.
 
 The candidate starts with combined checkpoint
 `65b6f36a2edc0d12832e4a60f0fef10fdd43bee1`. Commit
