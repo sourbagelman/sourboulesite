@@ -1,45 +1,95 @@
 # CODEX HANDOFF: The Sour Boule New Year's Eve celebration
 
-## Current decision: included in the October website release
+## Current delivery: one October 1 release candidate and permanent service
 
-The owner has locked the approved celebration and requires the complete feature
-in the **finalized October website release**, not a separate launch. The current
+The owner has locked the approved celebration and requires **one October 1, 2026
+release candidate**: final website redesign, automatic seasonal themes, complete
+countdown/no-purchase promotion, and permanent protected employee verification
+and redemption. This is an implementation delivery, not another planning phase.
+The current
 [October release checklist](../../docs/october-release-checklist.md) records the
-candidate lineage, production scope, fixed schedule, setup inputs, outstanding
-device/security/operational checks and release approvals.
+candidate lineage, preservation audit, real schedule and finite remaining gates.
 
 The approved private-delivery checkpoint is
 `651a435e8ef840eac5b0d84f73a86a7131a092a8` on
-`feature/new-year-cookie-promotion`. It includes the approved redesign and seasonal
-baseline. Production preparation includes the real Worker/D1 configuration,
+`feature/new-year-cookie-promotion`. Its descendant `65b6f36` and the approved
+redesign/seasonal baseline are now combined in `release/2026-10-01`. Merge
+`78528e600ab476fd688b3ceb26628f191413eb85` records current main `6d7ba10` as a parent
+with the combined tree unchanged: main's business updates were already manually
+reconciled in `87c8a5d`. Reapplying the historical redesign rollback would lose
+approved work. The audit confirmed identical full menu bodies and 97 prices,
+the same location ordering destinations and form contracts, correct hours and
+unchanged postal addresses/phones. Upcoming owner edits must be incorporated
+additively before release; never restore older page snapshots.
+
+The feature includes the real Worker/D1 configuration,
 public guest/pass recovery, protected fixed-station staff pages/API and scheduled
 website loader. Private simulation/tester restrictions, artificial clocks and
 test records are excluded from production.
 
-**Included in the release plan and locally prepared does not mean integrated into
-the final release branch or production-verified.** No final October release SHA
-or production deployment is approved yet. Production DNS, resource/cost and
-release permissions remain separate. Both shipped loaders stay disabled until
-the explicitly authorized October release. That release must enable the real
+The owner authorized pushing the non-production release branch and opening a
+draft PR after checking they cannot publish the website. The owner also
+authorized only the isolated permanent promotion service, fresh central D1,
+protected staff application and necessary `celebrate.thesourboule.com` hostname
+in Cloudflare account `c84d6dc733d90811006e8d8837dcd1c3`, without new expected
+charges or paid services. Fresh production D1
+`1d1e7a58-44d6-4ea7-a114-b05ad3d9b377` has its schema applied; separate staff
+Access app `63f1c1ce-a257-4a4a-9212-8c246b7c7ee8` uses the approved 12-hour email
+one-time-code policy. Lance (`lance@thesourboule.com`) is assigned Willow Bend;
+Alexis (`alexis@thesourboule.com`) is assigned Fort Worth. Preserve mandatory
+organization/account security. Never put either tester restriction on production
+guest routes or add a staff location picker.
+
+**Integrated into the release candidate, production-verified, and authorized to
+publish the main website are separate states.** The exact final candidate SHA,
+draft PR, deployed production versions and actual endpoint/authentication results
+are in [production/DELIVERY.md](production/DELIVERY.md). Treat no endpoint as
+verified merely because its URL or configuration exists. The isolated service
+approval does not authorize main changes, merge/auto-merge, website publication,
+publishing-branch changes or main-site DNS/routing changes.
+
+Both checked-in loaders stay disabled until the explicitly authorized finalized
+October website release. That release must enable the real
 server-timed schedule: December 31, 2026 at 11:50 PM Chicago opening, 11:59 PM
 descent, January 1 midnight 2027/fireworks, and 12:05 AM return. Installing in
 October does not open the takeover then, and requires no manual New Year's Eve
 activation. Approved design, no-purchase terms and eligibility are not reopened.
+See [production/ACTIVATION.md](production/ACTIVATION.md) for the explicit release
+build flag; no activation occurs during candidate preparation.
+
+Permanent URLs (actual verification is recorded in the production delivery):
+
+- [Employee login](https://celebrate.thesourboule.com/staff/): protected fixed
+  station, Enter five digits → Check code → Redeem cookie → Next guest.
+- [Public guest / saved pass](https://celebrate.thesourboule.com/?pass=1): real
+  API-backed recovery and fixed schedule; registration stays closed outside its
+  approved window.
+- [Combined website preview — PRIVATE, TEST ONLY](https://nye-staging.thesourboule.com/):
+  existing approved site/theme review; not the production website artifact.
+
+Remaining gates are finite: upcoming owner content edits and explicit finalized
+website release authorization; verified production results; owner-confirmed
+January 1–3 windows before redemption opens; actual physical-device/accessibility
+checks; and the documented outstanding security/operational acceptance. Holiday
+hours remain unconfigured and do not block code integration or permanent staff
+login. Desktop browser automation is not a physical-iPhone pass.
 
 ## Completed private delivery retained
 
 The deployed private review links, simulation controls, verification results and
 pending release checks are in [staging/PRIVATE_DELIVERY.md](staging/PRIVATE_DELIVERY.md).
 The visual preview works at any time without changing the server event clock.
-Real API-backed guest and fixed-station staff pages remain separate. Production
-is unchanged, both shipped loaders remain disabled, and production authorization
-is still required. No further timed rehearsal is scheduled.
+Real API-backed guest and fixed-station staff pages remain separate. That record
+describes the private checkpoint, not the later authorized permanent service.
+The main website and its loader state remain unchanged. No further timed
+rehearsal is scheduled.
 
 The original package handoff below records the Revision 4 design and offer lock.
 Its original statements about deployment/local-only status describe the package
-at delivery; the current October decision and private-delivery status above
-supersede those statements. Holiday hours and unresolved production inputs remain
-unconfigured release gates, not blockers to the completed private handoff.
+at delivery; the current combined-candidate decision and production delivery
+record supersede those statements. Holiday hours and unresolved production
+inputs remain explicit gates, not guessed configuration or reasons to postpone
+the completed code integration and employee login.
 
 ## Original Revision 4 package handoff
 

@@ -24,9 +24,11 @@ Approved staff browser --> Cloudflare Access --> protected Worker staff UI/API
 ```
 
 The event is a separate service, not a migration of the website. Main-site code
-is an isolated loader, not a second copy of live content. A Workers custom domain
-is only proposed; no hostname or resources were created. GitHub has Pages enabled
-for the inspected repository, but DNS/proxy settings still need release-time review.
+is an isolated loader, not a second copy of live content. The permanent service
+is deployed at `celebrate.thesourboule.com` with its own fresh D1 and protected
+staff application; see [production delivery](../production/DELIVERY.md) for actual
+verification and remaining checks. GitHub Pages still publishes only `main:/`;
+the combined release website is not published and its loader remains disabled.
 
 ## Endpoint contract
 
@@ -96,7 +98,7 @@ The audit attributes use to the station identity, not an individual employee.
 A missing/multiple location assignment fails closed. Verification requires staff
 Access and active identity even though the code is short. Eight wrong codes per
 minute temporarily lock the station lookup; tune after rehearsal. Never expose
-this lookup to guests. Plan a 12-hour shift session, with manager reauthentication
+this lookup to guests. The approved Access application and policy use 12-hour sessions, with manager reauthentication
 on expiry; a shared phone is not assumed to be permanently authenticated.
 
 ## Atomic redemption

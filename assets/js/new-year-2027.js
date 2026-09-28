@@ -7,7 +7,7 @@
   const ENABLED=false; // Release gate: do not change without owner approval.
   if(!ENABLED||window.__sbNyeLoader)return;
   window.__sbNyeLoader=true;
-  const SERVICE='https://celebrate.thesourboule.com'; // Proposed hostname; not provisioned.
+  const SERVICE='https://celebrate.thesourboule.com'; // Permanent production promotion service.
   const DISMISS='sb-nye-2027-dismissed';
   let state=null,anchor=0,synced=0,host=null,dialog=null,frame=null,previousFocus=null,requestSequence=0;
   let inMemoryDismiss=false;
