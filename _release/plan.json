@@ -1,0 +1,16 @@
+{
+  "id": "sour-boule-website-2026-10-01",
+  "repository": "sourbagelman/sourboulesite",
+  "branch": "release/2026-10-01",
+  "targetUtc": "2026-10-01T04:59:00Z",
+  "latestStartUtc": "2026-10-01T05:30:00Z",
+  "timezone": "America/Chicago",
+  "previousProductionCommit": "6d7ba10f370727f86d63a7e2d285152e23790f45",
+  "website": "https://thesourboule.com",
+  "service": "https://celebrate.thesourboule.com",
+  "workflow": ".github/workflows/release-2026-10-01.yml",
+  "lockVariable": "SOUR_BOULE_RELEASE_LOCK",
+  "lockTag": "release-lock/website-2026-10-01",
+  "rollbackTag": "rollback/website-before-2026-10-01",
+  "armed": false
+}
