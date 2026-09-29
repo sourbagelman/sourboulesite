@@ -175,5 +175,36 @@ preparation blockers. Redemption remains fail-closed without configured windows.
 
 ## Execution receipt
 
-Final bootstrap SHA, focused test counts and hosted dry-run URL will be recorded
-after the non-production branch run. The active release remains DISARMED.
+- Implementation tested: `8604213292fe3f4018b92bc1910d456b7be4bb22`.
+- Prepared bootstrap: **`7b737874ee7bc9689366cfedf6575c8d70a31982`**, directly
+  parented by the unchanged production SHA. Its seven-file diff contains only
+  the workflow and `_release/` controller/tests/config. All non-control tree
+  entries are unchanged. This commit is only an object/ancestor in the release;
+  it has **not** been installed on main.
+- Release ancestry merge `5aedc1a1cbda8aa0843eeb5c602e350bf3b5361e` preserves the
+  tested candidate tree byte-for-byte. Subsequent documentation-only commits do
+  not change the tested website or controller; the final branch SHA is in PR #4.
+- **16 focused activation/build/isolation tests passed** locally, including
+  September/October normal-page behavior and automatic trusted-server opening/
+  closing. The generated asset differs from its disabled source only by the
+  enabled release gate; default rebuilding preserves that gate.
+- **70 focused scheduler/arming tests passed** with mocked writes, covering
+  timing/year guards, immutable SHA/tree, unchanged bootstrap content, non-force
+  refs, cancellation, duplicate/retry recovery, explicit Pages build requests,
+  wrong build/content failure, final health checks and scheduler registration.
+- **[Actual GitHub-hosted dry run passed](https://github.com/sourbagelman/sourboulesite/actions/runs/36587070087)**
+  on September 29 at 15:02 UTC. The runner showed `Contents: read`, `Pages: read`;
+  all 70 scheduler tests passed there. Actual API reads validated the current
+  `main:/` Pages configuration, commit/tree and 16 public files. Its report was
+  `armed: false`, `publicationWrites: 0`; the publish job was **skipped**.
+- Four fresh anonymous production-service reads passed September 29: guest/pass
+  and live time returned 200; staff page and staff API redirected to the approved
+  Access login. Actual schedule remains correct and before-event. No service
+  deployment, authentication renewal or event data mutation was needed.
+- Main remains `6d7ba10f370727f86d63a7e2d285152e23790f45`; all public HTML,
+  seasonal files, business content, DNS and publishing settings are unchanged.
+  No release lock/tag has been created. No new expected charge or permission
+  expansion was needed for this preparation. `git diff --check` passed.
+
+The release remains **DISARMED**. This is completed technical preparation;
+final menus and exact-version/arming approval are intentionally still pending.
