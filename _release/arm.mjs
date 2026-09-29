@@ -16,6 +16,9 @@ export function parseArgs(args){
 }
 function ghApi(path,{method='GET',body}={}){
   const args=['api','repos/'+PLAN.repository+'/'+path,'--method',method];if(body)args.push('--input','-');
+  // Large redesign comparisons include file patches we do not need. Filter in
+  // gh before stdout reaches Node's bounded child-process buffer.
+  if(path.startsWith('compare/'))args.push('--jq','{merge_base_commit: {sha: .merge_base_commit.sha}, behind_by}');
   const result=execFileSync('gh',args,{input:body?JSON.stringify(body):undefined,encoding:'utf8',stdio:['pipe','pipe','pipe']});return result.trim()?JSON.parse(result):null;
 }
 export async function prepareLock(api,approvedCommit,bootstrapCommit){
