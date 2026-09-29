@@ -200,6 +200,13 @@ preparation blockers. Redemption remains fail-closed without configured windows.
   all 70 scheduler tests passed there. Actual API reads validated the current
   `main:/` Pages configuration, commit/tree and 16 public files. Its report was
   `armed: false`, `publicationWrites: 0`; the publish job was **skipped**.
+- The **[final corrected hosted run also passed](https://github.com/sourbagelman/sourboulesite/actions/runs/36587855248)**
+  for candidate `853705fbe1ac539c1673e9532058a384274cbb7b`: the same 70 focused
+  tests and actual read-only publication preflight passed after the CLI correction.
+  A real `node _release/arm.mjs --check` against that candidate and the bootstrap
+  above also passed. It printed a proposed lock only; outer state remained
+  `armed: false`, with no variable/tag/main mutation. The final-menu SHA must
+  still receive the owner's approval and a fresh lock; this proposal was not saved.
 - Four fresh anonymous production-service reads passed September 29: guest/pass
   and live time returned 200; staff page and staff API redirected to the approved
   Access login. Actual schedule remains correct and before-event. No service
