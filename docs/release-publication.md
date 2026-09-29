@@ -175,13 +175,16 @@ preparation blockers. Redemption remains fail-closed without configured windows.
 
 ## Execution receipt
 
-- Implementation tested: `8604213292fe3f4018b92bc1910d456b7be4bb22`.
-- Prepared bootstrap: **`7b737874ee7bc9689366cfedf6575c8d70a31982`**, directly
+- Initial hosted implementation: `8604213292fe3f4018b92bc1910d456b7be4bb22`.
+  A focused CLI correction at `2379965714b6d071f3b681377c94a3b2379ff47c` filters
+  large GitHub comparisons to the required ancestry fields; the initial real
+  arming preflight exceeded Node’s stdout buffer and performed no writes.
+- Prepared bootstrap: **`ff2b5a873775b5e66e905cc859a72da5f59d594a`**, directly
   parented by the unchanged production SHA. Its seven-file diff contains only
   the workflow and `_release/` controller/tests/config. All non-control tree
   entries are unchanged. This commit is only an object/ancestor in the release;
   it has **not** been installed on main.
-- Release ancestry merge `5aedc1a1cbda8aa0843eeb5c602e350bf3b5361e` preserves the
+- Release ancestry merge `d25c2912a3a0449bf5aae27b4a5988734adc8e6f` preserves the
   tested candidate tree byte-for-byte. Subsequent documentation-only commits do
   not change the tested website or controller; the final branch SHA is in PR #4.
 - **16 focused activation/build/isolation tests passed** locally, including
