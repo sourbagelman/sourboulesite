@@ -6,6 +6,7 @@ import {resolve,relative,dirname,extname,basename,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {STAGING_LABEL,stagingOrigin,transformServiceAsset,addStagingWebsiteBanner} from './client-transform.mjs';
 import {PREVIEW_FILES,transformVisualPreview} from './visual-preview.mjs';
+import {generatedIntegrationMode} from '../scripts/build-integration.mjs';
 const run=promisify(execFile);
 const FEATURE_ROOT=fileURLToPath(new URL('../',import.meta.url));
 const REPOSITORY_ROOT=resolve(FEATURE_ROOT,'../..');
@@ -56,7 +57,7 @@ export async function buildStaging(options={}) {
   const tracked=new Set((await git('ls-files','-z','--',...WEBSITE_PAGES,'assets','images')).split('\0').filter(Boolean));
   const sourceHead=(await git('rev-parse','HEAD')).trim();
   const sourceBranch=(await git('branch','--show-current')).trim();
-  if(sourceBranch!=='feature/new-year-cookie-promotion')throw new Error('Build staging only from feature/new-year-cookie-promotion');
+  if(!['feature/new-year-cookie-promotion','release/2026-10-01'].includes(sourceBranch))throw new Error('Build staging only from the New Year feature or October release branch');
   const plan=[];
   const add=(path,input,output,source)=>plan.push({path,input,output:Buffer.isBuffer(output)?output:Buffer.from(output),source});
   for(const page of WEBSITE_PAGES) {
@@ -66,7 +67,7 @@ export async function buildStaging(options={}) {
   }
   const currentLoader=await readSource(resolve(FEATURE_ROOT,'src/integration-loader.js'));
   const generatedLoader=await readSource(resolve(REPOSITORY_ROOT,'assets/js/new-year-2027.js'));
-  if(!currentLoader.equals(generatedLoader))throw new Error('The disabled generated website loader must match its current source');
+  const productionLoaderEnabled=generatedIntegrationMode(currentLoader.toString('utf8'),generatedLoader.toString('utf8'))==='approved-october-release';
   const stagingLoader=buildStagingLoader(currentLoader.toString('utf8'),config);
   const skipped=[];
   for(const path of [...tracked].filter(path=>path.startsWith('assets/')||path.startsWith('images/')).sort()) {
@@ -92,7 +93,7 @@ export async function buildStaging(options={}) {
     await writeFile(destination,entry.output,{flag:'wx',mode:0o600});
   }
   const manifest={format:1,kind:'private-staging-only',testLabel:STAGING_LABEL,sourceHead,sourceBranch,createdAt:new Date().toISOString(),
-    websiteOrigin,serviceOrigin,productionLoaderEnabled:false,cloudDeployed:false,
+    websiteOrigin,serviceOrigin,productionLoaderEnabled,cloudDeployed:false,
     note:'Current working-tree inputs; this local artifact is not authorization to deploy. Business URLs/forms remain unchanged: do not submit real forms or place orders during QA.',
     files:plan.map(entry=>({source:entry.source,sourceSha256:sha(entry.input),asset:entry.path,assetSha256:sha(entry.output),bytes:entry.output.length})),excludedTrackedNonPublicAssets:skipped};
   const manifestPath=resolve(outputDirectory,'manifest.json');await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n',{flag:'wx',mode:0o600});

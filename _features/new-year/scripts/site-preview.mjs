@@ -24,4 +24,4 @@ http.createServer((req,res)=>{
     res.writeHead(200,{'Content-Type':mime[extname(file)]||'application/octet-stream','Cache-Control':'no-store','X-Robots-Tag':'noindex, nofollow'});
     res.end(req.method==='HEAD'?undefined:body);
   }catch{res.writeHead(404);res.end('Not found');}
-}).listen(8788,'127.0.0.1',()=>console.log('LOCAL ONLY current website + test takeover: '+origin+' (start npm start on port 8787 first). Production loader stays disabled.'));
+}).listen(8788,'127.0.0.1',()=>console.log('LOCAL ONLY current website + test takeover: '+origin+' (start npm start on port 8787 first). No production artifact is changed or published.'));

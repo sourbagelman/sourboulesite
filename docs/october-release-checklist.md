@@ -1,26 +1,41 @@
 # October 1, 2026 combined website release candidate
 
-Decision recorded September 27, 2026 (America/Chicago). The owner approved
+Updated September 29, 2026 (America/Chicago). The owner approved
 **one October 1 release candidate** containing the final redesign, all approved
 automatic seasonal themes, the complete New Year's celebration and no-purchase
 cookie promotion, and the permanent protected employee verification/redemption
 page. The experience, offer, eligibility/reconnect policy and five-digit staff
-flow are locked. Upcoming owner content edits remain welcome before release.
+flow are locked. The final Fort Worth and Willow Bend menu edits remain to be
+incorporated before the exact website version is approved.
 
 The combined implementation is on **`release/2026-10-01`**, including current
 `main` ancestry. The owner authorized pushing that non-production branch and
-opening a **draft** PR to `main`, after verifying neither action publishes the
-website. The owner separately authorized the isolated production promotion
+updating the existing [draft PR #4](https://github.com/sourbagelman/sourboulesite/pull/4)
+to `main`, after verifying neither action publishes the website. The owner
+separately authorized the isolated production promotion
 service at `celebrate.thesourboule.com`. Neither approval authorizes merging,
 auto-merge, changing the website publishing branch, or publishing the main site.
 
-**Integrated in the release candidate is distinct from production-verified and
-from owner-authorized website release.** The main website remains unchanged and
-both checked-in loader copies remain `ENABLED=false`. The exact delivered branch
-SHA, draft PR, production versions, endpoint verification and remaining checks
-are recorded in the [production delivery record](../_features/new-year/production/DELIVERY.md).
-Do not describe a production check as passed unless that record contains its
-actual result.
+**The candidate is prepared for publication; it has not been published or armed.**
+The target is **September 30, 2026 at 11:59 PM America/Chicago**, equivalent to
+**October 1 at `04:59:00Z`**. This website-publication target is distinct from the
+New Year's midnight celebration. The current release SHA, prepared hosted
+mechanism, control-only bootstrap, test results and exact arming/cancellation
+procedure belong in [release publication](release-publication.md). GitHub queue
+and Pages propagation limits are recorded there; the target is not a guarantee
+of simultaneous global visibility.
+
+The generated release artifact `assets/js/new-year-2027.js` is now enabled for
+the real server-timed schedule. Its reference source remains disabled, and the
+live main website remains unchanged. Default rebuilding preserves the artifact's
+existing mode; an explicit publication guard prevents a menu/build step from
+silently shipping a disabled or staging loader. No publication or arming occurred
+on September 29, and no local Codex automation was scheduled.
+
+The permanent service's September 27 production versions and actual endpoint/
+authentication results remain in the
+[production delivery record](../_features/new-year/production/DELIVERY.md).
+Do not promote unrun security, device or live reward checks into passed results.
 
 This is the current combined release checklist. Historical package/local and
 private-staging reports remain evidence for their own environments; their
@@ -35,7 +50,7 @@ completed checks must not be treated as production acceptance.
 | Combined redesign and approved seasonal website baseline | `feature/annual-seasonal-themes` — `b08545ed37a2e9388ff8e565c50ab36d2eb89712` |
 | Approved New Year private-delivery checkpoint | `feature/new-year-cookie-promotion` — `651a435e8ef840eac5b0d84f73a86a7131a092a8` |
 | Production integration preparation | `65b6f36a2edc0d12832e4a60f0fef10fdd43bee1` |
-| Combined release branch | `release/2026-10-01`; final delivery SHA and draft PR in the production delivery record |
+| Combined release branch | `release/2026-10-01`, existing draft PR #4; current publication candidate and control bootstrap in [release publication](release-publication.md) |
 | Current-main history reconciliation | `78528e600ab476fd688b3ceb26628f191413eb85` — parents `65b6f36` and `6d7ba10`; website tree unchanged |
 
 The New Year checkpoint descends from the seasonal checkpoint, which directly
@@ -64,8 +79,9 @@ These comparisons establish preservation of the current business baseline, not
 permission to freeze content. Reconcile subsequent owner edits additively before
 the finalized release; do not undo the approved redesign or seasonal hooks.
 
-The New Year additions to the twelve business pages are one disabled loader
-include each. Existing menus, prices, hours, addresses, ordering links, forms,
+The New Year additions to the twelve business pages remain one loader include
+each; the generated artifact now carries the enabled production schedule.
+Existing menus, prices, hours, addresses, ordering links, forms,
 photography, Bitcoin messaging, metadata and seasonal source remain the baseline.
 Do not replace pages with package snapshots or staging exports. Re-read the then-
 current website and production heads at release time and reconcile any newer
@@ -94,8 +110,8 @@ staff Access application is `63f1c1ce-a257-4a4a-9212-8c246b7c7ee8`, with policy
 `092088e7-0b40-47f9-ab42-346d26c937f1`. Approved email-code sign-in and 12-hour
 application/policy sessions preserve mandatory organization/account security.
 `lance@thesourboule.com` is fixed to Willow Bend and
-`alexis@thesourboule.com` to Fort Worth; actual backend assignments must be verified
-against their authenticated identities. Both use this one central production
+`alexis@thesourboule.com` to Fort Worth; both actual backend assignments were
+verified against authenticated manager identities in the September 27 delivery. Both use this one central production
 database. No paid service, new expected charge, unrelated resource or main-site
 DNS/routing change is authorized.
 
@@ -160,10 +176,11 @@ picker or QR requirement is added.
   actual-cloud desktop Chromium assertions** passed. Simulation controls made
   no API requests and did not alter staging records or the event clock. See
   [private delivery](../_features/new-year/staging/PRIVATE_DELIVERY.md).
-- Current candidate audit: **2 focused tests passed** — every baseline tracked
-  file is byte-identical except one disabled include per visitor page; the
-  production loader is disabled and has no DOM, storage or network effects.
-- Current production preparation: **17 distinct focused local tests passed**
+- September 27 candidate audit: **2 focused tests passed** at the then-disabled
+  checkpoint — every baseline tracked file was byte-identical except one loader
+  include per visitor page. This historical result does not describe the now-enabled
+  generated release artifact.
+- September 27 production preparation: **17 distinct focused local tests passed**
   (five preparation/schema/loader checks, nine production-route/auth checks and
   three website/service isolation checks). The new October-install test enables
   only an in-memory loader copy, verifies no immediate takeover, then crosses
@@ -176,14 +193,30 @@ picker or QR requirement is added.
   4.142.0 **local dry run passed** (27.10 KiB Worker bundle). The artifact has seven real service files,
   no website snapshots, no cloud account/routes, unresolved production D1/AUD
   placeholders and `PRODUCTION_ENABLED=false`. No deployment occurred.
+- September 27 permanent-service delivery: **45 focused local checks** and
+  **45 actual-cloud desktop Chromium assertions passed**, including both protected
+  manager identities and correct fixed stations. Production had no entries,
+  passes, presence, redemptions or holiday windows; no positive live rewards were
+  manufactured. This is historical evidence, not a claim those suites ran today.
+- September 29 activation/build work: **16 focused local checks passed**. The
+  generated release artifact is enabled, default rebuilding preserves its mode,
+  and release validation prevents silent disabled/staging output.
+- September 29 endpoint smoke check: **four read-only requests** confirmed the
+  guest/pass and server-time paths return 200 with live pre-event state, and the
+  anonymous staff page redirects to Access. No records or configuration changed.
+- Hosted scheduler verification results belong only in
+  [release publication](release-publication.md); they are not inferred from local
+  tests or an unarmed workflow file.
 - Existing unattended opening, midnight, return, dismissal, failure and recovery
   test names/results are recorded in the
   [local checkpoint](../_features/new-year/docs/LOCAL_CHECKPOINT.md).
 
-Those historical results do not establish production resource, DNS, Access or
-device acceptance. Current focused integration, authentication and production
-smoke results belong in the production delivery record. Do not rerun broad suites
-without a relevant change or defect. No additional timed rehearsal is scheduled.
+Each result retains its original date and environment. The September 27
+production delivery record supplies the actual service acceptance evidence;
+neither local nor cloud desktop tests establish physical-device acceptance.
+Current hosted-publication evidence belongs in release publication. Do not rerun
+broad suites without a relevant change or defect. No additional timed rehearsal
+is scheduled.
 
 Reproduce the focused local checks from `_features/new-year`:
 
@@ -197,95 +230,69 @@ A `wrangler deploy --dry-run --config <that-path>` validates the local bundle;
 the dry run is not a release or production verification. See
 [production setup](../_features/new-year/docs/CLOUD_RELEASE.md).
 
-## Finite remaining release gates
+## October website publication — finite remaining gates
 
-Record result, environment, date and exact build SHA for each. Retain the existing
-local/staging evidence and its limits. Unrun device/security/operational checks
-remain pending; a working staff login alone does not complete event readiness.
+The October website and later New Year event have different remaining checks.
+Unconfigured holiday windows and unrun physical-device/security/operational
+checks do **not** block the October menu integration or permanent employee login.
+They remain required event-readiness work and are listed separately below.
 
-### 1. Owner content and final website authorization
+- [ ] Incorporate the owner's final **Fort Worth and Willow Bend menus** on this
+  same branch/PR. Preserve approved design, prices/content outside those edits,
+  seasonal hooks, hours, addresses, ordering URLs, forms and the production loader.
+- [ ] Review the final content diff, perform the focused artifact/content checks,
+  recheck current main for newer business edits, and obtain owner approval of the
+  **exact final candidate SHA**. Preserve the enabled generated loader through
+  the final build; do not publish an older review export.
+- [ ] Obtain explicit authorization to **arm the hosted publication** for
+  September 30 at 11:59 PM Chicago. That approval must include installing the
+  reviewed control-only bootstrap on main and locking the approved candidate,
+  while leaving main's public website bytes unchanged until the target. Follow
+  [release publication](release-publication.md), including its bootstrap checks
+  and cancellation steps. The publishing job uses only narrowly scoped
+  `GITHUB_TOKEN` permissions (`contents: write` and `pages: write` only in the
+  publishing job); no PAT or new secret is needed. No main merge,
+  publishing-branch change, DNS change or premature website publication is implied.
+- [ ] After authorized publication, the hosted controller verifies the exact
+  Pages commit and performs automatic website/service smoke checks. Confirm the
+  normal October website remains visible and retain the rollback version. A ref
+  update, successful API request or local dry run alone is not publication proof.
 
-- [x] Assemble `release/2026-10-01` from the combined implementation and reconcile
-  current main's ancestry/content without replacing approved website files.
-- [x] Record explicit authorization for the isolated production promotion
-  service, fresh central database, staff protection and only the necessary
-  `celebrate.thesourboule.com` hostname. Paid changes still require approval.
-- [x] Record the two production station assignments and 12-hour email-code policy.
-- [ ] Incorporate upcoming owner menu/content edits, recheck current remote main
-  for newer business changes, and record the final combined website SHA.
-- [ ] Obtain explicit authorization to release that finalized website SHA and
-  enable its scheduled loader. Keep the release PR draft and auto-merge off;
-  no website publishing-branch or main-site DNS/routing change is authorized.
+The mechanism is prepared and disarmed until that explicit approval. No local
+Mac/Codex process must remain awake for the hosted mechanism. Updating PR #4 or
+pushing the non-production release branch does not arm it.
 
-### 2. Production service verification
+## Later New Year event readiness — pending, separate from October publication
 
-Use the production delivery record for the actual status of this bounded group:
-production Worker/D1 bindings and environment marker; server-only secret; real
-Access issuer/audience and exactly one active station for each approved identity;
-public guest routes without tester restrictions; production HTTPS/cookies/CSP/
-CORS and direct-origin defenses; real schedule and closed registration outside
-its window; absence of staging clocks, records and preview assets. Every staff
-verification/redemption endpoint remains protected. Do not manufacture live
-eligibility or copy staging passes to obtain a production test result.
+### Confirm dated redemption hours before redemption opens
 
-### 3. Dated redemption hours — before redemption opens
+- [ ] Owner confirms January 1, 2 and 3, 2027 hours or closures for each location.
+  Do not infer ordinary website hours or copy artificial staging windows.
+- [ ] Enter and independently verify the dated Chicago/UTC windows and the final
+  `2027-01-04T06:00:00Z` cap. Unconfigured windows remain closed; permanent staff
+  login remains available.
 
-- [ ] Owner confirms January 1, 2 and 3, 2027 hours or closures for **each location**.
-  Keep them unconfigured until supplied; do not infer regular hours or copy
-  artificial staging windows. Closed days have no redemption window.
-- [ ] Enter and independently verify the approved dated windows in Chicago/UTC,
-  with the final cap `2027-01-04T06:00:00Z`. Missing hours do not block code
-  integration or permanent staff login; they block redemption-window acceptance.
+### Complete actual device and accessibility checks
 
-### 4. Physical devices and accessibility
+- [ ] Both physical location iPhones and guest iPhone/Android: numeric code flow,
+  saved pass, cookies/private mode, orientation/safe areas, foreground/background,
+  screen lock, Wi-Fi/cellular loss, reconnect inside/outside grace and multiple tabs.
+- [ ] Actual VoiceOver/required screen readers, focus management, text zoom, touch
+  targets and Reduce Motion. Desktop Chromium/emulation is not a physical-device pass.
 
-- [ ] Test both **physical location iPhones**, real Safari/guest iPhone and Android
-  behavior: numeric keyboard, code flow, saved pass, cookies/private mode,
-  orientation/safe areas, foreground/background, screen lock, Wi-Fi/cellular loss,
-  reconnect within/outside grace and multiple tabs.
-- [ ] Verify VoiceOver/other required physical screen readers, focus management,
-  text zoom, touch targets and Reduce Motion on actual devices. Desktop emulated
-  viewport/reduced-motion tests are not physical-device passes.
+### Complete remaining security and operational acceptance
 
-### 5. Unverified security and operational acceptance
+- [ ] Actual elapsed 12-hour expiry/renewal, real JWKS rotation/outage, and remaining
+  identity revocation/wrong/missing/multiple-assignment cases. Keep completed local,
+  staging and production checks distinct by environment.
+- [ ] Approved attendance/peak-load target, accepted capacity/outage checks,
+  support ownership, privacy-safe logging, retention/cleanup, backup/restore
+  policy and a tested restore. Do not invent policies, dates or credentials.
+- [ ] Carry forward final-source evidence for persistent issuance, duplicate-pass
+  recovery, atomic cross-location redemption/audit, lost-response retry, no-purchase
+  payload, wrong codes and expiry. No synthetic live eligibility or production
+  passes are created merely to obtain a test result.
 
-- [ ] Verify actual elapsed 12-hour session expiry,
-  reauthentication, removed/revoked identities, wrong/expired JWT rejection,
-  real JWKS rotation/outage and missing/multiple station assignments.
-- [ ] Complete accepted burst/load and capacity tests, outage/retry handling,
-  privacy-safe logging, tested backup restoration, retention operation and
-  support/runbook ownership. Staging revocation is not session-expiry evidence.
-- [ ] Owner confirms expected attendance/peak load, support owner, retention/
-  cleanup and backup/restore policy. Do not invent retention dates or credentials.
-
-### 6. Final integration and authorized website release
-
-- [ ] Confirm all twelve pages retain approved seasonal hooks/designs and exactly
-  one intended loader include. Verify menus, hours, prices, ordering URLs, forms,
-  addresses and other business content against the current approved baseline.
-- [ ] Complete appropriate source/build/security checks and `git diff --check`;
-  retain exact results. Keep seasonal review flags and private review assets out
-  of production. Confirm the recurring seasonal calendar remains approved.
-- [ ] Carry forward focused event/persistence evidence for issuance, duplicate
-  recovery, atomic cross-location redemption, audit/lost-response retry,
-  no-purchase payload, wrong codes and expiry, alongside safe production smoke
-  checks. Record which behaviors were isolated tests rather than live issuance.
-- [ ] Verify automatic opening/arrival, descent, year change, same-page return,
-  Continue dismissal, pass recovery and failure behavior against the final source
-  and production configuration. October installation must not open early.
-- [ ] As part of **that same October release**, configure the loader with the
-  approved production endpoint, enable its real schedule and release the exact
-  approved current website source through the existing production flow. Do not
-  publish a staging export or create a separate New Year's Eve activation task.
-- [ ] Verify deployed service and website versions match the approved release;
-  confirm October's normal website remains visible, pass access is available,
-  and the server reports the fixed December/January schedule. Record safe live
-  smoke-check results and rollback versions without issuing simulated real passes.
-
-The narrowly authorized promotion-service delivery may complete before website
-publication. It does not enable the website takeover. After explicit finalized
-website authorization, use the documented
-[October activation command](../_features/new-year/production/ACTIVATION.md) in
-the same release; it enables the real schedule without scheduling an immediate
-takeover or a separate New Year's Eve launch. Until then, keep `main`, the live
-website, its publishing configuration and the shipped loader state unchanged.
+These pending checks do not reopen the approved experience, offer, eligibility or
+staff flow. The real schedule will be installed with the approved October website;
+there is no separate New Year's Eve website release or manual activation task.

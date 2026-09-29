@@ -9,6 +9,14 @@ and redemption. This is an implementation delivery, not another planning phase.
 The current
 [October release checklist](../../docs/october-release-checklist.md) records the
 candidate lineage, preservation audit, real schedule and finite remaining gates.
+The September 29 update keeps the same `release/2026-10-01` and
+[draft PR #4](https://github.com/sourbagelman/sourboulesite/pull/4). The requested
+website-publication target is **September 30, 2026 at 11:59 PM America/Chicago**
+(**October 1 at `04:59:00Z`**), distinct from the New Year countdown schedule.
+[Release publication](../../docs/release-publication.md) is the current record
+for the prepared hosted mechanism, bootstrap, exact candidate, tests and
+arming/cancellation procedure. It is prepared, not armed; no publication or
+arming occurred on September 29 and no local Codex automation was scheduled.
 
 The approved private-delivery checkpoint is
 `651a435e8ef840eac5b0d84f73a86a7131a092a8` on
@@ -41,21 +49,25 @@ organization/account security. Never put either tester restriction on production
 guest routes or add a staff location picker.
 
 **Integrated into the release candidate, production-verified, and authorized to
-publish the main website are separate states.** The exact final candidate SHA,
-draft PR, deployed production versions and actual endpoint/authentication results
-are in [production/DELIVERY.md](production/DELIVERY.md). Treat no endpoint as
+publish the main website are separate states.** Current candidate/publication
+details are in release publication. The September 27 delivered service versions
+and actual endpoint/authentication results remain in
+[production/DELIVERY.md](production/DELIVERY.md). Treat no endpoint as
 verified merely because its URL or configuration exists. The isolated service
 approval does not authorize main changes, merge/auto-merge, website publication,
 publishing-branch changes or main-site DNS/routing changes.
 
-Both checked-in loaders stay disabled until the explicitly authorized finalized
-October website release. That release must enable the real
+The generated release artifact `assets/js/new-year-2027.js` now has its production
+schedule enabled. The reference source stays disabled and the live main website
+is unchanged. Default rebuilding preserves the generated artifact's mode, and
+release validation prevents later menu/build work from silently disabling it or
+substituting a staging endpoint. The prepared artifact follows the real
 server-timed schedule: December 31, 2026 at 11:50 PM Chicago opening, 11:59 PM
 descent, January 1 midnight 2027/fireworks, and 12:05 AM return. Installing in
 October does not open the takeover then, and requires no manual New Year's Eve
 activation. Approved design, no-purchase terms and eligibility are not reopened.
-See [production/ACTIVATION.md](production/ACTIVATION.md) for the explicit release
-build flag; no activation occurs during candidate preparation.
+See [production/ACTIVATION.md](production/ACTIVATION.md) for the artifact build
+controls. An enabled candidate artifact is not a published or armed website.
 
 Permanent URLs (actual verification is recorded in the production delivery):
 
@@ -67,12 +79,28 @@ Permanent URLs (actual verification is recorded in the production delivery):
 - [Combined website preview — PRIVATE, TEST ONLY](https://nye-staging.thesourboule.com/):
   existing approved site/theme review; not the production website artifact.
 
-Remaining gates are finite: upcoming owner content edits and explicit finalized
-website release authorization; verified production results; owner-confirmed
-January 1–3 windows before redemption opens; actual physical-device/accessibility
-checks; and the documented outstanding security/operational acceptance. Holiday
-hours remain unconfigured and do not block code integration or permanent staff
-login. Desktop browser automation is not a physical-iPhone pass.
+The finite **October publication** gates are the owner's final Fort Worth and
+Willow Bend menus, focused final content/artifact verification and approval of
+an exact candidate SHA, then explicit authorization to install the control-only
+main bootstrap and arm the hosted publication. Only the publishing job receives
+the needed `contents: write` and `pages: write` permissions on its default
+`GITHUB_TOKEN`, with no PAT/new secret.
+Automatic post-publication checks must verify the exact Pages commit and current
+website/service. Details and actual scheduler results belong in release publication;
+an unarmed workflow or local test is not proof of an armed or successful release.
+
+The permanent service's **September 27** delivery retains its 45 focused local
+checks and 45 actual-cloud desktop Chromium assertions. **September 29** adds
+16 focused local activation/build checks and four read-only endpoint checks:
+guest/pass and live pre-event server-time responses returned 200; anonymous staff
+access redirected to Access. No record or cloud configuration changed.
+
+Holiday windows, physical devices/accessibility and outstanding event security/
+operational acceptance remain **later New Year readiness checks**, not October
+menu/publication or permanent-login blockers. January 1–3 hours remain unconfigured
+until owner confirmation, and redemption stays closed without approved windows.
+Desktop browser automation does not establish physical-iPhone, elapsed 12-hour
+expiry, JWKS rotation/outage, load or backup/restore results.
 
 ## Completed private delivery retained
 

@@ -28,6 +28,7 @@ test('full staging build uses current tracked pages/assets, exact transforms, is
   const manifest=JSON.parse(await readFile(built.manifestPath,'utf8'));
   assert.equal(manifest.sourceHead,(await run('git',['rev-parse','HEAD'],{cwd:repo})).stdout.trim());
   assert.equal(manifest.testLabel,STAGING_LABEL);assert.equal(manifest.cloudDeployed,false);
+  assert.equal(manifest.productionLoaderEnabled,true);
   assert.deepEqual(await walk(resolve(built.assetsDirectory,'service')),[...SERVICE_FILES].sort());
   assert.deepEqual(await walk(resolve(built.assetsDirectory,'site/new-year-preview')),Object.values(PREVIEW_FILES).sort());
   assert.deepEqual((await readdir(resolve(built.assetsDirectory,'site'))).filter(path=>path.endsWith('.html')).sort(),[...WEBSITE_PAGES].sort());
@@ -46,7 +47,7 @@ test('full staging build uses current tracked pages/assets, exact transforms, is
   const loader=await readFile(resolve(built.assetsDirectory,'site/assets/js/new-year-2027.js'),'utf8');
   assert.ok(loader.includes('const ENABLED=true;'));assert.ok(loader.includes("credentials:'include'"));assert.ok(loader.includes(config.serviceOrigin));assert.ok(loader.includes(STAGING_LABEL));
   for(const [file,bytes] of before)assert.deepEqual(await readFile(resolve(repo,file)),bytes);
-  assert.ok(before.get('assets/js/new-year-2027.js').toString().includes('const ENABLED=false;'));
+  assert.ok(before.get('assets/js/new-year-2027.js').toString().includes('const ENABLED=true;'));
 });
 test('builder rejects invalid/production origins and cannot write outside a fresh local build directory',async()=>{
   for(const websiteOrigin of ['https://thesourboule.com','http://example.test','https://x.test:8443','https://site.account.workers.dev',config.serviceOrigin])await assert.rejects(buildStaging({...config,websiteOrigin}));

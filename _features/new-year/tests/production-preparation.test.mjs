@@ -31,7 +31,7 @@ test('production preparation contains only real guest/staff assets and leaves cu
   assert.match(await readFile(resolve(output.assetsDirectory,'staff/index.html'),'utf8'),/src="\/staff\/assets\/staff.js"/);
   assert.match(await readFile(resolve(output.assetsDirectory,'assets/staff.js'),'utf8'),/fetch\('\/staff\/api\/'/);
   for(const [path,content] of originals)assert.deepEqual(await readFile(resolve(repo,path)),content);
-  const manifest=JSON.parse(await readFile(output.manifestPath));assert.equal(manifest.productionVerified,false);assert.equal(manifest.websiteLoaderEnabled,false);
+  const manifest=JSON.parse(await readFile(output.manifestPath));assert.equal(manifest.productionVerified,false);assert.equal(manifest.websiteLoaderEnabled,true);
 });
 test('fresh production schema has no test data, identities or inferred holiday hours',async()=>{
   const db=new LocalD1();try{
@@ -60,15 +60,15 @@ test('production marker refuses existing staging or populated databases without 
   }
 });
 test('enabling the real loader in October does not open early and later follows only server event time',async()=>{
-  const shipped=await readFile(resolve(feature,'src/integration-loader.js'),'utf8');assert.ok(shipped.includes('const ENABLED=false;'));
-  // Enable only this in-memory test copy. No source/generated asset is written.
+  const shipped=await readFile(resolve(repo,'assets/js/new-year-2027.js'),'utf8');assert.ok(shipped.includes('const ENABLED=true;'));
+  // Run the exact prepared release asset in memory. No source/generated asset is written.
   let serverNow=Date.parse('2026-10-01T17:00:00Z'),elapsed=0;const intervals=[],requests=[],nodes=[];
   const element=tag=>({tag,children:[],style:{},isConnected:true,append(...children){this.children.push(...children);},setAttribute(){},addEventListener(){},attachShadow(){return element('shadow');},showModal(){this.open=true;},close(){this.open=false;},focus(){},remove(){nodes.splice(nodes.indexOf(this),1);}});
   const footer=element('footer'),body=element('body');body.append=(node)=>nodes.push(node);
   const context={window:{HTMLDialogElement:class{},addEventListener(){}},location:{origin:'https://thesourboule.com'},document:{activeElement:null,createElement:element,querySelector:()=>footer,body,addEventListener(){}},
     sessionStorage:{getItem:()=>null,setItem(){}},performance:{now:()=>elapsed},setInterval(fn,ms){intervals.push({fn,ms});},AbortSignal,
     fetch:async(url,options)=>{requests.push({url,options});return{ok:true,json:async()=>({serverNow,event:EVENT,mode:'live'})};}};
-  runInNewContext(shipped.replace('const ENABLED=false;','const ENABLED=true;'),context);await setImmediate();
+  runInNewContext(shipped,context);await setImmediate();
   const tick=intervals.find(x=>x.ms===500).fn,sync=intervals.find(x=>x.ms===60000).fn;
   assert.equal(nodes.length,0);assert.equal(footer.children[0].hidden,true);assert.equal(requests[0].url,'https://celebrate.thesourboule.com/api/time');
   assert.equal(requests[0].options.credentials,'omit');

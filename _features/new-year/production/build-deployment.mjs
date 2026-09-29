@@ -22,8 +22,8 @@ export async function buildDeployment(){
   config.vars.ACCESS_AUD=resources.staffAccessAudience;
   await writeFile(prepared.wranglerPath,JSON.stringify(config,null,2)+'\n',{mode:0o600});
   const manifest=JSON.parse(await readFile(prepared.manifestPath,'utf8'));
-  Object.assign(manifest,{kind:'production-deployment-local-build',productionEnabled:true,productionVerified:false,websiteLoaderEnabled:false,resources,
-    pending:['This local build does not verify live deployment, staff authentication/assignments, holiday redemption windows, or device/security/operational checks.','Finalized October website release authorization and loader activation remain separate.']});
+  Object.assign(manifest,{kind:'production-deployment-local-build',productionEnabled:true,productionVerified:false,resources,
+    pending:['This local build does not verify live deployment, staff authentication/assignments, holiday redemption windows, or device/security/operational checks.','Preparing an enabled website artifact does not publish the finalized October website release.']});
   await writeFile(prepared.manifestPath,JSON.stringify(manifest,null,2)+'\n',{mode:0o600});
   return prepared;
 }

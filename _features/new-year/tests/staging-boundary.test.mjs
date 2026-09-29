@@ -62,7 +62,7 @@ test('default Wrangler entrypoint and assets remain production source with publi
   assert.doesNotMatch(config,/^\s*STAGING_[A-Z_]+\s*=|staging\/worker\.mjs|^\s*(?:routes|route)\s*=|^\s*\[\[?routes\]/m);
 });
 
-test('prepareStaging builds real isolated artifacts without enabling production or attaching routes',async()=>{
+test('prepareStaging builds isolated artifacts without changing the production loader or attaching routes',async()=>{
   const fixture={accountId:'a'.repeat(32),databaseId:'11111111-1111-1111-1111-111111111111',environmentId:'nye-boundary-test-fixture',
     websiteOrigin:'https://website.example.invalid',serviceOrigin:'https://service.example.invalid',accessIssuer:'https://boundary-test.cloudflareaccess.com',
     testerAudience:'b'.repeat(64),staffAudience:'c'.repeat(64),testerEmails:['approved@example.invalid'],
@@ -82,10 +82,10 @@ test('prepareStaging builds real isolated artifacts without enabling production 
     assert.match(sql,/CREATE TABLE staging_environment/);assert.match(sql,/nye-boundary-test-fixture/);
     assert.equal((sql.match(/ARTIFICIAL ONE-HOUR REHEARSAL WINDOW/g)||[]).length,2);
     const manifest=JSON.parse(await readFile(artifacts.manifestPath,'utf8'));
-    assert.equal(manifest.kind,'private-staging-only');assert.equal(manifest.cloudDeployed,false);assert.equal(manifest.productionLoaderEnabled,false);
+    assert.equal(manifest.kind,'private-staging-only');assert.equal(manifest.cloudDeployed,false);assert.equal(manifest.productionLoaderEnabled,true);
     assert.equal(manifest.files.filter(file=>/^site\/[^/]+\.html$/.test(file.asset)).length,12);
     assert.match(await readFile(resolve(artifacts.assetsDirectory,'site/assets/js/new-year-2027.js'),'utf8'),/const ENABLED=true;/);
-    assert.deepEqual(await readFile(productionLoaderPath),originalLoader);assert.match(originalLoader.toString(),/const ENABLED=false;/);
+    assert.deepEqual(await readFile(productionLoaderPath),originalLoader);assert.match(originalLoader.toString(),/const ENABLED=true;/);
   }finally{
     if(artifacts&&/^staging-build-[a-zA-Z0-9_-]+$/.test(relative(resolve(feature,'.local'),artifacts.outputDirectory)))await rm(artifacts.outputDirectory,{recursive:true});
   }

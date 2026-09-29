@@ -6,12 +6,13 @@ import {resolve,relative} from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {runInNewContext} from 'node:vm';
+import {integrationAsset} from '../scripts/build-integration.mjs';
 const feature=fileURLToPath(new URL('../',import.meta.url));
 const site=resolve(feature,'../..');
 const baseline='b08545ed37a2e9388ff8e565c50ab36d2eb89712';
 const tag=Buffer.from('<script defer src="assets/js/new-year-2027.js"></script>\n');
 const pages=['about.html','brand-home.html','catering.html','contact.html','events.html','fort-worth.html','index.html','locations.html','menu.html','menus-order.html','willow-bend.html','willow-bend-menu.html'];
-test('every original tracked file is byte-identical except one disabled script include per visitor page',()=>{
+test('every original tracked file is byte-identical except one additive script include per visitor page',()=>{
   const tree=execFileSync('git',['ls-tree','-rz',baseline],{cwd:site}).toString().split('\0').filter(Boolean);
   for(const entry of tree){
     const [meta,path]=entry.split('\t');
@@ -27,10 +28,10 @@ test('every original tracked file is byte-identical except one disabled script i
     assert.equal(actual,hash,`${path}: unrelated website/seasonal change`);
   }
 });
-test('production loader is disabled and has no DOM, storage or network effects',()=>{
+test('disabled loader reference has no side effects and prepared artifact differs only by its approved release gate',()=>{
   const source=readFileSync(resolve(feature,'src/integration-loader.js'),'utf8');
   assert.match(source,/const ENABLED=false;/);
-  assert.equal(readFileSync(resolve(site,'assets/js/new-year-2027.js'),'utf8'),source);
+  assert.equal(readFileSync(resolve(site,'assets/js/new-year-2027.js'),'utf8'),integrationAsset(source,'approved-october-release'));
   // No browser globals exist: even looking up window/document/fetch would throw.
   assert.doesNotThrow(()=>runInNewContext(source,Object.create(null)));
 });

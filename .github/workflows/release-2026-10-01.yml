@@ -1,0 +1,59 @@
+name: October 2026 release control
+on:
+  push:
+    branches: [release/2026-10-01]
+    paths:
+      - '.github/workflows/release-2026-10-01.yml'
+      - '_release/**'
+      - '*.html'
+      - 'assets/**'
+      - 'CNAME'
+      - '_features/new-year/src/integration-loader.js'
+      - '_features/new-year/scripts/build-integration.mjs'
+  workflow_dispatch:
+  schedule:
+    - cron: '59 4 1 10 *'
+    - cron: '4,9,14,19,24,29 5 1 10 *'
+
+# Cron works only after the reviewed control-only bootstrap is installed on main.
+# The locked UTC year/date/window and exact SHA are additionally checked in code.
+# An absent lock is DISARMED. These cron expressions cannot publish in later years.
+permissions:
+  contents: read
+  pages: read
+concurrency:
+  group: sour-boule-one-time-website-2026-10-01
+  cancel-in-progress: false
+
+jobs:
+  dry-run:
+    if: github.repository == 'sourbagelman/sourboulesite' && github.event_name == 'push' && github.ref == 'refs/heads/release/2026-10-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Focused scheduler tests
+        run: node --test _release/*.test.mjs
+      - name: Real GitHub read-only dry run
+        run: node _release/publish.mjs --dry-run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_LOCK_JSON: ${{ vars.SOUR_BOULE_RELEASE_LOCK }}
+  publish:
+    if: github.repository == 'sourbagelman/sourboulesite' && github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && vars.SOUR_BOULE_RELEASE_LOCK != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+      pages: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Publish only the locked version and verify Pages
+        run: node _release/publish.mjs --publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_LOCK_JSON: ${{ vars.SOUR_BOULE_RELEASE_LOCK }}

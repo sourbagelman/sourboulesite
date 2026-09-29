@@ -9,7 +9,7 @@ const OUT = path.resolve(process.env.NYE_QA_DIR || '.local/browser-integration-q
 const CONTROL = process.env.NYE_CONTROL_TOKEN || 'local-test-control-token';
 const STAFF = process.env.NYE_STAFF_TOKEN || 'local-test-staff-token';
 const WILLOW = process.env.NYE_WB_STAFF_TOKEN || 'local-test-wb-token';
-const LOADER = path.resolve(__dirname, '../../../assets/js/new-year-2027.js');
+const DISABLED_REFERENCE = path.resolve(__dirname, '../src/integration-loader.js');
 const SIZES = [[320,568],[375,812],[768,1024],[1366,768],[1440,900]].filter(([width])=>!process.env.NYE_QA_WIDTHS||process.env.NYE_QA_WIDTHS.split(',').includes(String(width)));
 const PAGES = ['index','brand-home','fort-worth','willow-bend','menu','willow-bend-menu','menus-order','locations','about','catering','events','contact'].filter(name=>!process.env.NYE_QA_PAGES||process.env.NYE_QA_PAGES.split(',').includes(name));
 if(!SIZES.length||!PAGES.length)throw Error('No recognized widths or pages selected.');
@@ -249,10 +249,10 @@ async function boundaries(browser) {
   });
 }
 async function failures(browser) {
-  await scenario('Disabled production asset performs no integration requests or DOM changes',async row=>{
+  await scenario('Disabled source reference performs no integration requests or DOM changes',async row=>{
     const c=await context(browser),p=await c.newPage();const calls=[];
-    try{await c.route(SITE+'/assets/js/new-year-2027.js',r=>r.fulfill({status:200,contentType:'text/javascript',body:fs.readFileSync(LOADER,'utf8')}));p.on('request',r=>{if(r.url().startsWith(SERVICE))calls.push(r.url());});await clock(START);await load(p);await p.waitForTimeout(400);
-      check(row,calls.length===0,'Release-disabled loader makes zero service requests');check(row,await p.locator('#sb-nye-isolated-host,#sb-nye-pass-recovery').count()===0,'Release-disabled loader adds no modal or recovery link');check(row,await p.locator('main h1').isVisible(),'Current website remains usable');
+    try{await c.route(SITE+'/assets/js/new-year-2027.js',r=>r.fulfill({status:200,contentType:'text/javascript',body:fs.readFileSync(DISABLED_REFERENCE,'utf8')}));p.on('request',r=>{if(r.url().startsWith(SERVICE))calls.push(r.url());});await clock(START);await load(p);await p.waitForTimeout(400);
+      check(row,calls.length===0,'Disabled source reference makes zero service requests');check(row,await p.locator('#sb-nye-isolated-host,#sb-nye-pass-recovery').count()===0,'Disabled source reference adds no modal or recovery link');check(row,await p.locator('main h1').isVisible(),'Current website remains usable');
     }finally{await c.close();}
   });
   await scenario('Time-service failure leaves the website usable',async row=>{

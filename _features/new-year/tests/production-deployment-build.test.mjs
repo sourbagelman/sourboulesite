@@ -37,10 +37,11 @@ test('reproducible deployment build targets only the approved production service
   assert.doesNotMatch(JSON.stringify(config),/STAGING_|TESTER|nye-staging|nye-service-staging|191f1e9c-b291-43bd-841f-5cfb514835e2|PASS_SECRET|REQUIRES_|clock|simulat/i);
   assert.deepEqual(await walk(result.assetsDirectory),[...PRODUCTION_FILES].sort());
   const manifest=JSON.parse(await readFile(result.manifestPath,'utf8'));
-  assert.equal(manifest.productionEnabled,true);assert.equal(manifest.productionVerified,false);assert.equal(manifest.websiteLoaderEnabled,false);
+  assert.equal(manifest.productionEnabled,true);assert.equal(manifest.productionVerified,false);assert.equal(manifest.websiteLoaderEnabled,true);
   assert.equal(manifest.resources.staffAccessAppId,'63f1c1ce-a257-4a4a-9212-8c246b7c7ee8');
   assert.equal(manifest.resources.zoneId,'ccc24f503b6009cf857e445d232c0e5e');
   for(const [path,source] of before)assert.equal(await readFile(resolve(feature,path),'utf8'),source,path+' unchanged');
   assert.equal(JSON.parse(before.get('production/wrangler.template.json')).vars.PRODUCTION_ENABLED,'false');
-  assert.match(before.get('../../assets/js/new-year-2027.js'),/const ENABLED=false;/);
+  assert.match(before.get('../../assets/js/new-year-2027.js'),/const ENABLED=true;/);
+  assert.match(before.get('src/integration-loader.js'),/const ENABLED=false;/);
 });

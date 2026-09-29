@@ -5,14 +5,14 @@ import {execFileSync} from 'node:child_process';
 import {tmpdir} from 'node:os';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {integrationMode,integrationAsset} from '../scripts/build-integration.mjs';
+import {integrationMode,integrationAsset,generatedIntegrationMode} from '../scripts/build-integration.mjs';
 
 const feature=fileURLToPath(new URL('../',import.meta.url));
 const sourcePath=resolve(feature,'src/integration-loader.js');
 const generatedPath=resolve(feature,'../../assets/js/new-year-2027.js');
 
-test('website activation requires the exact approved-release flag and defaults to disabled',()=>{
-  assert.equal(integrationMode([]),'disabled');
+test('website gate changes require an explicit flag and the default preserves the existing artifact',()=>{
+  assert.equal(integrationMode([]),'preserve');
   assert.equal(integrationMode(['--disable']),'disabled');
   assert.equal(integrationMode(['--enable-for-approved-october-release']),'approved-october-release');
   for(const args of [['--enable'],['true'],['--staging'],['--disable','--disable'],['--disable','--enable-for-approved-october-release']])assert.throws(()=>integrationMode(args),/Usage:/);
@@ -28,7 +28,15 @@ test('approved activation changes only the generated gate and preserves the prod
   assert.doesNotMatch(enabled,/nye-staging|nye-service-staging|\/__lab\/|STAGING_/);
   assert.equal(await readFile(sourcePath,'utf8'),source);
   assert.equal(await readFile(generatedPath,'utf8'),generated);
-  assert.match(generated,/const ENABLED=false;/,'The current website is not activated by these tests');
+  assert.equal(generated,enabled,'The prepared release artifact is enabled without changing or publishing it in these tests');
+  assert.match(source,/const ENABLED=false;/,'The source reference remains disabled');
+});
+
+test('generated mode validation accepts only the exact disabled reference or enabled release asset',async()=>{
+  const source=await readFile(sourcePath,'utf8');
+  assert.equal(generatedIntegrationMode(source,source),'disabled');
+  assert.equal(generatedIntegrationMode(source,integrationAsset(source,'approved-october-release')),'approved-october-release');
+  for(const drift of [source+'\n',source.replace('celebrate.thesourboule.com','nye-service-staging.thesourboule.com'),source.replace('1798782600000','1798782600001')])assert.throws(()=>generatedIntegrationMode(source,drift),/differs from its source/);
 });
 
 test('activation refuses a changed endpoint, an already-enabled source, or ambiguous release gates',async()=>{
@@ -39,7 +47,7 @@ test('activation refuses a changed endpoint, an already-enabled source, or ambig
   assert.throws(()=>integrationAsset(source+'\nconst ENABLED=false;','approved-october-release'),/exactly one disabled release gate/);
 });
 
-test('release CLI enables only a temporary generated asset and --disable restores the identical source bytes',async t=>{
+test('release CLI preserves an enabled artifact by default, refuses drift, and disables only with the explicit flag',async t=>{
   const root=await realpath(await mkdtemp(resolve(tmpdir(),'sb-nye-release-activation-')));
   t.after(()=>rm(root,{recursive:true,force:true}));
   const isolatedFeature=resolve(root,'_features/new-year');
@@ -57,6 +65,12 @@ test('release CLI enables only a temporary generated asset and --disable restore
   assert.equal(await readFile(sourceCopy,'utf8'),source,'Source is never enabled or rewritten');
   assert.throws(()=>execFileSync(process.execPath,[script,'--unexpected'],{stdio:'pipe'}));
   assert.equal(await readFile(assetCopy,'utf8'),enabled,'Invalid flags fail before writes');
+  execFileSync(process.execPath,[script]);
+  assert.equal(await readFile(assetCopy,'utf8'),enabled,'A normal rebuild must not silently disable the release');
+  const changed=enabled+'\n// Unreviewed source drift\n';
+  await writeFile(assetCopy,changed);
+  assert.throws(()=>execFileSync(process.execPath,[script],{stdio:'pipe'}));
+  assert.equal(await readFile(assetCopy,'utf8'),changed,'Source drift fails before writes');
   execFileSync(process.execPath,[script,'--disable']);
   assert.equal(await readFile(assetCopy,'utf8'),source);
   execFileSync(process.execPath,[script]);

@@ -4,7 +4,7 @@
  */
 (()=>{
   'use strict';
-  const ENABLED=false; // Release gate: do not change without owner approval.
+  const ENABLED=true; // Release gate: do not change without owner approval.
   if(!ENABLED||window.__sbNyeLoader)return;
   window.__sbNyeLoader=true;
   const SERVICE='https://celebrate.thesourboule.com'; // Permanent production promotion service.

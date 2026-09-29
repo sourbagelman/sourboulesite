@@ -1,11 +1,12 @@
-// Default preparation stays disabled. Only the explicit release flag enables the
-// generated website asset after owner authorization; the source stays disabled.
+// Default builds preserve the exact existing generated release gate. Explicit
+// flags change that gate; the source stays disabled and no website is published.
 import {readFileSync,writeFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 export function integrationMode(args){
-  if(args.length===0||(args.length===1&&args[0]==='--disable'))return 'disabled';
+  if(args.length===0)return 'preserve';
+  if(args.length===1&&args[0]==='--disable')return 'disabled';
   if(args.length===1&&args[0]==='--enable-for-approved-october-release')return 'approved-october-release';
   throw Error('Usage: node scripts/build-integration.mjs [--disable | --enable-for-approved-october-release]');
 }
@@ -17,11 +18,19 @@ export function integrationAsset(source,mode='disabled'){
   return mode==='disabled'?source:source.replace('const ENABLED=false;','const ENABLED=true;');
 }
 
+export function generatedIntegrationMode(source,generated){
+  if(generated===integrationAsset(source,'disabled'))return 'disabled';
+  if(generated===integrationAsset(source,'approved-october-release'))return 'approved-october-release';
+  throw Error('Generated website integration differs from its source beyond the release gate; review the change before rebuilding');
+}
+
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
-  const mode=integrationMode(process.argv.slice(2));
+  let mode=integrationMode(process.argv.slice(2));
   const root=new URL('../',import.meta.url);
   const source=readFileSync(new URL('src/integration-loader.js',root),'utf8');
-  writeFileSync(new URL('../../assets/js/new-year-2027.js',root),integrationAsset(source,mode));
+  const output=new URL('../../assets/js/new-year-2027.js',root);
+  if(mode==='preserve')mode=generatedIntegrationMode(source,readFileSync(output,'utf8'));
+  writeFileSync(output,integrationAsset(source,mode));
   console.log(mode==='disabled'
     ?'Built disabled website loader; no network calls or DOM changes while disabled.'
     :'Built enabled production loader for the owner-authorized October release; takeover follows the real server schedule. No website was published.');
