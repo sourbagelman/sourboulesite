@@ -71,7 +71,8 @@ manual fetch 15:54:17.589Z, expiry 16:54:17.589Z. Separate Fort Worth/Willow Ben
 responses were 352/353 decoded bytes and **210/212 actual Brotli body bytes**.
 Their stable timestamps, CORS, 300-second maximum HTTP cache and absolute expiry
 were checked. Runtime samples returned successfully at 0–3 ms CPU; this limited
-sample is not a latency guarantee. Mixed rain/fog correctly maps to `none`.
+sample is not a latency guarantee. That initial deployment mapped mixed rain/fog to `none`; this historical result
+predates the later narrow correction in BACKEND.md.
 
 Cloudflare read-back confirms the hourly `47 * * * *` registration. No successful
 unattended hourly tick had occurred at this checkpoint; the initialization is
@@ -82,3 +83,38 @@ The final owner delivery records GitHub Pages' resulting main revision, live
 page hashes and browser/network measurements taken after publication. Those
 post-publication results must not be inferred from this pre-publication test
 record. No physical-device or unavailable WebKit check is marked passed.
+
+## Narrow mixed-weather correction — October 1, 2026
+
+Starting main: `60147b192ac73db6c159405285fc9af0e920ee2a`.
+
+- **78/78** focused existing suites passed after the correction: 23 backend,
+  40 client lifecycle/schema, 15 renderer/resource tests. The initial sandbox
+  attempt could not launch Chromium; the browser-enabled rerun completed with
+  no failed or skipped tests.
+- **6/6** added mixed-weather browser integration tests passed at 1440×900 and
+  390×844. Structured rain+fog_mist, drizzle+fog, and exact text-only fallback
+  pass through the actual provider/observation/public-response functions to the
+  unchanged shipped bootstrap and renderer. Painted rain, usable controls,
+  four-second cleanup and no replay or optional requests on reload were checked.
+  These are explicitly local fixtures, not live production observations.
+- Unsupported-list permutations, fog alone, rain with cloud cover, exact text
+  allowlisting and structured authority passed. Existing bad-data, identity,
+  timestamp, freshness, lease, CORS, auth, reduced-motion, slow-connection and
+  New Year priority checks remain passing. The no-cherry-picking fixture now
+  uses a genuinely unsupported rain/thunderstorm report.
+- A real NWS fetch in local workerd at **16:36:56.475Z** normalized the actual
+  KFTW **16:10Z** rain+fog_mist report to rain. This is live-provider/local-runtime
+  evidence, not a production refresh.
+- The deployed correction is Worker revision
+  `093777c2-16f6-4e29-a7df-a75c45ccb194`. The one authenticated production
+  maintenance attempt at **16:37:16.747Z** returned
+  `already-attempted-this-hour`. The next eligible slot is **16:47Z / 11:47 AM
+  America/Chicago**. Storage, timestamps and the hourly schedule were not reset.
+
+Reproduce the additional local integration coverage with the existing browser
+setup described above:
+
+```sh
+node --test _features/weather/tests/mixed-weather-playback.test.mjs
+```

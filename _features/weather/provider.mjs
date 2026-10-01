@@ -22,7 +22,10 @@ const DESCRIPTION = new Map([
   ['Fair', 'clear'], ['Clear', 'clear'], ['A Few Clouds', 'clear'],
   ['Partly Cloudy', 'cloud'], ['Mostly Cloudy', 'cloud'], ['Overcast', 'cloud'],
   ['Rain', 'rain'], ['Light Rain', 'rain'], ['Heavy Rain', 'rain'],
+  // Exact descriptions verified in actual NWS observation history (see BACKEND.md).
+  ['Rain and Fog/Mist', 'rain'], ['Light Rain and Fog/Mist', 'rain'], ['Heavy Rain and Fog/Mist', 'rain'],
   ['Drizzle', 'rain'], ['Light Drizzle', 'rain'], ['Heavy Drizzle', 'rain'],
+  ['Light Drizzle and Fog/Mist', 'rain'],
   ['Snow', 'snow'], ['Light Snow', 'snow'], ['Heavy Snow', 'snow']
 ]);
 export function normalize(properties) {
@@ -33,13 +36,18 @@ export function normalize(properties) {
   const fallback = DESCRIPTION.get(description);
   if (hasWeather && p.presentWeather.length) {
     const kinds = new Set();
+    let ordinaryFog = false;
     for (const phenomenon of p.presentWeather) {
       if (!phenomenon || phenomenon.inVicinity || ![null, undefined, 'showers'].includes(phenomenon.modifier)) return { condition: 'none', coherent: true };
       if (['rain', 'drizzle'].includes(phenomenon.weather)) kinds.add('rain');
       else if (phenomenon.weather === 'snow') kinds.add('snow');
+      else if (['fog', 'fog_mist'].includes(phenomenon.weather) && [null, undefined].includes(phenomenon.modifier)) ordinaryFog = true;
       else return { condition: 'none', coherent: true };
     }
-    return { condition: kinds.size === 1 ? [...kinds][0] : 'none', coherent: true };
+    // Select only after validating the entire list. Ordinary fog/mist may
+    // accompany positive rain/drizzle, but cannot hide an unsupported entry,
+    // create rain by itself, or broaden the existing snow restrictions.
+    return { condition: kinds.size === 1 && (!ordinaryFog || kinds.has('rain')) ? [...kinds][0] : 'none', coherent: true };
   }
   // A populated but unrecognized description can indicate unsupported weather
   // omitted by an upstream field; never turn it into clouds/wind/clear.

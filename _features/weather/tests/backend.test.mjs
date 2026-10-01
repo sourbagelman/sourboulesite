@@ -20,12 +20,36 @@ function harness() {
 }
 test('structured current precipitation has priority and past totals are not weather', () => {
   assert.equal(normalize(report({ ...rain, windGust: { value: 80, unitCode: 'wmoUnit:km_h-1' } }).properties).condition, 'rain');
+  for (const amount of ['SCT', 'BKN', 'OVC']) assert.equal(normalize(report({ ...rain, cloudLayers: [{ amount }] }).properties).condition, 'rain');
   assert.equal(normalize(report({ presentWeather: [{ weather: 'snow', modifier: 'showers' }], textDescription: 'Light Snow' }).properties).condition, 'snow');
   assert.equal(normalize(report({ precipitationLastHour: { value: 10, unitCode: 'wmoUnit:mm' } }).properties).condition, 'clear');
 });
+test('ordinary rain or drizzle with fog and fog_mist selects rain in either order', () => {
+  for (const precipitation of ['rain', 'drizzle']) for (const fog of ['fog', 'fog_mist']) {
+    const list = [{ weather: precipitation, intensity: 'light', modifier: null }, { weather: fog, modifier: null }];
+    for (const presentWeather of [list, [...list].reverse()]) {
+      const p = report({ presentWeather, textDescription: 'Light Rain and Fog/Mist', cloudLayers: [{ amount: 'OVC' }] }).properties;
+      assert.deepEqual(normalize(p), { condition: 'rain', coherent: true });
+    }
+  }
+  assert.equal(normalize({ presentWeather: [{ weather: 'fog' }, { weather: 'drizzle' }, { weather: 'fog_mist' }, { weather: 'rain' }] }).condition, 'rain');
+});
+test('fog alone cannot invent precipitation or broaden snow and modifier support', () => {
+  for (const weather of ['fog', 'fog_mist']) {
+    // Even a positive text description cannot override a populated structured list.
+    assert.equal(normalize(report({ presentWeather: [{ weather }], textDescription: 'Light Rain and Fog/Mist' }).properties).condition, 'none');
+    for (const list of [[{ weather }, { weather: 'snow' }], [{ weather, modifier: 'freezing' }, { weather: 'rain' }], [{ weather, modifier: 'showers' }, { weather: 'rain' }], [{ weather, inVicinity: true }, { weather: 'drizzle' }]]) {
+      for (const presentWeather of [list, [...list].reverse()]) assert.equal(normalize({ presentWeather }).condition, 'none');
+    }
+  }
+});
 test('mixed, freezing, vicinity and unknown conditions conservatively suppress effects', () => {
-  for (const weather of ['hail', 'ice_pellets', 'fog', 'fog_mist', 'thunderstorms', 'unknown', 'smoke']) {
-    assert.equal(normalize(report({ presentWeather: [{ weather }, { weather: 'rain' }] }).properties).condition, 'none');
+  for (const weather of ['hail', 'ice_pellets', 'thunderstorms', 'unknown', 'smoke', 'snow', 'mist', null]) {
+    const list = [{ weather }, { weather: 'rain' }, { weather: 'fog_mist' }];
+    // Exhaust every permutation: rain first must not mask a later restriction.
+    for (const presentWeather of [list, [list[0], list[2], list[1]], [list[1], list[0], list[2]], [list[1], list[2], list[0]], [list[2], list[0], list[1]], [...list].reverse()]) {
+      assert.equal(normalize(report({ presentWeather, textDescription: 'Light Rain and Fog/Mist' }).properties).condition, 'none');
+    }
   }
   for (const p of [[{ weather: 'rain' }, { weather: 'snow' }], [{ weather: 'rain', modifier: 'freezing' }], [{ weather: 'snow', modifier: 'blowing' }], [{ weather: 'rain', inVicinity: true }], [null]]) assert.equal(normalize(report({ presentWeather: p }).properties).condition, 'none');
   assert.equal(normalize(report({ presentWeather: [{ weather: 'rain' }, { weather: 'drizzle' }] }).properties).condition, 'rain');
@@ -53,7 +77,14 @@ test('cloud categories require positive evidence and contradictions do not imply
 });
 test('description fallback is an exact table, not keyword/forecast matching', () => {
   for (const [textDescription, condition] of [['Fair', 'clear'], ['Clear', 'clear'], ['A Few Clouds', 'clear'], ['Mostly Cloudy', 'cloud'], ['Overcast', 'cloud'], ['Light Rain', 'rain'], ['Heavy Snow', 'snow']]) assert.equal(normalize({ textDescription }).condition, condition);
-  for (const textDescription of ['Chance Rain', 'Rain nearby', 'Rain and Snow', 'Partly cloudy with rain', 'Light Rain and Fog/Mist', 'Thunderstorms', 'Not clear', 'sunny']) assert.equal(normalize({ textDescription, presentWeather: [], windGust: { value: 50, unitCode: 'wmoUnit:mi_h-1' } }).condition, 'none');
+  for (const textDescription of ['Chance Rain', 'Rain nearby', 'Rain and Snow', 'Partly cloudy with rain', 'Thunderstorms', 'Not clear', 'sunny', 'Fog', 'Fog/Mist', 'Light Rain and Fog/Mist with Thunderstorms', 'Light Rain and Freezing Fog', 'Chance of Light Rain and Fog/Mist', 'light rain and fog/mist']) assert.equal(normalize({ textDescription, presentWeather: [], windGust: { value: 50, unitCode: 'wmoUnit:mi_h-1' } }).condition, 'none');
+});
+test('verified exact NWS rain and drizzle with fog text works only as fallback', () => {
+  for (const textDescription of ['Rain and Fog/Mist', 'Light Rain and Fog/Mist', 'Heavy Rain and Fog/Mist', 'Light Drizzle and Fog/Mist']) {
+    assert.equal(normalize({ textDescription }).condition, 'rain');
+    assert.equal(normalize({ textDescription, presentWeather: [] }).condition, 'rain');
+    for (const weather of ['fog', 'fog_mist', 'hail', 'smoke', 'unknown']) assert.equal(normalize({ textDescription, presentWeather: [{ weather }] }).condition, 'none');
+  }
 });
 test('observation timestamps, station identity and absolute expiry are validated', () => {
   assert.equal(base().observedAt, iso(NOW - 20 * 60000));
@@ -85,7 +116,7 @@ test('incomplete latest inspects at most four whole history reports with no fiel
 });
 test('valid unsupported report does not cherry-pick an older attractive effect', async () => {
   let calls = 0;
-  const result = await fetchStation('KFTW', NOW, async () => { calls++; return response(report({ presentWeather: [{ weather: 'fog_mist' }, { weather: 'rain' }], textDescription: 'Rain and Fog/Mist' })); });
+  const result = await fetchStation('KFTW', NOW, async () => { calls++; return response(report({ presentWeather: [{ weather: 'rain' }, { weather: 'thunderstorms' }], textDescription: 'Thunderstorm and Rain' })); });
   assert.equal(result.condition, 'none'); assert.equal(calls, 1);
 });
 test('provider failure/malformed reports are bounded and fail closed without retry loops', async () => {

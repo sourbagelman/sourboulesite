@@ -48,8 +48,9 @@ cannot establish the required visual condition. No claim is made that this
 comparison exhausts every private or unlisted weather sensor.
 
 Real integration check at 2026-10-01T15:38:05.146Z called `fetchStation`, not a
-fixture: KFTW's report was observed at 15:20Z and normalized to `none` because
-rain mixed with unsupported fog/mist is conservatively unsupported. Both public
+fixture: KFTW's report was observed at 15:20Z and normalized to `none` by the
+initial rollout's mixed-weather restriction. That restriction is superseded by
+the rain/fog correction documented below. Both public
 responses were fresh (expiry 16:38:05.146Z), 352/353 JSON bytes, and carried
 separate location IDs and solar times. These are pre-deployment real-provider
 results; deployed endpoint/cron evidence belongs in the final delivery report.
@@ -62,9 +63,12 @@ results; deployed endpoint/cron evidence belongs in the final delivery report.
 and owner contact address. NWS warns that upstream QC can delay observations;
 our 120-minute age limit is an implementation default, not a provider promise.
 
-- Explicit structured rain/drizzle maps to `rain`; snow maps to `snow`. Showers
-  are supported. Freezing/blowing/vicinity reports, rain+snow, fog/mist, smoke,
-  hail, thunderstorms and other unsupported combinations map to `none`.
+- Explicit structured rain/drizzle maps to `rain`, including when accompanied
+  only by ordinary `fog` or `fog_mist`; snow maps to `snow`. Showers remain
+  supported for precipitation. Every structured entry is validated before a
+  positive selection, independent of array order. Fog/mist alone, snow with fog,
+  freezing/blowing/vicinity reports, rain+snow, smoke, hail, thunderstorms and
+  unknown combinations remain `none`. Fog with a modifier is not ordinary fog.
 - Current supported precipitation precedes wind, cloud and clear effects.
 - Sustained wind or gust at least 20 mph maps to `wind`; km/h, m/s, knots and
   mph have explicit conversions, rounded to one millionth of a mph to avoid
@@ -74,7 +78,8 @@ our 120-minute age limit is an implementation default, not a provider promise.
   contradictory or absent information does not imply clear skies.
 - An exact, tested table of NWS current METAR descriptions (`Fair`, `Clear`,
   `A Few Clouds`, `Partly Cloudy`, `Mostly Cloudy`, `Overcast`, plain/light/heavy
-  Rain/Drizzle/Snow) is the only text fallback. No substring matches, forecast
+  Rain/Drizzle/Snow, plus the four verified rain/drizzle-with-fog phrases below)
+  is the only text fallback. No substring matches, forecast
   probabilities or precipitation totals are used.
 - Latest incomplete data permits one request for at most four recent whole
   observations. A coherent unsupported latest report is accepted as `none`;
@@ -178,8 +183,8 @@ The authenticated manual initialization at **15:54:17.589Z** fetched a real NWS
 KFTW observation dated **15:31:00Z**. Twenty subsequent GETs at 15:54:34–35Z
 all returned HTTP 200 with the same fetched/observed timestamps, independent
 location IDs and valid absolute expiry **16:54:17.589Z**. Normal page reads did
-not renew the snapshot. The observed mixed conditions mapped conservatively to
-`none`, which intentionally means no decorative playback. These were real
+not renew the snapshot. The initial mixed-weather restriction mapped those observations to
+`none`; that historical result predates the correction below. These were real
 production responses, not mocked API fixtures.
 
 Verified response headers: `Content-Encoding: br`, `Cache-Control: public,
@@ -205,3 +210,35 @@ The initial Python urllib probe was rejected by Cloudflare's edge with HTTP
 403/error 1010 before Worker execution. Native Node HTTP checks then verified
 the actual Worker responses above. This transport difference was not hidden
 as a passing application test, and no security settings were weakened.
+
+## Narrow rain/fog correction — October 1, 2026
+
+Structured observations remain authoritative. Ordinary `rain` or `drizzle` plus
+`fog`/`fog_mist` selects the existing rain renderer; cloud cover does not override
+precipitation. No new or combined animation is introduced. Fog alone cannot
+invent rain from the description. A later unsupported phenomenon still rejects
+the entire list, even when rain is its first entry.
+
+Only these exact additional text fallbacks were verified against actual NWS
+observations before adding them; no substring or forecast matching is used:
+
+| Exact phrase | Actual observation evidence |
+| --- | --- |
+| `Light Rain and Fog/Mist` | KFTW, 2026-10-01 16:10Z |
+| `Rain and Fog/Mist` | KFTW, 2026-10-01 16:05Z and preceding reports |
+| `Heavy Rain and Fog/Mist` | KFTW, 2026-10-01 15:15Z, 15:10Z, 15:03Z |
+| `Light Drizzle and Fog/Mist` | KISP, 2026-09-28 18:30–19:56Z |
+
+Sources: [KFTW observations](https://api.weather.gov/stations/KFTW/observations?limit=20),
+[bounded KISP history](https://api.weather.gov/stations/KISP/observations?start=2026-09-28T17:00:00Z&end=2026-09-28T20:00:00Z&limit=20),
+and the [NWS schema](https://api.weather.gov/openapi.json). KISP is evidence for
+the provider's exact phrase only; it never supplies either restaurant's weather.
+The structured enum contains `fog_mist` and `fog`; a guessed literal `mist` is
+not accepted. Unverified text variants remain unsupported.
+
+Deployment must retain the same storage identity and hourly lease. An existing
+snapshot keeps its original normalized condition and timestamps until a normal
+eligible refresh. An authenticated maintenance request in a used hourly slot
+must be reported as skipped; do not reset storage or add a bypass. HTTP clients
+may additionally retain responses for up to five minutes after the shared cache
+changes. Manual refresh results and fixture triggers are not cron-success proof.
