@@ -1,0 +1,11 @@
+{
+  "accountId": "c84d6dc733d90811006e8d8837dcd1c3",
+  "zoneId": "ccc24f503b6009cf857e445d232c0e5e",
+  "workerName": "sour-boule-nye-production",
+  "databaseName": "sour-boule-nye-production",
+  "databaseId": "1d1e7a58-44d6-4ea7-a114-b05ad3d9b377",
+  "staffAccessAppId": "63f1c1ce-a257-4a4a-9212-8c246b7c7ee8",
+  "staffAccessAudience": "dd921507cd930cf59c924b36a6ca2d2035d837ae1e1316640b4b8e63701207fd",
+  "staffAccessIssuer": "https://sourbagelman.cloudflareaccess.com",
+  "hostname": "celebrate.thesourboule.com"
+}

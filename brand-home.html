@@ -4,15 +4,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, follow">
 
-<title>The Sour Boule | Fort Worth &amp; Aledo Locations</title>
+<title>The Sour Boule | Fort Worth & Willow Park Locations</title>
 
 <meta
   name="description"
-  content="Choose The Sour Boule in Fort Worth or Willow Bend in Aledo. View each location's menu, address, hours, phone number, and order pickup online."
+  content="Choose The Sour Boule in Fort Worth or Willow Bend in Willow Park. View each location's menu, address, hours, phone number, and ordering information."
 >
 
-<link rel="canonical" href="https://thesourboule.com/brand-home.html">
+<link rel="canonical" href="https://thesourboule.com/">
+<meta property="og:title" content="Choose a Sour Boule Location | Fort Worth or Willow Bend">
+<meta property="og:description" content="Choose The Sour Boule in Fort Worth or Willow Bend in Willow Park to find the correct menu, phone number, hours, and visit details.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://thesourboule.com/"><meta property="og:image" content="https://thesourboule.com/assets/images/social-card.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="The Sour Boule sourdough bakery and cafe in Fort Worth and Willow Bend">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Choose a Sour Boule Location | Fort Worth or Willow Bend"><meta name="twitter:description" content="Find the correct menu, phone number, hours, and visit details for Fort Worth or Willow Bend in Willow Park."><meta name="twitter:image" content="https://thesourboule.com/assets/images/social-card.png"><meta name="twitter:image:alt" content="The Sour Boule sourdough bakery and cafe in Fort Worth and Willow Bend">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png"><link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,108 +28,14 @@
   rel="stylesheet"
 >
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Restaurant",
-      "@id": "https://thesourboule.com/fort-worth.html#restaurant",
-      "name": "The Sour Boule - Fort Worth",
-      "url": "https://thesourboule.com/fort-worth.html",
-      "telephone": "+1-682-250-3052",
-      "servesCuisine": [
-        "Bakery",
-        "Cafe",
-        "Breakfast",
-        "Lunch",
-        "Sourdough"
-      ],
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "3801 Southwest Blvd",
-        "addressLocality": "Fort Worth",
-        "addressRegion": "TX",
-        "postalCode": "76116",
-        "addressCountry": "US"
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": [
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday"
-          ],
-          "opens": "08:00",
-          "closes": "14:00"
-        }
-      ]
-    },
-    {
-      "@type": "Restaurant",
-      "@id": "https://thesourboule.com/willow-bend.html#restaurant",
-      "name": "The Sour Boule - Willow Bend",
-      "url": "https://thesourboule.com/willow-bend.html",
-      "telephone": "+1-682-224-0888",
-      "servesCuisine": [
-        "Bakery",
-        "Cafe",
-        "Sourdough Sandwiches",
-        "Burgers",
-        "Hit Dogs",
-        "Salads"
-      ],
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "280 Willow Bend Suite 300",
-        "addressLocality": "Aledo",
-        "addressRegion": "TX",
-        "postalCode": "76008",
-        "addressCountry": "US"
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": [
-            "Wednesday",
-            "Thursday"
-          ],
-          "opens": "11:00",
-          "closes": "19:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Friday",
-          "opens": "11:00",
-          "closes": "21:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Saturday",
-          "opens": "08:00",
-          "closes": "21:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": "Sunday",
-          "opens": "08:00",
-          "closes": "19:00"
-        }
-      ]
-    }
-  ]
-}
-</script>
-
 <style>
 :root {
   --black: #111111;
   --white: #ffffff;
+  --soft: #f6f6f3;
   --muted: #666666;
   --line: rgba(17,17,17,.14);
+  --alert-red: #ef3f35;
 }
 
 * {
@@ -142,14 +54,32 @@ body {
 body {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 28px;
+  gap: 28px;
+  padding: 28px;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.pickup-alert {
+  width: min(100%, 980px);
+  padding: 16px 22px;
+  background: var(--alert-red);
+  color: var(--black);
+  border: 3px solid var(--black);
+  border-radius: 14px;
+  font-size: clamp(.95rem, 2.2vw, 1.15rem);
+  font-weight: 800;
+  line-height: 1.4;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: .025em;
+  box-shadow: 5px 5px 0 var(--black);
 }
 
 .splash {
@@ -166,7 +96,6 @@ a {
 }
 
 .logo-wrap img {
-  display: block;
   width: 96px;
   height: 96px;
   border-radius: 999px;
@@ -174,23 +103,23 @@ a {
 }
 
 .brand-name {
-  font-size: .95rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .18em;
+  font-size: .95rem;
 }
 
 h1 {
-  margin: 0;
   font-family: "Playfair Display", Georgia, serif;
   font-size: clamp(2.6rem, 7vw, 5.4rem);
   line-height: .95;
+  margin: 0;
 }
 
 .sub {
-  max-width: 660px;
-  margin: 0 auto;
   color: var(--muted);
+  max-width: 620px;
+  margin: 0 auto;
   font-size: 1.05rem;
   line-height: 1.7;
 }
@@ -198,18 +127,14 @@ h1 {
 .location-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: stretch;
   gap: 18px;
   margin-top: 8px;
 }
 
 .location-card {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  padding: 30px;
   border: 1px solid var(--line);
   border-radius: 28px;
+  padding: 30px;
   background: var(--white);
   text-align: left;
   transition:
@@ -236,28 +161,26 @@ h1 {
 
 .kicker {
   display: inline-block;
-  margin-bottom: 14px;
   font-size: .72rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .18em;
+  margin-bottom: 14px;
 }
 
 .location-card h2 {
-  margin: 0 0 10px;
   font-family: "Playfair Display", Georgia, serif;
   font-size: 2.2rem;
+  margin: 0 0 10px;
 }
 
-.location-description {
-  min-height: calc(1.65em * 3);
-  margin: 0 0 18px;
+.location-card p {
   color: var(--muted);
   line-height: 1.65;
+  margin: 0 0 18px;
 }
 
 .meta {
-  margin: 0;
   color: var(--muted);
   font-size: .95rem;
   line-height: 1.75;
@@ -268,50 +191,16 @@ h1 {
   text-underline-offset: 3px;
 }
 
-.card-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: auto;
-  padding-top: 22px;
-}
-
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 0;
+  margin-top: 22px;
   min-height: 46px;
-  padding: 12px 14px;
-  border: 1px solid currentColor;
+  padding: 12px 18px;
   border-radius: 999px;
+  border: 1px solid currentColor;
   font-weight: 800;
-  text-align: center;
-  transition:
-    background-color .16s ease,
-    color .16s ease,
-    transform .16s ease;
-}
-
-.button:hover {
-  transform: translateY(-1px);
-}
-
-.button.primary {
-  border-color: var(--black);
-  background: var(--black);
-  color: var(--white);
-}
-
-.location-card.dark .button.primary {
-  border-color: var(--white);
-  background: var(--white);
-  color: var(--black);
-}
-
-.location-card.dark .button.secondary {
-  border-color: rgba(255,255,255,.7);
-  color: var(--white);
 }
 
 .footer-note {
@@ -320,139 +209,76 @@ h1 {
   line-height: 1.6;
 }
 
-/* Compact mobile location chooser */
 @media (max-width: 760px) {
   body {
-    min-height: 100svh;
     align-items: center;
     justify-content: flex-start;
-    padding:
-      max(14px, env(safe-area-inset-top))
-      12px
-      max(14px, env(safe-area-inset-bottom));
+    padding: 18px;
   }
 
-  .splash {
-    width: 100%;
-    gap: 12px;
-  }
-
-  .logo-wrap {
-    gap: 6px;
-  }
-
-  .logo-wrap img {
-    width: 54px;
-    height: 54px;
-  }
-
-  .brand-name {
-    font-size: .7rem;
-    letter-spacing: .15em;
-  }
-
-  h1 {
-    font-size: clamp(2rem, 10vw, 2.7rem);
-    line-height: 1;
-  }
-
-  .sub {
-    display: none;
+  .pickup-alert {
+    padding: 14px 16px;
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 var(--black);
   }
 
   .location-grid {
     grid-template-columns: 1fr;
-    gap: 10px;
-    margin-top: 0;
   }
 
   .location-card {
-    padding: 15px;
-    border-radius: 20px;
     text-align: center;
-  }
-
-  .kicker {
-    margin-bottom: 5px;
-    font-size: .62rem;
-  }
-
-  .location-card h2 {
-    margin-bottom: 10px;
-    font-size: 1.65rem;
-    line-height: 1;
-  }
-
-  .location-description,
-  .meta {
-    display: none;
-  }
-
-  .card-actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    margin-top: 0;
-    padding-top: 0;
-  }
-
-  .button {
-    width: 100%;
-    min-height: 42px;
-    padding: 9px 8px;
-    font-size: .82rem;
-  }
-
-  .footer-note {
-    font-size: .72rem;
-    line-height: 1.3;
-  }
-}
-
-@media (max-width: 360px) {
-  .logo-wrap img {
-    width: 46px;
-    height: 46px;
-  }
-
-  h1 {
-    font-size: 1.9rem;
-  }
-
-  .location-card {
-    padding: 12px;
-  }
-
-  .button {
-    min-height: 40px;
-    font-size: .75rem;
   }
 }
 </style>
+<link rel="stylesheet" href="assets/css/style.css">
 
+<link rel="stylesheet" href="assets/css/seasonal.css">
+<script src="assets/js/seasonal-config.js" defer></script>
+<script src="assets/js/seasonal.js" data-seasonal-controller defer></script>
 </head>
 
-<body>
+<body class="brand-compatibility">
 
-<main class="splash">
+<a class="site-skip-link" href="#main-content">Skip to main content</a>
+<header class="site-header">
+<div class="site-announcement">You’re in the right place—choose the location where you plan to order or visit.</div>
+<div class="container site-header__inner">
+<a class="site-logo" href="index.html" aria-label="The Sour Boule home"><img src="images/logo.png" width="46" height="46" alt=""><span class="site-logo__wordmark"><span>The Sour Boule</span><small>Sourdough bakery &amp; cafe</small></span></a>
+<nav class="site-nav" aria-label="Primary navigation"><a href="index.html">Home</a><a href="menus-order.html">Menus &amp; order</a><a href="locations.html">Locations</a><a href="catering.html">Catering</a><a href="about.html">About</a><details><summary>More</summary><div class="site-nav__popover"><a href="events.html">Private events</a><a href="contact.html">Contact</a></div></details></nav>
+<details class="mobile-nav"><summary aria-label="Open navigation menu">Menu</summary><nav class="mobile-nav__panel" aria-label="Mobile navigation"><a href="index.html">Home</a><a href="menus-order.html">Menus &amp; order</a><a href="https://cash.app/$thesourboule/l/CALL_CAESDUwxS0FDNkRTS1NROU0/pickup" target="_blank" rel="noopener">Order Fort Worth</a><a href="https://cash.app/$thesourboule/l/CALL_CAESDUxaVlhKOFBKRjI0MkM/pickup" target="_blank" rel="noopener">Order Willow Bend</a><span class="mobile-nav__label">Explore</span><a href="locations.html">Locations</a><a href="catering.html">Catering</a><a href="about.html">About</a><a href="events.html">Private events</a><a href="contact.html">Contact</a></nav></details>
+<details class="site-order site-header__order"><summary class="btn primary" aria-expanded="false" aria-controls="header-order-options">Order Online</summary><div class="site-nav__popover" id="header-order-options"><a href="https://cash.app/$thesourboule/l/CALL_CAESDUwxS0FDNkRTS1NROU0/pickup" target="_blank" rel="noopener">Order Fort Worth</a><a href="https://cash.app/$thesourboule/l/CALL_CAESDUxaVlhKOFBKRjI0MkM/pickup" target="_blank" rel="noopener">Order Willow Bend</a></div></details>
+</div>
+</header>
 
-<section class="logo-wrap">
+<div class="pickup-alert">
+This is a legacy site link. <a href="index.html">Continue to the current Sour Boule homepage.</a>
+</div>
+
+<main id="main-content" class="splash site-main">
+
+<section class="logo-wrap" data-seasonal-anchor>
+<div data-seasonal-art hidden aria-hidden="true"></div>
 
 <img
   src="images/logo.png"
+  width="636"
+  height="344"
   alt="The Sour Boule logo"
 >
 
 <div class="brand-name">The Sour Boule</div>
 
+<span data-seasonal-year hidden></span>
 <h1>Choose your location.</h1>
 
 <p class="sub">
-Choose a location for menus, hours, and store information—or go directly to pickup ordering for the correct restaurant.
+Two locations built around fresh sourdough, house-made food, and real ingredients. Choose where you are headed to see the correct menu, hours, and location information.
 </p>
 
 </section>
 
-<section class="location-grid">
+<section id="locations" class="location-grid">
 
 <article class="location-card">
 
@@ -460,7 +286,7 @@ Choose a location for menus, hours, and store information—or go directly to pi
 
 <h2>Fort Worth</h2>
 
-<p class="location-description">
+<p>
 Breakfast, lunch, sourdough bread, bagels, coffee, catering, and private events.
 </p>
 
@@ -473,27 +299,13 @@ Wednesday–Sunday • 8 AM–2 PM<br>
 </a>
 </div>
 
-<div class="card-actions">
-
 <a
-  class="button secondary"
+  class="button"
   href="fort-worth.html"
-  aria-label="View The Sour Boule Fort Worth location information"
+  aria-label="Visit The Sour Boule Fort Worth website"
 >
-Location Info
+Fort Worth Details
 </a>
-
-<a
-  class="button primary"
-  href="https://cash.app/$thesourboule/l/CALL_CAESDUwxS0FDNkRTS1NROU0/pickup"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Order pickup from The Sour Boule Fort Worth"
->
-Order Pickup
-</a>
-
-</div>
 
 </article>
 
@@ -503,8 +315,8 @@ Order Pickup
 
 <h2>Willow Bend</h2>
 
-<p class="location-description">
-Sourdough sandwiches, burgers, hit dogs, salads, brunch-ish favorites, fresh bread, drinks, and desserts.
+<p>
+Sourdough sandwiches, burgers, Hit Dogs, salads, brunch-ish favorites, fresh bread, drinks, and desserts.
 </p>
 
 <div class="meta">
@@ -520,37 +332,32 @@ Monday–Tuesday • Closed<br>
 </a>
 </div>
 
-<div class="card-actions">
-
 <a
-  class="button secondary"
+  class="button"
   href="willow-bend.html"
-  aria-label="View The Sour Boule Willow Bend location information"
+  aria-label="Visit The Sour Boule Willow Bend website"
 >
-Location Info
+Willow Bend Details
 </a>
-
-<a
-  class="button primary"
-  href="https://cash.app/$thesourboule/l/CALL_CAESDUxaVlhKOFBKRjI0MkM/pickup"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Order pickup from The Sour Boule Willow Bend"
->
-Order Pickup
-</a>
-
-</div>
 
 </article>
 
 </section>
 
-<div class="footer-note">
-Slow bread. Real ingredients. Built intentionally.
-</div>
+<div class="footer-note">Slow bread. Real ingredients. Built intentionally.</div>
 
+<div data-seasonal-trim hidden aria-hidden="true"></div>
 </main>
 
+<footer class="site-footer"><div class="container"><div class="site-footer__grid">
+<div class="site-footer__brand"><a class="site-logo" href="index.html"><img src="images/logo.png" width="46" height="46" alt=""><span class="site-logo__wordmark"><span>The Sour Boule</span><small>Fort Worth born</small></span></a><p>Slow-fermented bread and house-made food, served with a little personality.</p></div>
+<div><h2>Fort Worth</h2><p>3801 Southwest Blvd<br>Fort Worth, TX 76116<br><a href="tel:+16822503052">682-250-3052</a></p><div class="site-footer__links"><a href="menu.html">View menu</a></div></div>
+<div><h2>Willow Bend</h2><p>280 Willow Bend, Suite 300<br>Aledo, TX 76008<br><a href="tel:+16822240888">682-224-0888</a></p><div class="site-footer__links"><a href="willow-bend-menu.html">View menu</a></div></div>
+<div><h2>Explore</h2><nav class="site-footer__links" aria-label="Footer navigation"><a href="menus-order.html">Menus &amp; Order</a><a href="locations.html">Locations</a><a href="catering.html">Catering</a><a href="events.html">Private events</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav></div>
+</div><div class="site-footer__bottom"><span>© The Sour Boule</span><a href="#main-content">Back to top ↑</a></div></div></footer>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/navigation.js"></script>
+
+<script defer src="assets/js/new-year-2027.js"></script>
 </body>
 </html>
