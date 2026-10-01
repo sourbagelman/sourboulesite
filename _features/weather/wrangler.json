@@ -1,0 +1,13 @@
+{
+  "name": "sour-boule-weather",
+  "main": "backend.mjs",
+  "account_id": "c84d6dc733d90811006e8d8837dcd1c3",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": true,
+  "preview_urls": false,
+  "vars": { "WEATHER_ENABLED": "true" },
+  "durable_objects": { "bindings": [{ "name": "WEATHER_CACHE", "class_name": "WeatherCache" }] },
+  "migrations": [{ "tag": "weather-cache-v1", "new_sqlite_classes": ["WeatherCache"] }],
+  "triggers": { "crons": ["47 * * * *"] },
+  "observability": { "enabled": false }
+}
