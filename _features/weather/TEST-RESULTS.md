@@ -118,3 +118,31 @@ setup described above:
 ```sh
 node --test _features/weather/tests/mixed-weather-playback.test.mjs
 ```
+
+### Genuine scheduled refresh and production playback
+
+Cloudflare's live tail recorded an actual `47 * * * *` invocation with outcome
+`ok` and `weather-hourly-refresh`, `refreshed: true`, `source: scheduled` at
+**2026-10-01T16:47:27.017Z** (11:47:27 AM Chicago). This was the existing hourly
+job, not a simulated trigger or second manual attempt. No lease, storage
+identity, timestamp, schedule, authentication or kill-switch change was made.
+
+Both production endpoints returned HTTP 200 and `condition/effect: rain`, with
+`observedAt: 2026-10-01T16:30:00.000Z`,
+`fetchedAt: 2026-10-01T16:47:27.017Z`, and
+`validUntil: 2026-10-01T17:47:27.017Z`. The exact NWS observation matched:
+“Rain and Fog/Mist”, structured `rain`/`RA` plus `fog_mist`/`BR`. The initial
+16:47:15Z read preceded the job; the 16:48:15Z read verified its results. Existing
+five-minute HTTP caching was honored, with no condition-override query or cache
+mutation. CORS and freshness headers remained unchanged.
+
+Fresh production Chromium contexts then showed actual rain at Fort Worth
+(1440×900) and Willow Bend (390×844, DPR 2 mobile emulation). No observation or
+clock fixture was used. Painted canvases were observed and removed after
+**4,002/4,004 ms**; ordering controls worked, no JavaScript errors occurred, and
+same-context reloads made no additional weather/renderer request or replay.
+Physical-iPhone and Safari results are still not claimed.
+
+Detailed readbacks, redacted Cloudflare cron log, screenshots and browser
+measurements are retained outside the public site in the task workspace's
+`work/weather-mixed-2026-10-01/` evidence directory.
