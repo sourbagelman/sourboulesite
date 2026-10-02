@@ -5,7 +5,7 @@
   "compatibility_date": "2026-09-01",
   "workers_dev": true,
   "preview_urls": false,
-  "vars": { "WEATHER_ENABLED": "true" },
+  "vars": { "WEATHER_ENABLED": "true", "WEATHER_EXPANSION_ENABLED": "true" },
   "durable_objects": { "bindings": [{ "name": "WEATHER_CACHE", "class_name": "WeatherCache" }] },
   "migrations": [{ "tag": "weather-cache-v1", "new_sqlite_classes": ["WeatherCache"] }],
   "triggers": { "crons": ["47 * * * *"] },

@@ -55,7 +55,7 @@ responses were fresh (expiry 16:38:05.146Z), 352/353 JSON bytes, and carried
 separate location IDs and solar times. These are pre-deployment real-provider
 results; deployed endpoint/cron evidence belongs in the final delivery report.
 
-## Mapping and freshness
+## Corrected legacy mapping and freshness
 
 [NWS documentation](https://www.weather.gov/documentation/services-web-api) and
 [OpenAPI observation schema](https://api.weather.gov/openapi.json) were checked
@@ -77,7 +77,8 @@ our 120-minute age limit is an implementation default, not a provider promise.
 - OVC/BKN/SCT map to cloud; CLR/SKC/FEW positively support clear. VV, unknown,
   contradictory or absent information does not imply clear skies.
 - An exact, tested table of NWS current METAR descriptions (`Fair`, `Clear`,
-  `A Few Clouds`, `Partly Cloudy`, `Mostly Cloudy`, `Overcast`, plain/light/heavy
+  `A Few Clouds`, `Partly Cloudy`, `Mostly Cloudy`, `Overcast`, `Cloudy`,
+  `Cloudy and Windy`, plain/light/heavy
   Rain/Drizzle/Snow, plus the four verified rain/drizzle-with-fog phrases below)
   is the only text fallback. No substring matches, forecast
   probabilities or precipitation totals are used.
@@ -137,7 +138,7 @@ small reports and two metadata keys. No paid plan is necessary or authorized.
 Run the focused backend suite:
 
 ```sh
-node --test _features/weather/tests/backend.test.mjs
+node --test _features/weather/tests/backend.test.mjs _features/weather/tests/backend-v2.test.mjs
 ```
 
 ## Runtime compatibility evidence
@@ -242,3 +243,156 @@ eligible refresh. An authenticated maintenance request in a used hourly slot
 must be reported as skipped; do not reset storage or add a bypass. HTTP clients
 may additionally retain responses for up to five minutes after the shared cache
 changes. Manual refresh results and fixture triggers are not cron-success proof.
+
+## Weather Update 2: independent versioned classifications
+
+The current [NWS OpenAPI schema](https://api.weather.gov/openapi.json) was read
+again on 2026-10-02. `MetarPhenomenon` requires `intensity`, `modifier`, `weather`
+and `rawString`, with optional boolean `inVicinity`; additional properties are
+not permitted. Intensity is null/light/heavy. This integration supports ordinary
+null modifiers, plus `showers` for rain/snow only. Freezing, blowing, patches,
+low-drifting, shallow, partial, vicinity, malformed and unknown entries fail
+closed. The provider's actual names are `fog`, `fog_mist` and `thunderstorms`;
+there is no guessed `mist` phenomenon or `thunderstorms` modifier.
+
+`normalizeExpansion` validates the complete structured list before selection.
+Rain outranks drizzle; supported precipitation outranks fog/wind/cloud; fog
+outranks wind/cloud. Rain/drizzle with ordinary fog has `mist: true`. Standalone
+fog is `fog`. Thunderstorms require positively reported ordinary rain to select
+`storm`; heavy rain alone remains `rain`. Snow plus ordinary fog remains the
+original `snow` without an additional mist layer. Rain/snow mixtures, thunder
+without rain and any unsupported third phenomenon produce `none`, regardless of
+array ordering. A complete, schema-valid populated structured list is authoritative
+over text, including different or unrecognized wording. An incomplete/malformed
+list is never rescued by text. A text-only fallback must match the verified table
+exactly; unrecognized wording (including unverified hazard or forecast phrases)
+fails closed. No substring parsing attempts to reinterpret a structured report.
+
+Both classifications are computed from the **same whole station report**.
+Stored `condition` retains the corrected legacy behavior, while
+`expansion: { version: 2, condition, mist }` carries the new interpretation.
+V1 is not derived by translating v2: drizzle is still rain; standalone fog,
+rain with thunder, and snow with fog remain legacy `none`. The only additional
+legacy corrections are the verified exact `Cloudy` and `Cloudy and Windy`
+descriptions described below.
+
+The expansion retains the existing exact fallback table, differentiates drizzle
+and positive fog accents, and adds only these newly verified exact phrases:
+
+| Exact phrase | Actual NWS evidence | V2 |
+| --- | --- | --- |
+| `Fog` | KGPM 2026-10-01 13:55, 14:15, 14:35, 14:55Z; structured `fog`, raw `FG` | fog |
+| `Heavy Thunderstorms and Heavy Rain` | KFWS 2026-10-01 14:50Z; separate heavy `thunderstorms`/`rain`, raw `+TS`/`+RA`, null modifiers | storm |
+
+Sources: [bounded KGPM observations](https://api.weather.gov/stations/KGPM/observations?limit=30&start=2026-10-01T13:00:00Z&end=2026-10-01T16:00:00Z)
+and [bounded KFWS observations](https://api.weather.gov/stations/KFWS/observations?limit=30&start=2026-10-01T14:00:00Z&end=2026-10-01T16:00:00Z),
+read again successfully on October 2. These stations verify terminology only;
+neither supplies restaurant observations. Unverified text variants still skip.
+
+### API compatibility, cache boundaries and disable controls
+
+- V1 routes remain `/weather/fort-worth` and `/weather/willow-bend`.
+- V2 routes are `/weather/v2/fort-worth` and `/weather/v2/willow-bend` on the
+  same Worker. Responses identify `version: 2`; condition/effect agree except
+  clear becomes sun/night. Both `mist` and `night` are always booleans. Mist is
+  permitted only for rain/drizzle. Night is true only for fog after dark; clear
+  night uses `effect: night` with `night: false`.
+- Fog uses the restaurant's calculated solar date, never a visitor timezone or
+  phrase. Fog and clear v2 responses expire at the next sunrise, sunset or
+  Chicago midnight, as applicable. Fresh reads recompute the current date's
+  solar values without refetching observations. Rain/cloud/snow/wind do not
+  switch to night or expire merely because the solar date changes.
+- Both versions and locations share the same station fetch, object identity,
+  storage keys and minute-47 hourly lease. No freshness duration, cron, retry,
+  failure clearing or station changed. Public reads perform zero provider calls.
+- An older cached record remains valid for v1. With expansion enabled, v2
+  returns 503 until a normal eligible refresh stores expansion metadata; old
+  `none` is never reinterpreted as fog/storm. Unknown expansion versions,
+  malformed modifier combinations and conflicting station identities fail closed.
+- Set only `WEATHER_EXPANSION_ENABLED` to string `false` in this Worker's
+  `wrangler.json` and perform its normal scoped deployment to turn off the
+  expansion. V2 then projects the independently stored corrected legacy
+  classification, including old cached records, into valid v2 fields. No second
+  request, observation refresh, source page rollback or storage reset is needed.
+  Missing/other values also disable expansion. Restore string `true` to enable.
+- The existing `WEATHER_ENABLED=false` remains the full weather kill switch,
+  disabling all public reads and scheduled refreshes. Either switch may take up
+  to five minutes to propagate through previously cached HTTP responses. Existing
+  effects still end within four seconds. Neither flag affects seasonal or NYE code.
+- A permanent rollback is a forward, weather-only commit and scoped Worker
+  deployment. Restore the compatible v1 page asset references if desired while
+  retaining their existing files; remove expansion support only after cached v2
+  pages have aged out. Retain the Cloudy and earlier rain/fog corrections,
+  organic wording, all newer content and the unchanged deployment controls.
+
+### Intermittent playback investigation and bounded maintenance evidence
+
+The October 2 investigation found a reproducible exact-text omission:
+[KFTW reports at 12:53 and 13:53Z](https://api.weather.gov/stations/KFTW/observations?start=2026-10-02T12:50:00Z&end=2026-10-02T14:00:00Z&limit=30)
+said `Cloudy`, with empty present weather and FEW/BKN/OVC or SCT/OVC layers.
+The former table returned `none` before considering those valid layers. Adding
+only the verified exact `Cloudy` fallback repairs that mapping in v1 and v2;
+unsupported structured weather and contradictory clear/cloud data still reject.
+[KFTW's 02:53Z Clear/CLR report](https://api.weather.gov/stations/KFTW/observations?start=2026-10-02T02:50:00Z&end=2026-10-02T03:00:00Z&limit=30)
+already maps correctly to clear night.
+
+The reference's displayed-history aliases were checked separately against actual
+JSON; they were not copied wholesale into this table. [KPHP's API history](https://api.weather.gov/stations/KPHP/observations?limit=30)
+at 2026-10-02 15:10Z supplied the exact `Cloudy and Windy` with empty current
+weather, OVC and sustained wind 31.5 km/h. The verified alias supports cloud;
+numeric speed/gust must still meet the existing 20 mph threshold to select wind.
+The adjective itself cannot create wind. No `and Breezy` API alias was verified,
+so it remains unrecognized. KPHP supplies terminology evidence only.
+
+This proves the mapping defect, **not** which record a historical Worker refresh
+actually fetched or the cause of every reported interruption. Historical refresh
+logs were unavailable. Pre-change current endpoints were healthy, with real rain
+observed 14:25Z, fetched by the scheduled trigger at 14:47:26.733Z, and expiring
+15:47:26.733Z. Keep the earlier incident's broader cause unconfirmed.
+
+The pre-existing failure policy intentionally removes snapshots after a failed
+eligible refresh, retaining the used hourly lease. An observation older than
+120 minutes, a fetch older than 60 minutes, or a delayed/missed next cron safely
+removes the decoration; public visits never retry or extend the observation.
+No change to that policy or the once-per-tab browser policy is part of this work.
+
+To distinguish future outcomes, the existing server-only token now also protects
+`GET /internal/status`. It refuses browser Origin, query parameters and wrong
+methods/auth; unauthenticated callers receive 404. Replies are `no-store`.
+This read-only endpoint returns current fixed-location snapshot status/timestamps,
+the existing last-refresh summary, and at most eight subsequent refresh summaries
+from the same object. Each summary contains only source/time, fixed station,
+legacy/expansion conditions, bounded stage/reason categories and freshness dates.
+The centralized classifier deliberately recognizes all 23 current API weather
+enums: six supported categories, 16 unsupported categories and the provider's
+`unknown` category. It also explicitly recognizes all seven modifiers and seven
+sky codes. Protected `classificationReason` distinguishes `supported-condition`,
+`unsupported-condition`, `unrecognized-condition`, `incomplete-observation`,
+`contradictory-observation` and conflicting `invalid-station`. The entire list is
+validated before a stable reason priority is selected, so reordering unknown,
+malformed or unsupported items cannot change the reason or effect. Fog plus VV
+is supported fog; VV alone supplies no fog evidence. No new rendering category
+or unverified display alias is created from the supplemental mapping reference.
+
+Classifier reasons remain separate from provider/network failures: recognized
+hail produces a fresh `none` snapshot and a successful provider outcome with
+`unsupported-condition`, not an invented server error. Failed latest observation
+validation records a fixed `latestObservationReason` (invalid timestamp/station,
+stale, future or incomplete) alongside bounded-history recovery/failure. Public
+v1/v2 JSON deliberately excludes all these maintenance-only diagnostic fields.
+No raw provider payload, visitor identifier, browser analytics or secret is stored.
+It neither fetches NWS nor renews a lease. The history starts after this deployment;
+it cannot reconstruct earlier missing logs. It remains readable with weather off.
+History capture is best-effort: its storage failure emits only a fixed warning,
+without changing successful snapshot results or allowing another refresh attempt.
+
+Local backend validation: **44/44 passing** on October 2 (23 existing tests and
+21 focused expansion/diagnostic tests). Coverage includes whole-list permutations,
+all new mapping paths, unsupported third phenomena, thunder without rain, exact
+fallbacks, the Cloudy reproduction, old/v1/v2 caches, both disable modes, shared
+fetch count, zero public-read fetches, strict age/station checks, DST/sunrise/
+sunset/midnight, failure clearing, bounded history and private status authorization.
+Supplemental coverage exhausts documented phenomenon/modifier/sky categories,
+fog with VV, layered clouds, numeric wind/QC, verified aliases, structured/text
+precedence, deterministic mapping reasons and stale/incomplete report recovery.
+These are local tests, not proof of deployment, physical phones or cron execution.
