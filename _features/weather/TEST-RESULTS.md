@@ -146,3 +146,149 @@ Physical-iPhone and Safari results are still not claimed.
 Detailed readbacks, redacted Cloudflare cron log, screenshots and browser
 measurements are retained outside the public site in the task workspace's
 `work/weather-mixed-2026-10-01/` evidence directory.
+
+## Weather Update 2 — October 2, 2026
+
+Actual starting main: `d96ad6e045a87ec0b07bdb46ffdb789c0cd6aa19`.
+The supplied nested manifest passed all 26 SHA-256/length checks. The approved
+HTML, desktop/mobile videos and frame sheet were inspected. The drawing module
+is copied byte-for-byte (SHA-256
+`202137a12cbf3bc9a9482f268ca38c227403e8bd923f282be0c1b81f60449c76`).
+No review backdrop, video, poster, comparison module or forcing hook is public.
+
+### Incident evidence captured before any deployment or refresh
+
+Both legacy endpoints returned fresh HTTP 200 rain, observed
+`2026-10-02T14:25:00.000Z`, fetched `14:47:26.733Z`, expiring `15:47:26.733Z`,
+with `refreshSource: scheduled`, exact site CORS and a 300-second maximum cache.
+The provider's actual report said `Light Rain`. Live HTML on all three eligible
+pages and both old browser assets exactly matched starting main; deployed Worker
+revision was `093777c2-16f6-4e29-a7df-a75c45ccb194`.
+
+Fresh production Chromium contexts at 15:12Z (Fort Worth desktop and Willow
+Bend 390px mobile emulation) used no weather or clock fixtures. Initial session
+and off-preference values were absent, motion/connection/visibility gates passed,
+the real endpoint returned valid JSON, and the real renderer painted rain.
+There were exactly three weather resources, no failed weather requests or JS
+errors, and cleanup occurred after 4,005/4,002 ms. The stop reason on these
+observed visits was ordinary completion, not a reproduced interruption.
+
+The morning KFTW API records at 12:53/13:53Z said `Cloudy` with valid overcast
+layers; the former exact-description table returned `none`. This reproduces a
+mapping defect and the narrow verified alias repair. The 02:53Z Clear/CLR record
+already maps to clear night. The additional supplied mapping reference was
+checked against the actual 23-value API enum and observation payloads; METAR
+abbreviations and displayed history labels were not copied as guessed API values.
+KPHP's exact `Cloudy and Windy` alias was also verified; numeric wind, not that
+adjective, determines whether the existing 20 mph threshold is met.
+
+Historical overnight/morning refresh logs were not retained. These comparison
+records do not establish what the Worker fetched or the owner's browser saw.
+The larger intermittent incident remains **historically unconfirmed**. No claim
+is made that adding artwork resolves it. Existing refresh failure clearing,
+hourly lease, age limits and once-per-tab eligibility remain unchanged. New
+bounded local browser reasons and protected server history support future
+diagnosis without analytics, visitor identifiers, secrets or additional requests.
+
+### Focused local verification
+
+- **44 backend tests**, **64 client tests**, **26 renderer tests**, and **20
+  provider-to-built-renderer integration tests** passed: **154 total**, no skipped
+  tests. Existing weather suites are retained, including v1 mixed-rain coverage.
+- All 23 weather enums, seven modifiers and seven sky categories have deliberate
+  support/rejection coverage. Known unsupported, unknown, malformed/incomplete,
+  stale, future, provider failure and browser skip reasons are distinct. Complete
+  structured lists are authoritative and order-independent; incomplete fields
+  cannot be rescued by appealing text. No substring or forecast matching is used.
+- Sunset, Chicago midnight, sunrise, DST and hourly absolute expiry are tested
+  using newly projected and unchanged cached-response payloads. Cloud/rain remain
+  eligible after dark. A prepublication v2 calendar-validation regression was
+  found and corrected: only solar-dependent fog/clear responses are bounded at
+  local midnight. That new-code regression does not explain historical v1 visits.
+- **108 exact PNG comparisons** passed: all six original effects versus starting
+  main and all six additions versus supplied source, at 320/390/1440px and
+  0.3/1.5/3.5 seconds with matching DPR and deterministic particles.
+- **108 renderer setup/draw benchmarks** passed (12 scenes, three profiles,
+  three repeats), with all resources released. CPU profiles were 1440×900/DPR1
+  at 1×, 390×844/DPR2 at 4× and 320×568/DPR2 at 6×.
+- **99 whole-page runs** passed: 54 repeated new/legacy/off cold and consumed
+  comparisons, 18 new-scene runs, and 27 cold/fresh-tab/consumed runs. All used
+  150 ms latency, 1.6 Mbps download and 750 Kbps upload. The actual homepage,
+  ordering disclosure, scroll behavior and seasonal artwork were retained.
+  These are local fixtures; no backend promotion clock or live pass was changed.
+
+| CPU profile | Maximum renderer setup | Worst p95 draw (renderer benchmark) | Worst single callback (benchmark) |
+| --- | ---: | ---: | ---: |
+| 1× desktop | 2.7 ms | 0.2 ms | 2.7 ms |
+| 4× mobile | 9.6 ms | 0.7 ms | 11.0 ms |
+| 6× mobile | 16.1 ms | 1.1 ms | 8.7 ms |
+
+Whole-page p95 drawing stayed below 0.7 ms across profiles. New-scene/fresh-tab
+frame-interval p95 was 8.8/9.2/9.2 ms, with worst intervals 25/58.4/16.2 ms on
+the available high-refresh-rate Mac. The thresholds remain unchanged and isolated
+slow frames recovered. No weather-added layout shifts or weather-attributable
+task of at least 50 ms was observed, including module evaluation and preparation.
+Two long animation frames included only 5.3/5.6 ms of weather bootstrap work;
+they are not mislabeled as weather tasks exceeding 50 ms.
+
+Cold comparison load medians (off / legacy / new) were 4,919.9 / 4,943.8 /
+5,010.6 ms desktop, 3,784.8 / 3,830.2 / 3,801.4 ms at 4×, and 3,859.2 /
+3,859.5 / 3,860.4 ms at 6×. A later independent cold check gave legacy→new
+4,912.7→4,921.4, 3,763.5→3,794.0 and 3,883.1→3,882.4 ms. The initial desktop
+difference did not repeat at that magnitude. Automated ordering interaction
+remained comparable (this is automation elapsed time, **not INP**). These
+measurements demonstrate no consistent loading/interaction regression; they do
+not claim zero overhead or physical-phone performance.
+
+Final gzip JavaScript: **3,285-byte bootstrap + 5,964-byte renderer = 9,249
+bytes**, below 10,240. Baseline was 6,386; delta **+2,863 bytes**. Cold eligible
+visits still load one bootstrap, one JSON and one renderer. Consumed sessions
+make no JSON or renderer request. Small diagnostic-only reason refinements were
+built during verification; final client/integration tests and later cache checks
+use the final hash. The rendering code and measured valid playback path remained
+unchanged by those reason refinements.
+
+Chromium 151.0.7922.34 was used. WebKit's executable was not installed; WebKit,
+physical Safari/iPhone, VoiceOver, cellular and thermal/GPU behavior are
+**unverified**, not passed. Reproduction and complete timing/capture evidence
+are under `work/weather-update-2/` in the task workspace, outside the public
+repository. `expansion-page-check.mjs` accepts `SB_QA_SECTION=warm` for separate
+fresh-tab cache behavior and `SB_QA_SECTION=cache` for explicitly primed HTTP
+cache checks; all forcing is confined to the local harness.
+
+
+Six additional **actual HTTP-cache visits** passed across all three profiles,
+bringing whole-page visits to **105**. Unconsumed sessions played with three
+confirmed disk-cache hits (bootstrap, JSON, renderer), zero transfer bytes and
+CDP `fromDiskCache: true`. Consumed reloads made no JSON/renderer request and
+did not replay. The initial ignored self-signed local TLS certificate prevented
+Chromium caching; the cache-only harness now pins its ephemeral public key within
+that isolated browser process. No production or system trust was changed, and
+the original cache assertions were retained and strengthened. These are distinct
+from the earlier fresh-tab runs, which did not prove HTTP-cache hits.
+
+### Backend deployment and genuine scheduled refresh
+
+Backend source commit: `4a4ef0108617078b80106b2b4ff18644fd575e44`.
+Worker revision: `7681e71c-8553-46ad-b066-a2c2a7cc5006`.
+Existing Worker, Durable Object identity, hourly `47 * * * *` cron, lease,
+origins, secrets and free-plan resources are retained. Upload was 28.62 KiB
+(8.10 KiB gzip), startup 1 ms. No manual initialization or refresh was called.
+
+After backend deployment, both legacy endpoints still served their prior rain
+snapshot; v2 correctly returned 503 for that pre-expansion cache. Only after the
+real unattended **2026-10-02T15:47:26.725Z** cron refresh did both v2 endpoints
+return fresh 200 responses. Live tail captured the scheduled event, success and
+235 ms wall time without exceptions; protected bounded history independently
+records one KFTW fetch for the two locations. This is actual cron evidence, not
+a simulated trigger or manual request.
+
+Readback at 15:50Z: both versions at both locations returned `cloud`, observed
+`2026-10-02T15:20:00.000Z`, fetched `15:47:26.725Z`, valid through
+`16:47:26.725Z`, source `scheduled`. V2 includes `mist:false, night:false`.
+Decoded v2 JSON is 384/385 bytes (226 bytes served Brotli each); legacy JSON is
+357/358 bytes (209/211 Brotli). All returned the exact site CORS origin and
+`public, max-age=300, must-revalidate`. Authenticated status returned 200;
+an unauthenticated request returned 404. Fresh v2 was verified before switching
+any public HTML include. Evidence is `scheduled-v2-readback.json` and the
+redacted live tail in the task's weather evidence directory.

@@ -12,7 +12,9 @@ assert.ok(baseline&&output,'Pass the immutable approved HTML and a private outpu
 const require=createRequire(new URL('../../new-year/package.json',import.meta.url));
 const { chromium }=await import(pathToFileURL(process.env.SB_PLAYWRIGHT||require.resolve('playwright')).href);
 const html=await readFile(baseline,'utf8');
-const source=await readFile(new URL('../renderer.mjs',import.meta.url),'utf8');
+const { build }=require(process.env.SB_ESBUILD||'esbuild');
+const built=await build({entryPoints:[new URL('../renderer.mjs',import.meta.url).pathname],bundle:true,format:'iife',globalName:'fixtureRenderer',write:false});
+const source=built.outputFiles[0].text+';window.startWeather=fixtureRenderer.startWeather;';
 const out=resolve(output);await mkdir(out,{recursive:true});
 const browser=await chromium.launch({headless:true,...(process.env.SB_CHROMIUM?{executablePath:process.env.SB_CHROMIUM}:{})});
 const results=[];
@@ -23,7 +25,7 @@ try {
   const candidate=await context.newPage();await candidate.setContent('<body style="margin:0;background:#f6f3eb">');
   await candidate.evaluate(()=>{window.testTime=0;window.jobs=new Map();window.jobId=0;Object.defineProperty(performance,'now',{value:()=>window.testTime});window.requestAnimationFrame=fn=>{window.jobs.set(++window.jobId,fn);return window.jobId;};window.cancelAnimationFrame=id=>window.jobs.delete(id);});
   // Test clock/API injection exists only in this isolated page, never the shipped module.
-  await candidate.addScriptTag({content:source.replace('export function startWeather','window.startWeather=function startWeather')});
+  await candidate.addScriptTag({content:source});
   for(const effect of ['rain','snow','wind','cloud','sun','night'])for(const elapsed of [.3,1.5,3.5]){
    const approved=await reference.evaluate(({effect,elapsed})=>{weatherDemo.set(effect,elapsed);return weatherDemo.canvas.toDataURL();},{effect,elapsed});
    const actual=await candidate.evaluate(async({effect,elapsed,approved})=>{

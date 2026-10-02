@@ -1,4 +1,4 @@
-/* Regression integration: mixed precipitation reaches the unchanged shipped browser assets.
+/* Integration: provider observations reach pinned v1/v2 browser assets.
  * Observation fixtures and intercepted weather responses exist only in this local test.
  */
 import test from 'node:test';
@@ -8,11 +8,11 @@ import { readFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { createHash } from 'node:crypto';
 import { normalize, observation } from '../provider.mjs';
-import { publicSnapshot } from '../backend.mjs';
+import { publicSnapshot, publicSnapshotV2 } from '../backend.mjs';
 const require = createRequire(new URL('../../new-year/package.json', import.meta.url));
 const { chromium } = require(process.env.SB_PLAYWRIGHT || 'playwright');
 const builtAssets = new Map();
-for (const name of ['weather.js', 'weather-renderer.js']) builtAssets.set('/assets/js/' + name, await readFile(new URL('../../../assets/js/' + name, import.meta.url)));
+for (const name of ['weather.js', 'weather-renderer.js', 'weather-v2.js', 'weather-renderer-v2.js']) builtAssets.set('/assets/js/' + name, await readFile(new URL('../../../assets/js/' + name, import.meta.url)));
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 let browser, server, origin;
 test.before(async () => {
@@ -20,8 +20,9 @@ test.before(async () => {
   server = createServer((req, res) => {
     if (builtAssets.has(req.url)) { res.writeHead(200, { 'content-type': 'text/javascript' }); res.end(builtAssets.get(req.url)); return; }
     const location = req.url === '/willow-bend.html' ? 'willow-bend' : 'fort-worth';
+    const v2 = /(?:^|; )sb-fixture-version=2(?:;|$)/.test(req.headers.cookie || '');
     res.writeHead(200, { 'content-type': 'text/html' });
-    res.end(`<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Local mixed-weather regression fixture</title></head><body><main><h1>Ordinary website content</h1><button id="ordinary-control" onclick="this.dataset.clicked='yes'">Ordinary control</button></main><footer><button type="button" data-sb-weather-toggle aria-pressed="true">Weather effects: on</button></footer><script defer src="/assets/js/weather.js" data-location="${location}" data-endpoint="https://weather-fixture.invalid/weather/${location}"></script></body></html>`);
+    res.end(`<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Local mixed-weather regression fixture</title></head><body><main><h1>Ordinary website content</h1><button id="ordinary-control" onclick="this.dataset.clicked='yes'">Ordinary control</button></main><footer><button type="button" data-sb-weather-toggle aria-pressed="true">Weather effects: on</button></footer><script defer src="/assets/js/weather${v2 ? '-v2' : ''}.js" data-location="${location}" data-endpoint="https://weather-fixture.invalid/weather/${v2 ? 'v2/' : ''}${location}"></script></body></html>`);
   });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   origin = 'http://127.0.0.1:' + server.address().port;
@@ -36,10 +37,25 @@ const mixtures = [
   { name: 'structured drizzle with fog', textDescription: 'Light Drizzle and Fog', presentWeather: [{ intensity: 'light', modifier: null, weather: 'drizzle', rawString: '-DZ', inVicinity: false }, { intensity: null, modifier: null, weather: 'fog', rawString: 'FG', inVicinity: false }] },
   { name: 'exact text-only Light Rain and Fog/Mist', textDescription: 'Light Rain and Fog/Mist' }
 ];
+const phenomenon = (weather, rawString, intensity = null) => ({ weather, rawString, intensity, modifier: null });
+const rain = phenomenon('rain', '-RA', 'light'), drizzle = phenomenon('drizzle', '-DZ', 'light');
+const fog = phenomenon('fog', 'FG'), mist = phenomenon('fog_mist', 'BR');
+const additions = [
+  { name: 'fog in daylight', presentWeather: [fog], effect: 'fog' },
+  { name: 'drizzle without mist', presentWeather: [drizzle], effect: 'drizzle' },
+  { name: 'storm with rain', presentWeather: [phenomenon('thunderstorms', '+TSRA', 'heavy'), phenomenon('rain', '+TSRA', 'heavy')], effect: 'storm' },
+  { name: 'rain with mist', presentWeather: [rain, mist], effect: 'rain', mist: true },
+  { name: 'drizzle with fog', presentWeather: [drizzle, fog], effect: 'drizzle', mist: true },
+  { name: 'fog after dark', presentWeather: [fog], effect: 'fog', night: true },
+  { name: 'expansion disabled uses independent legacy rain projection', presentWeather: [drizzle, fog], effect: 'rain', expansionEnabled: false }
+];
 for (const device of [{ name: 'desktop', width: 1440, height: 900, mobile: false, path: '/', location: 'fort-worth' }, { name: 'mobile390', width: 390, height: 844, mobile: true, path: '/willow-bend.html', location: 'willow-bend' }]) {
-  for (const mixture of mixtures) test(`${device.name}: ${mixture.name} reaches real rain renderer once, then cleans up`, async () => {
+  for (const version of [1, 2]) for (const mixture of version === 1 ? mixtures : additions) test(`v${version} ${device.name}: ${mixture.name} reaches its real renderer once, then cleans up`, async () => {
     const context = await browser.newContext({ viewport: { width: device.width, height: device.height }, deviceScaleFactor: device.mobile ? 2 : 1, isMobile: device.mobile, hasTouch: device.mobile, reducedMotion: 'no-preference' });
+    const fixedNow = version === 2 ? Date.parse(mixture.night ? '2026-10-03T03:00:00Z' : '2026-10-02T18:00:00Z') : null;
     try {
+      await context.addCookies([{ name: 'sb-fixture-version', value: String(version), url: origin }]);
+      if (fixedNow) await context.addInitScript(now => { const started = performance.now(); Date.now = () => now + performance.now() - started; }, fixedNow);
       await context.addInitScript(() => {
         window.fixtureCanvasLifecycle = { added: 0, removed: 0 };
         new MutationObserver(() => {
@@ -53,26 +69,27 @@ for (const device of [{ name: 'desktop', width: 1440, height: 900, mobile: false
       const counts = { weather: 0, renderer: 0 };
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
-      page.on('request', request => { if (request.url().endsWith('/assets/js/weather-renderer.js')) counts.renderer++; });
+      page.on('request', request => { if (/\/assets\/js\/weather-renderer(?:-v2)?\.js$/.test(request.url())) counts.renderer++; });
       await page.route('https://weather-fixture.invalid/**', async route => {
         counts.weather++;
-        const now = Date.now();
+        const now = fixedNow || Date.now();
         const properties = {
           station: 'https://api.weather.gov/stations/KFTW', timestamp: new Date(now - 120000).toISOString(),
           ...(mixture.presentWeather ? { presentWeather: mixture.presentWeather } : {}), textDescription: mixture.textDescription,
           cloudLayers: [{ amount: 'OVC' }], windSpeed: { value: 30, unitCode: 'wmoUnit:mi_h-1' }
         };
         // No manually assigned condition/effect: all JSON is produced by the real provider/backend pipeline.
-        assert.deepEqual(normalize(properties), { condition: 'rain', coherent: true });
         const normalized = observation({ properties }, 'KFTW', now);
-        assert.equal(normalized.condition, 'rain');
-        const payload = publicSnapshot(normalized, device.location, now);
-        assert.equal(payload.effect, 'rain');
+        if (version === 1) { assert.deepEqual(normalize(properties), { condition: 'rain', coherent: true }); assert.equal(normalized.condition, 'rain'); }
+        const payload = version === 1 ? publicSnapshot(normalized, device.location, now) : publicSnapshotV2(normalized, device.location, now, mixture.expansionEnabled !== false);
+        assert.equal(payload.effect, version === 1 ? 'rain' : mixture.effect);
+        if (version === 2) { assert.equal(payload.mist, !!mixture.mist); assert.equal(payload.night, !!mixture.night); }
         await route.fulfill({ contentType: 'application/json', headers: { 'access-control-allow-origin': origin }, body: JSON.stringify(payload) });
       });
       await page.goto(origin + device.path, { waitUntil: 'load' });
       await page.waitForSelector('canvas[data-sb-weather]', { state: 'attached', timeout: 5000 });
       assert.equal(await page.evaluate(() => sessionStorage.getItem('sb-weather-session-played-v1')), '1');
+      if (version === 2) assert.deepEqual(await page.evaluate(() => window.SourBouleWeatherStatus), { version: 2, phase: 'playing', reason: 'started', effect: mixture.effect });
       await page.waitForTimeout(750);
       const canvas = await page.locator('canvas[data-sb-weather]').evaluate(node => {
         const bytes = node.getContext('2d').getImageData(0, 0, node.width, node.height).data;
@@ -92,6 +109,13 @@ for (const device of [{ name: 'desktop', width: 1440, height: 900, mobile: false
       await page.waitForTimeout(350);
       assert.equal(await page.locator('canvas[data-sb-weather]').count(), 0);
       assert.deepEqual(counts, { weather: 1, renderer: 1 }, 'Consumed tab session does not fetch or replay');
+      // A cached old page and newly published page share the original tab marker.
+      // Switching versions must not create a second animation or API lookup.
+      await context.addCookies([{ name: 'sb-fixture-version', value: version === 1 ? '2' : '1', url: origin }]);
+      await page.goto(origin + device.path, { waitUntil: 'load' });
+      await page.waitForTimeout(350);
+      assert.equal(await page.locator('canvas[data-sb-weather]').count(), 0);
+      assert.deepEqual(counts, { weather: 1, renderer: 1 }, 'Version rollout preserves once-per-tab behavior');
     } finally { await context.close(); }
   });
 }

@@ -1,10 +1,12 @@
+import { createWeatherAddition } from './weather-additions.mjs';
 /** Approved v2 geometry. Temporary sprites cache repeated raster work for this run only. */
-const TYPES = new Set(['rain','snow','wind','cloud','sun','night']);
+const TYPES = new Set(['rain','snow','wind','cloud','sun','night','fog','drizzle','storm']);
 const rnd=n=>{const x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x);};
 const smooth=(a,b,t)=>{const v=Math.max(0,Math.min(1,(t-a)/(b-a)));return v*v*(3-2*v);};
 
-export function startWeather({effect,autumnLeaves=false,onFinish=()=>{}}={}) {
- if(!TYPES.has(effect)||document.hidden)return null;
+export function startWeather({effect,autumnLeaves=false,mist=false,night=false,onFinish=()=>{}}={}) {
+ if(!TYPES.has(effect)||document.hidden||typeof mist!=='boolean'||typeof night!=='boolean'||(mist&&!['rain','drizzle'].includes(effect))||(night&&effect!=='fog'))return null;
+ const expanded=['fog','drizzle','storm'].includes(effect)||mist;
  const width=innerWidth,height=innerHeight;
  if(!(width>0&&height>0))return null;
  // Bound backing pixels, including large/retina displays; never reduce opacity.
@@ -12,9 +14,9 @@ export function startWeather({effect,autumnLeaves=false,onFinish=()=>{}}={}) {
  const c=document.createElement('canvas'),resources=[];
  let ctx=c.getContext('2d'),raf=0,timer=0,stopped=false,started=false;
  if(!ctx)return null;
- const particles=Array.from({length:110},(_,i)=>({a:rnd(i+1),b:rnd(i+401),r:rnd(i+901),s:rnd(i+2001),d:rnd(i+3001)}));
+ const particles=Array.from({length:expanded?0:110},(_,i)=>({a:rnd(i+1),b:rnd(i+401),r:rnd(i+901),s:rnd(i+2001),d:rnd(i+3001)}));
  const rain=[],snow=[],flakes=[],stars=[],clouds=[],glows=new Map(),leaves=new Map();
- let moon,rays,dusk,pixels=0;
+ let moon,rays,dusk,pixels=0,addition=null;
  function sprite(left,top,right,bottom,paint) {
   const canvas=document.createElement('canvas');
   canvas.width=Math.ceil((right-left)*dpr);canvas.height=Math.ceil((bottom-top)*dpr);
@@ -170,13 +172,16 @@ function draw(type,t){
  function stop(reason='cancelled'){
   if(stopped)return;stopped=true;cancelAnimationFrame(raf);clearTimeout(timer);
   window.removeEventListener('pagehide',leave);window.removeEventListener('resize',resize);document.removeEventListener('visibilitychange',visibility);
+  addition?.dispose();addition=null;
   c.remove();c.width=c.height=0;for(const resource of resources)resource.width=resource.height=0;
   resources.length=0;glows.clear();leaves.clear();particles.length=rain.length=snow.length=flakes.length=stars.length=clouds.length=0;moon=rays=dusk=ctx=null;
   if(started)onFinish(reason);
  }
  try{
   c.width=Math.round(width*dpr);c.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
-  prepare();ctx.clearRect(0,0,width,height);
+  if(expanded)addition=createWeatherAddition({canvas:c,width,height,pixelRatio:dpr,effect,mist,night});
+  else prepare();
+  ctx.clearRect(0,0,width,height);
   c.setAttribute('aria-hidden','true');c.setAttribute('data-sb-weather','');
   c.style.cssText=`position:fixed;inset:0;width:${width}px;height:${height}px;pointer-events:none;z-index:20;contain:strict;`;
   document.body.append(c);started=true;
@@ -185,7 +190,7 @@ function draw(type,t){
   function step(now){
    if(stopped)return;if(now-start>=4000){stop('complete');return;}
    slow=now-prior>80?slow+1:0;prior=now;if(slow>=3){stop('busy');return;}
-   const began=performance.now();draw(effect,(now-start)/1000);drawSlow=performance.now()-began>12?drawSlow+1:0;
+   const began=performance.now();if(addition)addition.draw((now-start)/1000);else draw(effect,(now-start)/1000);drawSlow=performance.now()-began>12?drawSlow+1:0;
    if(drawSlow>=6){stop('busy');return;}raf=requestAnimationFrame(step);
   }
   timer=setTimeout(()=>stop('complete'),4000);raf=requestAnimationFrame(step);
