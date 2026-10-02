@@ -292,3 +292,51 @@ Decoded v2 JSON is 384/385 bytes (226 bytes served Brotli each); legacy JSON is
 an unauthenticated request returned 404. Fresh v2 was verified before switching
 any public HTML include. Evidence is `scheduled-v2-readback.json` and the
 redacted live tail in the task's weather evidence directory.
+
+
+### Website publication and real-weather playback
+
+Frontend source commit: `020d23aa50f99b52362f6c6467d551075296a248`.
+The existing main/GitHub Pages build completed at `2026-10-02T15:53:25Z`.
+At 15:55Z, all three live pages and all four new/retained weather assets returned
+200 and matched repository SHA-256 hashes exactly. Public HTML changed only its
+single weather include/endpoint on Home, Fort Worth and Willow Bend. Organic
+copy, menus, prices, hours, ordering links, SEO, seasonal/New Year assets and
+release controls are unchanged from the actual starting main.
+
+Actual production gzip is **3,285 + 5,969 = 9,254 bytes**, below 10,240.
+The retained production legacy files total 6,393 gzip bytes, so the served delta
+is **+2,861 bytes**. Local compressor output differs by a few bytes (9,249 versus
+6,386); the live transfer figures above are not inferred from local compression.
+Pages reports a 600-second cache; the weather API retains its 300-second cache.
+Both old assets remain available to previously cached HTML.
+
+The exact KFTW report used by cron, `2026-10-02T15:20:00+00:00`, was retrieved
+from NWS history: description `Cloudy`, empty present-weather list and valid
+SCT/BKN/OVC layers. Both committed classifiers select cloud. This independently
+checks the actual observation timestamp recorded in the shared production cache;
+it does not reconstruct an older unrecorded refresh.
+
+Three fresh production Chromium contexts used real pages, assets, observations
+and clock, with no weather/date fixture: Fort Worth 1440×900/DPR1, Willow Bend
+390×844/DPR2 and Home 320×568/DPR2. All painted actual cloud effects, made exactly
+three weather requests, kept both header ordering actions usable, had no
+horizontal overflow, JS errors or failed weather requests, and removed the
+canvas after **4,001.9 / 4,001.4 / 4,001.7 ms** respectively. The local diagnostic
+record finished with `reason: complete`. Each reload reported `played-session`,
+with zero JSON/renderer requests and zero canvas. The mobile screenshot also
+retained readable content and existing autumn artwork beneath the decoration.
+These are live automated Chromium checks, not physical iPhone/Safari results.
+
+The six new scenes were proven by controlled provider-to-renderer fixtures and
+exact artwork comparisons, **not** by claiming the real weather currently
+contains all six conditions. Real production playback on this check was cloud;
+real pre-change playback was rain. No weather was forced, no old observation was
+retimestamped, and no manual refresh/storage reset/lease bypass was used.
+
+Local evidence: `live-assets.json`, `live-browser.json`, `live-*.png`,
+`cron-observation.json`, `scheduled-v2-readback.json`, and `worker-tail.log` under
+the task's weather evidence directory. The final documentation-only receipt
+commit does not change the verified frontend or Worker artifact. No demonstrated
+ongoing deployment defect remains; historical incidents and the unperformed
+device checks remain explicitly unverified.
