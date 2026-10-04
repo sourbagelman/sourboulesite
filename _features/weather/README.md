@@ -3,9 +3,12 @@
 **Publication held — October 4, 2026.** The compatible v3 Worker is deployed,
 but the public website still uses retained v2. This local candidate has not been
 published because a captured desktop warm-cache first callback took190.5ms
-(194ms Long Task), exceeding the required50ms ceiling. Six targeted warm repeats
-did not reproduce it; the cause remains unproven. Do not treat those repeats as
-explaining the failure or mark the frontend acceptance complete. See TEST-RESULTS.md.
+(194ms Long Task), exceeding the required50ms ceiling. The continuation recorded 150 traced diagnostic/timing/input visits, including
+20 sequential desktop warm-cache repetitions, without reproducing that stall.
+The original cause remains unproven; successful repeats do not explain it.
+Production renderer bytes are unchanged from the saved candidate. See
+TEST-RESULTS.md and PERFORMANCE-CONTINUATION-PLAN.md for the retained failure,
+trace findings, corrected test probes and the still-incomplete acceptance gate.
 
 The approved 64-scene suite runs for **5,000 ms total**, once per tab session,
 on Home and the two location landing pages. Fade-in is 0–0.55 seconds and

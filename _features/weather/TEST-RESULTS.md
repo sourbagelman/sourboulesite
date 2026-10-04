@@ -547,3 +547,168 @@ Removing only the exact weather additions from those three candidate pages
 reproduces their starting bytes. No menu, organic wording, price, hours, order
 URL, SEO, form, shared style/script, seasonal, New Year or release-control edit
 is included. All four retained weather assets remain byte-identical.
+
+## October 4 continuation — full tracing; publication still held
+
+This continuation started from saved commit
+`17c01afad32b99b837b68fbe511d7fe54fa08e7f` on
+`feature/weather-final-homepage`. Remote main was still
+`2aba94eab914702952675799b639053ec5317045`, already an ancestor of the candidate.
+No newer main changes needed reconciliation. The production Worker remained
+`683e8e0e-86ae-4522-9e28-bbe3e4de3057`; no Worker deployment was performed.
+Only private test harnesses and weather documentation changed. The three generated
+runtime hashes remain the saved candidate's hashes (bootstrap `54e92f8e…`,
+enhanced `f88f04b1…`, fallback `92dadb67…`); no renderer, client, artwork, business,
+seasonal, New Year, release-control or public-page source was modified.
+
+### Original failure and what tracing established
+
+The original `qa/page-cache/cache-results.json` remains byte-identical:
+SHA-256 `1bfa07214d304e94a7684fdb0b839633755eee432fdbefbf3b134418447481b9`.
+Its first warm-desktop callback is still **190.5 ms**, its Long Task **194 ms**.
+No original full trace exists. This continuation does not replace that failure
+with successful repetitions or attribute it to environmental noise.
+
+Private instrumentation now separates renderer module evaluation, each texture's
+fetch/body/decode, canvas/context preparation, particles, gradients, sprites,
+DOM insertion, clock start and initial drawing. Full Chrome traces include task,
+script, image, compositor/GPU, layout and GC events; screenshots are disabled.
+The stage-marked bundle is served only by the isolated localhost harness and
+never written into a production asset. Normal timing visits execute the unchanged
+built asset, with only the existing private Worker-origin substitution.
+
+One completely traced original-path warm visit measured **0.7 ms synchronous
+setup**, **1.866 ms first draw wall time / 1.313 ms thread CPU**, including
+**0.381 ms GPU command initialization**, **0.447 ms minor GC** and **0.211 ms style
+work**. After that callback, canvas-resource production consumed **4.098 ms**
+main-thread time. It decoded the same four WebPs again despite earlier completed
+`image.decode()` calls (1.335 + 0.987 + 1.198 + 0.363 ms), with 0.153 ms of uploads.
+The encompassing first-frame task was **6.448 ms**. Active heap inspection
+occurred later, at 117.4–118 ms, not inside that draw.
+
+Offline analysis of **all150 traces** found no missing trace, parse error or
+timestamp-mapping warning. It links RAF request stacks to callback IDs and checks
+whole main-thread tasks, including deferred work. The worst task overlapping
+renderer preparation/playback was **33.896 ms**, the first warm rain/mist frame
+at320px/6×: callback4.614 ms, deferred main-thread image decoding25.876 ms,
+uploads0.923 ms and GPU initialization1.22 ms. These nested categories must not
+be summed. The20-cycle desktop group peaked at9.124 ms for its full first-frame
+task (21.35 ms for any task overlapping its wider weather interval). Temporal
+overlap is a candidate attribution, not a claim that every task operation belongs
+to weather. Pre-weather page tasks reached109.157 ms and are retained separately;
+trace task counts and PerformanceObserver Long Task counts are different measures.
+The reproducible offline analyzer is `tests/summarize-page-traces.py`; private
+compact/full outputs are `qa/trace-continuation-{compact,summary}.json`.
+
+This is evidence that browser canvas first-use work can occur outside the RAF
+callback timer, and that HTTP/image decode readiness is not the entire graphics
+cost. It is **not evidence explaining the missing 190.5 ms trace**. No duplicate
+application request, decoder initialization or playback was found. No speculative
+prewarming, batching, renderer rewrite or safeguard relaxation was applied.
+
+### Executed matrix and retained failures
+
+The matrix/rules were recorded in PERFORMANCE-CONTINUATION-PLAN.md before any
+final acceptance attempt. All browser runs were sequential; capture/encoding and
+other browser benchmarks did not run during timing. Chromium151.0.7922.34 used
+native monotonic timing/RAF, 150 ms latency, 1.6 Mbps down /0.75 Mbps up, and the
+same 1× desktop /4×390px /6×320px profiles. No browser clock acceleration was used.
+
+| Timing group | Visits | Worst callback | Highest per-visit p95 |
+| --- | ---: | ---: | ---: |
+| 20 desktop rain/mist cold → cached-new-tab → consumed cycles | 60 | 4.6 ms | 0.2 ms |
+| Six additional desktop families, all three cache/session states | 18 | 5.2 ms | 0.2 ms |
+| Seven families at390px /4×, all three states | 21 | 3.9 ms | 0.7 ms |
+| Seven families at320px /6×, all three states | 21 | 5.8 ms | 0.9 ms |
+
+All120 timing visits satisfied their weather callback/resource/lifecycle assertions.
+Every warm visit's complete renderer/selected-texture resource set was verified
+cached, not merely one texture. Consumed visits loaded no renderer or texture.
+The selected families were clear day, overcast night, rain/mist, heavy thunder/rain,
+hail storm, freezing rain and blowing snow. No condition was replaced with a
+cheaper scene. Nine mobile page Long Tasks (65–109 ms) are retained in these
+traces: their LoAF script attribution is unchanged `seasonal.js`, before the
+weather import/preparation/playback. They are not counted as weather work or
+silently discarded, and seasonal code was not changed.
+
+There were also nine initial stage/native/heap diagnostic visits and18 input-probe
+visits plus three focused probe-correction visits: **150 traced visits total**.
+All new weather callbacks were below50 ms, with a **5.8 ms** maximum. Instrumented
+synchronous setup peaked at **6.0 ms**. Per-image asynchronous decode elapsed time
+peaked at **48.1 ms** with concurrent user input; that includes waiting and is not
+claimed to be48.1 ms of blocking decode CPU. Across the150 visits, measured canvas
+lifetimes were **5000.2–5008.2 ms**, preserving the full logical five seconds.
+
+One input-probe assertion failed and remains saved: desktop cold hail at180px
+scroll expected a visible readout. The readout was correctly hiding to avoid
+covering the **Fort Worth Details** button. The probe now records that exact
+collision and fresh-data status; a separate three-visit rerun passed. Another
+probe summary incorrectly compared scrolling against the position inside a
+passive wheel listener, after compositor scrolling had already occurred. Its
+raw records show0→180px during preparation. The corrected probe compares the
+pre-input position and verified that movement in the focused rerun. Neither
+measurement correction explains or removes the original194 ms failure.
+
+The18 input visits retain two additional pre-weather seasonal Long Tasks
+(105/106 ms). No new Long Task was recorded during their weather preparation or
+playback. Six cold affected/heavy-scene visits exercised trusted Order Online,
+Menu/More and wheel input during preparation at all profiles, with disclosure
+state/RAF observations and scroll records. Warm windows were only partially
+covered (one mobile warm visit missed the window altogether); those outcomes
+are explicitly **not** all-inputs-passed claims. No artificial preparation delay
+was added. Measured click Event Timing input delay reached156.4 ms in one emulated
+mobile interaction; no matching main-thread Long Task was recorded. This input
+queue delay is retained without guessing its cause or claiming physical-phone
+latency. Controller round-trip durations are not labeled INP.
+
+Three focused320px keyboard checks passed again on Home/Fort Worth/Willow Bend:
+Space operates saved controls, target height≥44px, no horizontal overflow,
+reduced-motion animation suppression, static Home readout persistence and no
+readout on location pages. Existing381 functional checks,960 frame comparisons,
+192 five-second clears, flash assessment and54 off/old/new baseline visits apply
+to identical runtime source and were reused instead of unnecessarily rerun.
+No new yielded preparation was introduced; its hypothetical cancellation cases
+are not falsely claimed executed. Existing actual-renderer cancellation evidence
+remains valid for the unchanged implementation.
+
+Runtime gzip sizes remain **5,956 B static**, **7,392 B enhanced renderer** and
+**5,955 B retained fallback** (19,303 B total). The normal timing matrix peaked
+at **117,571 B cold weather bodies**, **4/7/8 requests by scene**; selected textures
+remain within128KiB and snapshots under2KiB. These are measured local HTTPS/Brotli
+fixture transfers, not claims that the unpublished website assets were fetched
+from production. Existing whole-page heap measurements and texture/canvas caps
+remain recorded above; no new total-GPU-memory claim is made.
+
+Harness evidence retention was tightened: trace completion is bounded, trace
+failures are recorded alongside the original error, performance errors are saved
+before failure, continued diagnostic runs finish with a failing exit status when
+any visit failed, and cache-evidence gaps are retained as failures. Instrumented
+bundle identity is reported separately from the production asset hash. The first
+localhost launch hit sandbox EPERM before any browser visit and was rerun with
+local-server permission; it was not counted as a benchmark failure or pass.
+
+### Current live service and publication state
+
+A genuine unattended Cloudflare invocation of existing cron `47 * * * *` was
+captured at **2026-10-04T16:47:26.750Z** (11:47:26 AM Chicago), outcome`ok`,
+`refreshed:true`, both locations`rain`. No manual refresh, lease reset, storage
+change or fabricated condition was used. All six v1/v2/v3 endpoints returned200;
+protected diagnostics returned200 and unauthenticated diagnostics404.
+
+Both v3 snapshots used KFTW **2026-10-04T16:15:00Z**, fetched16:47:26.750Z,
+valid until17:47:26.750Z. The exact NWS observation verified light rain/-RA,
+**22°C, QC V →71.6°F**, matching both locations. V3 bodies were402/400B Brotli.
+Five-minute HTTP caching, exact-origin CORS and freshness limits remain unchanged.
+
+At16:51:08Z, all three live eligible pages and all four retained weather assets
+returned200 with their previous production hashes. **The website is unchanged;
+no v3 five-second production playback or Home readout is claimed.** The original
+stall remains unexplained, so the release acceptance condition is not met and
+no frontend push/publication was performed. A passing repetition sequence and
+better probes are not a demonstrated fix for that missing trace.
+
+All raw traces and results are private under
+`work/weather-final-2026-10-04/qa/trace-*`; the original failure and new failures
+are preserved. Secrets, local databases, certificates, browser profiles,
+.wrangler state and raw evidence are excluded from the commit. Physical iPhone,
+Safari/WebKit, VoiceOver and actual cellular/thermal/GPU checks remain unperformed.
