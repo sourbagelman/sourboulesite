@@ -1,15 +1,16 @@
 # Restaurant weather suite
 
-**Publication held — October 4, 2026.** The compatible v3 Worker is deployed,
-but the public website still uses retained v2. This local candidate has not been
-published because a captured desktop warm-cache first callback took190.5ms
-(194ms Long Task), exceeding the required50ms ceiling. The continuation recorded 150 traced diagnostic/timing/input visits, including
-20 sequential desktop warm-cache repetitions, without reproducing that stall.
-The original cause remains unproven; successful repeats do not explain it.
-Production renderer bytes are unchanged from the saved candidate. See
-TEST-RESULTS.md and PERFORMANCE-CONTINUATION-PLAN.md for the retained failure,
-trace findings, corrected test probes and the still-incomplete acceptance gate.
-
+**Owner-authorized release — October 4, 2026.** The owner explicitly accepted
+only the historical unexplained190.5 ms callback/194 ms task,156.4 ms emulated
+input delay, and disclosed physical-device/browser coverage gaps. They remain
+accepted exceptions, not passed checks or repaired incidents. This supersedes
+the historical cause-before-publication gate recorded below/in TEST-RESULTS.md.
+The unchanged runtime passed one bounded desktop/mobile prepublication smoke,
+including controls during warm-cache preparation. No new renderer optimization,
+artwork change or replay-policy change is included. The working Worker remains
+revision`683e8e0e-86ae-4522-9e28-bbe3e4de3057`; website publication uses existing
+main/root Pages. Verify the deployment commit and served hashes for actual status.
+New functional/security/data/lighting failures are not waived.
 The approved 64-scene suite runs for **5,000 ms total**, once per tab session,
 on Home and the two location landing pages. Fade-in is 0–0.55 seconds and
 fade-out is 4.1–5.0 seconds; texture loading happens before playback. Movement

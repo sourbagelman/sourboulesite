@@ -98,7 +98,7 @@ async function makeContext(profile){
  if(process.env.SB_QA_NATIVE==='1')await context.addInitScript(()=>{for(const name of['setTransform','clearRect','drawImage','fillRect','stroke','fill','save','restore','beginPath','moveTo','lineTo','scale']){const original=CanvasRenderingContext2D.prototype[name];CanvasRenderingContext2D.prototype[name]=function(...args){const q=window.__suiteQA,early=q.frames.length<3&&this.canvas.matches('[data-sb-weather]');if(!early)return original.apply(this,args);const begin=performance.now();try{return original.apply(this,args);}finally{const elapsed=performance.now()-begin;q.nativeSlow.push({name,begin,elapsed});}};}});
  return newPage(context,profile);
 }
-async function visit(t,profile,kind,expected,{screenshots=false}={}){
+async function visit(t,profile,kind,expected,{screenshots=false,duringPreparation=null}={}){
  const responses=[],cacheResponses=[],cacheIds=new Set(),heap={},failures=[];const check=fn=>{try{fn();}catch(e){failures.push(e.message);}};
  const sampleHeap=async()=>{if(process.env.SB_QA_HEAP==='0')return{};const begin=await t.page.evaluate(()=>performance.now());const values=Object.fromEntries((await t.cdp.send('Performance.getMetrics')).metrics.filter(m=>['JSHeapUsedSize','JSHeapTotalSize','Nodes','Documents'].includes(m.name)).map(m=>[m.name,m.value]));return{...values,inspectorBegin:begin,inspectorEnd:await t.page.evaluate(()=>performance.now())};};heap.beforeNavigation=await sampleHeap();
  const onResponse=r=>{if(weatherURL(r.url()))responses.push({url:r.url(),status:r.status(),headers:r.headers()});};t.page.on('response',onResponse);
@@ -119,6 +119,7 @@ async function visit(t,profile,kind,expected,{screenshots=false}={}){
  try{
  if(process.env.SB_QA_PROFILE==='1'){await t.cdp.send('Profiler.enable');await t.cdp.send('Profiler.start');}
  assert.equal((await t.page.goto(base+'/',{waitUntil:'load'})).status(),200);
+ const preparationInteraction=duringPreparation?await duringPreparation(t,profile):null;
  if(mode==='new')await t.page.waitForSelector('.sb-home-weather:not([hidden])',{timeout:6000});
  if(expected)await t.page.waitForSelector('canvas[data-sb-weather]',{timeout:12000});else await t.page.waitForTimeout(600);
  heap.activeOrSuppressed=await sampleHeap();
@@ -158,7 +159,7 @@ async function visit(t,profile,kind,expected,{screenshots=false}={}){
  if(process.env.SB_QA_PROFILE==='1'){const cpu=await t.cdp.send('Profiler.stop');await writeFile(out+'/'+evidence.runs.length+'-'+kind+'.cpuprofile',JSON.stringify(cpu.profile));}
  await finishTrace();
  const preparationInputs=t.probe?await t.probe.collect(t.page):null;
- const result={readoutCollision,traceFailure,preparationInputs,failures,heap,profile:profile.name,cpu:profile.cpu,mode,scene:scene.id,kind,tapMs,p95:pct(data.costs,.95),worst:Math.max(0,...data.costs),frameP95:pct(data.frames.slice(1).map((n,i)=>n-data.frames[i]),.95),responses,cacheEvidence:cacheResponses.map(r=>({...r,cached:r.disk||cacheIds.has(r.id)})),weatherLong,...data};
+ const result={preparationInteraction,readoutCollision,traceFailure,preparationInputs,failures,heap,profile:profile.name,cpu:profile.cpu,mode,scene:scene.id,kind,tapMs,p95:pct(data.costs,.95),worst:Math.max(0,...data.costs),frameP95:pct(data.frames.slice(1).map((n,i)=>n-data.frames[i]),.95),responses,cacheEvidence:cacheResponses.map(r=>({...r,cached:r.disk||cacheIds.has(r.id)})),weatherLong,...data};
  check(()=>assert.ok(result.p95<(profile.cpu===6?8:4),'Drawing p95'));check(()=>assert.ok(result.worst<50,'No weather drawing callback >=50ms'));
  t.page.off('response',onResponse);t.cdp.off('Network.requestServedFromCache',onCached);t.cdp.off('Network.responseReceived',onNetwork);
  evidence.runs.push(result);resultSaved=true;await save();if(failures.length&&process.env.SB_QA_CONTINUE!=='1')throw Error(failures.join('; '));console.log(JSON.stringify({profile:profile.name,mode,scene:scene.id,kind,load:data.load,p95:result.p95,worst:result.worst,lifetime:data.removed-data.added,requests:data.resources.length,bytes:data.resources.reduce((s,r)=>s+r.encoded,0)}));return result;
@@ -183,6 +184,42 @@ try{
   try{const wanted=warm.resources.filter(r=>r.url.includes('/textures/')||r.url.includes('weather-renderer')).map(r=>r.url).sort(),seen=warm.cacheEvidence.filter(r=>wanted.includes(r.url));assert.ok(wanted.length);assert.deepEqual([...new Set(seen.map(r=>r.url))].sort(),wanted,'Complete cache evidence');assert.ok(seen.every(r=>r.cached),'All selected texture/renderer HTTP caching');}
   catch(error){warm.failures.push(error.message);await save();throw error;}
   await visit(t,profile,'consumed',false);await context.close();if(process.env.SB_QA_BROWSER_PER_CYCLE==='1'){await browser.close();browser=await launch();}
+ }
+
+ if(section==='release-smoke')for(const profile of profiles){
+  mode='new';scene=scenes.find(s=>s.id==='rain-mist-day');now=Date.parse('2026-10-04T18:00:00Z');let t=await makeContext(profile);
+  const expected=publicSnapshotV3({...observation(sceneObservation(scene,now),'KFTW',now),refreshSource:'scheduled'},'fort-worth',now,{enhanced:true,readout:true,lighting:true});
+  const checkText=async()=>{const text=await t.page.locator('.sb-home-weather').innerText();assert.ok(text.includes(Math.round(expected.temperatureF)+'°F'));assert.ok(text.includes(expected.conditionLabel));assert.ok(text.includes('Fort Worth area'));};
+  await visit(t,profile,'cold',true);await checkText();const context=t.context;await t.page.close();t=await newPage(context,profile);
+  // Functional synchronization only: actual warm cached image decodes complete,
+  // then wait briefly for trusted control interactions before returning to the
+  // unchanged production prepareWeather(). This is not a speed/latency result.
+  await t.page.addInitScript(()=>{
+   const decode=HTMLImageElement.prototype.decode,q=window.__warmGate={started:0,decoded:0,released:false,expired:false,at:0,releaseAt:0};let resolve,timer;
+   const gate=new Promise(r=>resolve=r);
+   window.__releaseWarm=()=>{if(q.released)return;q.released=true;q.releaseAt=performance.now();clearTimeout(timer);resolve();};
+   HTMLImageElement.prototype.decode=function(){if(!this.src.startsWith('blob:'))return decode.call(this);q.started++;if(!timer){q.at=performance.now();timer=setTimeout(()=>{q.expired=true;window.__releaseWarm();},1800);}return decode.call(this).then(async()=>{q.decoded++;await gate;});};
+  });
+  const warm=await visit(t,profile,'warm-preparation-functional',true,{duringPreparation:async(t,p)=>{
+   await t.page.waitForFunction(()=>window.__warmGate?.decoded>0,{},{polling:5,timeout:2000});
+   const begin=await t.page.evaluate(()=>({at:performance.now(),gate:{...window.__warmGate},phase:window.SourBouleWeatherStatus.phase,canvas:document.querySelectorAll('canvas[data-sb-weather]').length,session:sessionStorage.getItem('sb-weather-session-played-v1')}));
+   assert.equal(begin.phase,'loading-renderer');assert.equal(begin.canvas,0);assert.equal(begin.session,null);
+   const click=async selector=>{const n=t.page.locator(selector);if(p.cpu===1)await n.click();else await n.tap();};
+   const interactions=[];
+   for(const [control,selector]of [['order','.site-header__order > summary'],['menu',p.cpu===1?'.site-nav details > summary':'.mobile-nav > summary']]){
+    await click(selector);assert.equal(await t.page.locator(selector).evaluate(n=>n.parentElement.open),true);
+    if(control==='order')assert.equal(await t.page.locator('#header-order-options a').count(),2);
+    interactions.push({control,openedAt:await t.page.evaluate(()=>performance.now())});await click(selector);assert.equal(await t.page.locator(selector).evaluate(n=>n.parentElement.open),false);
+   }
+   await t.page.mouse.move(p.width*.55,p.height*.7);await t.page.mouse.wheel(0,180);await t.page.waitForFunction(()=>scrollY>0,{},{timeout:500});
+   const end=await t.page.evaluate(()=>({at:performance.now(),gate:{...window.__warmGate},phase:window.SourBouleWeatherStatus.phase,canvas:document.querySelectorAll('canvas[data-sb-weather]').length,scrollY}));
+   assert.equal(end.gate.expired,false);assert.equal(end.gate.released,false);assert.equal(end.canvas,0);assert.equal(end.phase,'loading-renderer');
+   await t.page.evaluate(()=>{scrollTo(0,0);window.__releaseWarm();});
+   return{kind:'Warm HTTP cache, actual decode, private completion gate; functional evidence only',begin,interactions,end};
+  }});
+  await checkText();
+  const wanted=warm.resources.filter(r=>r.url.includes('/textures/')||r.url.includes('weather-renderer')).map(r=>r.url).sort(),seen=warm.cacheEvidence.filter(r=>wanted.includes(r.url));
+  assert.deepEqual([...new Set(seen.map(r=>r.url))].sort(),wanted);assert.ok(seen.every(r=>r.cached));assert.equal(warm.preparationInteraction.end.gate.started,4);await context.close();
  }
  if(section==='a11y')for(const path of['','fort-worth.html','willow-bend.html']){
   const profile={name:'a11y-'+(path||'home'),width:320,height:568,dpr:2,cpu:1};mode='new';scene=scenes.find(s=>s.id==='rain-mist-day');now=Date.parse('2026-10-04T18:00:00Z');const t=await makeContext(profile);await t.page.emulateMedia({reducedMotion:'reduce'});await t.page.goto(base+'/'+path,{waitUntil:'load'});await t.page.waitForTimeout(400);

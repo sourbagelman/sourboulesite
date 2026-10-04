@@ -1,5 +1,12 @@
 # Final weather performance continuation
 
+**Historical investigation plan.** The owner's October4 release decision explicitly
+supersedes the cause-before-publication gate for the recorded190.5/194 ms event,
+156.4 ms emulated input delay and disclosed device/browser testing gaps. The
+observations below remain intact as accepted exceptions. No further benchmark
+campaign is authorized; release uses one focused prepublication smoke and one
+postpublication smoke. See the latest TEST-RESULTS.md entry.
+
 Predeclared on 2026-10-04, before the continuation's final acceptance runs.
 Implementation baseline: `17c01afad32b99b837b68fbe511d7fe54fa08e7f` on
 `feature/weather-final-homepage`. The owner's latest continuation instruction

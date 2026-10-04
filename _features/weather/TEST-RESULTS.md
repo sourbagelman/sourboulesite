@@ -712,3 +712,55 @@ All raw traces and results are private under
 are preserved. Secrets, local databases, certificates, browser profiles,
 .wrangler state and raw evidence are excluded from the commit. Physical iPhone,
 Safari/WebKit, VoiceOver and actual cellular/thermal/GPU checks remain unperformed.
+
+
+## October 4 owner release decision and bounded closeout
+
+The owner explicitly accepted the unresolved original190.5 ms callback/194 ms
+Long Task,156.4 ms emulated input delay, and disclosed physical-device/browser
+coverage gaps. This supersedes only the historical requirement to establish
+those observations' causes before publication. The observations are retained;
+none is labeled repaired or passed. Ordering, security, weather-data validity,
+lighting safeguards and new demonstrated failures are not waived.
+
+Release resumes from`3a0c09a4ba15eb6d5f2bb431cd7b03f72c13e523`. Production runtime
+JS/CSS and approved drawing source are byte-identical to the saved17c01af build
+covered by the existing functional/parity/performance evidence. No further
+benchmark campaign,64-scene rerun, bulk trace capture, renderer edit, external
+browser installation or subagent investigation was performed.
+
+One prepublication smoke pass completed four visits: cold and warm preparation
+on1440×900 desktop and390×844 mobile emulation. All passed with zero runtime
+errors. Menu/More and Order Online disclosures opened and closed; both existing
+ordering links remained present; scrolling worked; no orders/payments were
+submitted. Factual Home temperature/condition/area matched the shared fixture
+snapshot; animation finished with no retained canvas or pending RAF loop.
+Measured canvas lifetimes were4999.9–5003.7 ms (MutationObserver timestamps,
+not a change to the5,000 ms contract), and maximum callback4.1 ms.
+
+The remaining warm-preparation interaction check used actual HTTP-cached assets
+and actual image decoding, followed by a private completion gate with an1,800 ms
+hard limit. All four selected textures were cached. Trusted menu/ordering/scroll
+input was verified while status remained`loading-renderer`, with no canvas and
+no consumed session. The gate then released and the unchanged renderer played
+normally. It did not expire; its observed held windows were approximately120 ms
+desktop and380 ms mobile. This is a functional synchronization test, **not natural
+warm-cache latency evidence**. It adds no shipped hook or delay. Raw results are
+`qa/owner-prepublication-smoke/release-smoke-results.json` outside the public tree.
+
+Before publication, remote main remained2aba94eab914702952675799b639053ec5317045.
+GitHub reported main unprotected, no applicable branch rules/required checks,
+and existing legacy Pages publication from main/root. No publishing setting or
+protection is changed. The Worker deployment still uses683e8e0e-86ae-4522-9e28-bbe3e4de3057.
+All six weather routes were200/fresh at17:18:10Z, using KFTW16:15Z Light Rain,
+71.6°F, fetched by the previously verified genuine16:47:26.750Z cron and valid
+until17:47:26.750Z. Diagnostics remained authenticated. No refresh/lease reset or
+Worker redeployment is needed for compatibility.
+
+Publication authorization is now satisfied by this bounded pass and the owner's
+specific exception acceptance. Actual Pages completion, live asset hashes and
+one real-weather desktop/mobile postpublication smoke are verified after the
+push; their immutable commit/build identifiers and results belong in the release
+receipt. If that smoke demonstrates a new functional or material performance
+problem, disable only WEATHER_ENHANCED_ENABLED while leaving a safe working
+readout enabled, and report it without starting another investigation.
