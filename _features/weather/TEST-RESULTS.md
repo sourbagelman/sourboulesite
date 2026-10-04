@@ -764,3 +764,18 @@ push; their immutable commit/build identifiers and results belong in the release
 receipt. If that smoke demonstrates a new functional or material performance
 problem, disable only WEATHER_ENHANCED_ENABLED while leaving a safe working
 readout enabled, and report it without starting another investigation.
+
+
+## Bounded owner-authorized publication closeout — October 4, 2026
+
+- Pages successfully published frontend `f650556c8df0f6e5b76f38ef29a1caf4591a26c5`, run `37220200649`, at 17:22 UTC. Nine live page/runtime hashes matched the saved bytes, including unchanged retained v2 assets. No runtime/artwork optimization was made during closeout.
+- The prepublication desktop/mobile cold and warm-preparation functional smoke passed. The historical 190.5 ms callback / 194 ms Long Task and 156.4 ms emulated input delay remain unexplained owner-accepted exceptions. Physical-device/Safari/VoiceOver gaps remain unperformed, not passed.
+- The first live desktop run passed its real-scene, five-second lifetime, ordering/menu, cleanup, freshness, overflow and runtime-error assertions, then failed the strict visible-readout assertion after navigation toggles: data status was fresh but the card was hidden. The harness closed before preserving its geometry. The existing collision guard is a possible explanation, not an established cause.
+- The interrupted pass resumed with desktop playback already marked consumed solely in that isolated browser context, to check the readout without repeating the desktop animation. An initial harness synchronization error awaited the animation's skipped state before the independent readout request; its wait was corrected. The resumed desktop readout was visible and correct with no collision, so it does not explain the original visibility assertion.
+- The remaining fresh production mobile homepage, desktop Fort Worth and mobile Willow Bend visits passed. Real KFTW light rain at 71.6°F produced the approved rain composition. Recorded canvas lifetimes were 5001.6, 5005.3 and 5001.4 ms. No runtime/weather-request errors or overflow; menu/ordering controls opened and closed, with no order/payment submitted. Cleanup removed the canvas; consumed-session reloads did not replay. Home displayed `72°F · Light Rain` / `Fort Worth area`; both location pages, both menu pages and About had no weather readout. Menu/About pages made no weather requests.
+- Both live locations used observation 2026-10-04T16:15:00.000Z, fetched by the genuine unattended 16:47 scheduled refresh at 16:47:26.750Z, valid until 17:47:26.750Z. No provider refresh was forced. This is real-weather evidence, not fixtures.
+- Because the initial postpublication visibility failure is unexplained, the owner's fail-safe is applied: `WEATHER_ENHANCED_ENABLED` becomes `false`; readout and retained fallback stay enabled. This is containment, not a repair or a claim the intermittent incident is resolved. No further investigation, benchmark campaign or additional animation smoke pass is performed.
+
+Private evidence remains under `work/weather-final-2026-10-04/`: owner-production-hashes.json, owner-postpublication-smoke.json, owner-prepublication-live.json and qa/owner-prepublication-smoke/release-smoke-results.json. The first failed visibility assertion and the continuation synchronization failure are retained explicitly above; later success does not erase them.
+
+The fail-safe was deployed as Worker revision `61cd12ad-e641-4f8e-a836-6ceffca767d9`. Both v3 endpoints returned HTTP 200 with `enhanced:false`, `readout:true`, and `lighting:true`, retaining the exact observation/fetch/expiry timestamps above. Assets were unchanged (Wrangler uploaded no new assets); cron and storage identity remained unchanged.

@@ -1,5 +1,7 @@
 # Restaurant weather suite
 
+**Publication closeout:** Pages published `f650556c8df0f6e5b76f38ef29a1caf4591a26c5`. The enhanced suite is now disabled using its existing server flag after an unexplained postpublication readout-visibility assertion. The resumed readout check and remaining playback/control checks passed, but they do not explain the first failure. Readout and retained five-second fallback remain enabled. See the closeout entry in TEST-RESULTS.md. No further diagnosis is claimed.
+
 **Owner-authorized release — October 4, 2026.** The owner explicitly accepted
 only the historical unexplained190.5 ms callback/194 ms task,156.4 ms emulated
 input delay, and disclosed physical-device/browser coverage gaps. They remain
@@ -7,8 +9,8 @@ accepted exceptions, not passed checks or repaired incidents. This supersedes
 the historical cause-before-publication gate recorded below/in TEST-RESULTS.md.
 The unchanged runtime passed one bounded desktop/mobile prepublication smoke,
 including controls during warm-cache preparation. No new renderer optimization,
-artwork change or replay-policy change is included. The working Worker remains
-revision`683e8e0e-86ae-4522-9e28-bbe3e4de3057`; website publication uses existing
+artwork change or replay-policy change is included. The original release Worker was revision `683e8e0e-86ae-4522-9e28-bbe3e4de3057`.
+The closeout flag-only deployment is `61cd12ad-e641-4f8e-a836-6ceffca767d9`; website publication uses existing
 main/root Pages. Verify the deployment commit and served hashes for actual status.
 New functional/security/data/lighting failures are not waived.
 The approved 64-scene suite runs for **5,000 ms total**, once per tab session,
