@@ -138,7 +138,7 @@ small reports and two metadata keys. No paid plan is necessary or authorized.
 Run the focused backend suite:
 
 ```sh
-node --test _features/weather/tests/backend.test.mjs _features/weather/tests/backend-v2.test.mjs
+node --test _features/weather/tests/backend.test.mjs _features/weather/tests/backend-v2.test.mjs _features/weather/tests/backend-v3.test.mjs
 ```
 
 ## Runtime compatibility evidence
@@ -396,3 +396,132 @@ Supplemental coverage exhausts documented phenomenon/modifier/sky categories,
 fog with VV, layered clouds, numeric wind/QC, verified aliases, structured/text
 precedence, deterministic mapping reasons and stale/incomplete report recovery.
 These are local tests, not proof of deployment, physical phones or cron execution.
+
+
+## Final approved component suite and homepage readout — October 4, 2026
+
+This section describes the new v3 implementation; the v1/v2 rollout evidence
+above remains historical. V1 and v2 public projections, observation acceptance,
+station selection, maximum ages, provider requests, failure clearing, cache
+identity, hourly lease and minute-47 cron are unchanged. V3 is additive:
+
+- `/weather/v3/fort-worth`
+- `/weather/v3/willow-bend`
+
+All versions read the same two cached observations. V3 adds no provider request
+and never reconstructs missing component data from an old `none` classification.
+A pre-v3 cached record returns unavailable on v3 until an ordinary scheduled
+refresh supplies the new metadata; v1/v2 remain usable throughout this transition.
+
+### Actual-observation adapter
+
+The [current NWS schema](https://api.weather.gov/openapi.json) was rechecked on
+October 4, including all 23 phenomenon enums, seven modifiers, three intensity
+values, seven sky amounts and the optional `inVicinity` flag. Source evidence
+is saved outside the repository in `work/weather-final-2026-10-04/`.
+`normalizeSuite` validates the complete structured list before choosing artwork.
+The existing exact, verified description table is used only when structured
+present weather is absent. No forecast, rain probability, precipitation total,
+unverified alias, package scene ID or visual-review control enters production.
+
+The compact components distinguish rain/snow and rain/hail mixtures, freezing
+rain/drizzle, ice pellets, hail, falling/blowing/low-drifting snow, independent
+thunder evidence, ordinary/dense fog, mist, haze and observed sky coverage.
+Thunder never follows merely from heavy rain, hail never invents rain, freezing
+liquid never becomes ice pellets, and ground snow never becomes falling snow.
+Fog's dense visual tier requires the same report's validated visibility of at
+most 400 metres. VV requires actual fog/mist; it is not fog evidence by itself.
+Unobserved optional sky, wind, gust or visibility stays `null`, and the renderer
+omits that layer. A record with no drawable layer has `scene: null`.
+
+The adapter keeps known unsupported conditions distinct from unknown enums,
+malformed reports and unsupported mixtures through protected `suiteReason`.
+An unrecognized structured enum/modifier omits the label rather than showing only
+the recognized portion of that mixture; known unsupported conditions retain their
+complete decoded labels. The public response can retain factual text and temperature without artwork,
+using a neutral icon. Structured words preserve qualifiers such as Freezing,
+Blowing, Low drifting, Thunderstorms and Hail when a shorter description omits
+or contradicts them. A verified exact description is retained only when its
+complete phenomenon/modifier/intensity/vicinity signature agrees. Text is safe
+plain text, at most 120 characters; oversized labels are omitted, not truncated
+or replaced with a shorter phrase that drops a qualifier.
+
+Temperature comes from this same cached report only. A finite numeric value
+requires explicit `wmoUnit:degC` or `wmoUnit:degF`; Celsius is converted to
+Fahrenheit and rounded to one decimal. Numeric zero remains valid. Null, missing,
+strings, other units, non-finite/out-of-range values and suspect/rejected QC
+values produce `temperatureF: null`, never yesterday's temperature. The current
+schema makes QC optional; absent QC or Z/C/S/V/G is accepted, while X/Q/B/T or an
+unknown QC value is not. This is input screening, not an independent sensor
+certification; see [MADIS QC documentation](https://madis.ncep.noaa.gov/madis_sfc_qc_notes.shtml).
+
+`publicSnapshotV3` supplies restaurant-specific request-time solar fields and
+`daypart` for every scene, including cloud, rain and snow. Every v3 response
+expires at the earliest observation/fetch limit, next sunrise/sunset, or next
+Chicago midnight. A previously cached daytime storm therefore cannot remain a
+daytime storm after sunset. The next valid read computes today's solar metadata
+without fetching NWS again. The old v1/v2 response rules are unchanged.
+
+### Protocol, assets and independent controls
+
+V3 contains common provenance/freshness fields, validated `scene` or null,
+`temperatureF`, short `conditionLabel`, `icon`, the unchanged v2-compatible
+`fallback`, and three boolean `controls`. The browser's shared
+`components-v3.mjs` guard rejects malformed combinations. Fixtures/catalogs stay
+under the private `_features/weather/tests/` source directory and are not shipped.
+
+- `WEATHER_ENHANCED_ENABLED=false`: use the compatible ordinary weather fallback.
+- `WEATHER_READOUT_ENABLED=false`: omit the homepage readout independently.
+- `WEATHER_LIGHTING_ENABLED=false`: suppress enhanced internal cloud lighting.
+  The source defaults false pending the separate rendered safety assessment.
+- `WEATHER_ENABLED=false`: existing full weather/readout kill; reads return 503
+  and cron skips provider work. Previously cached JSON may last at most five
+  minutes, capped by absolute freshness. The new effect ends within five seconds.
+
+The existing Worker also binds `WEATHER_ASSETS` to the 13 approved, fingerprinted
+WebPs under `textures-v3/textures/`. Its exact manifest allowlist accepts only
+GET/HEAD/OPTIONS at those immutable paths, with the same approved-origin CORS.
+No arbitrary file, provider proxy, visitor location or new service is exposed.
+`Cache-Control: public, max-age=31536000, immutable` is set with `Headers.set`,
+replacing the asset service's default rather than appending a conflicting value.
+`run_worker_first` ensures these guards apply before asset delivery. Cloudflare
+[static-assets pricing](https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/)
+includes asset storage/serving; Worker-first requests use the existing Free
+request allowance. No paid service, new DNS record or separate storage is added.
+
+The protected status endpoint adds per-location `suiteStatus` and bounded
+`suiteReason` metadata. It retains its existing authentication, no-Origin rule,
+no-store replies, eight-summary limit and best-effort history writes. No raw
+provider record, temperature history, browser identifier or secret is stored
+for diagnostics, and status reads do not refresh or renew the lease.
+
+### Focused local evidence, separate from deployment
+
+The backend suite passes **119/119** tests: the prior 44 compatibility/diagnostic
+tests, all **64 approved catalog scenes** converted to genuine NWS-shaped
+records and projected through the adapter, and 11 focused v3 tests. Additional
+assertions cover full-list permutations/unsupported third phenomena, invalid
+measurements and zero, absent optional components, qualifier preservation,
+unsupported factual readouts, strict shared component validation, old caches,
+all-version shared fetch/lease behavior, independent flags, immutable assets,
+solar/date boundaries and DST. Fixture v3 JSON bodies are at most **707 bytes**.
+These tests use private fixtures and do not assert those weather conditions
+were observed at the restaurant.
+
+An actual local **workerd** check at **2026-10-04T15:22:28.201Z** called the real
+NWS provider and produced valid v1/v2/v3 projections for both locations from
+KFTW's **14:50Z** report: Rain and Fog/Mist, 21°C / **69.8°F**, OVC, current rain
+and fog_mist, measured wind, null gust. V3 bodies were **699/700 bytes**, with
+16:22:28.201Z maximum expiry and each restaurant's own solar coordinates. The
+same runtime's real static-assets binding returned all 13 exact WebPs; GET/HEAD,
+byte count, SHA-256, content type, CORS, immutable caching and unknown/hostile
+requests passed. Evidence: `work/weather-final-2026-10-04/workerd-live-assets.json`.
+This was local execution against the live provider, **not** a production refresh,
+cloud deployment, physical-phone result or observed new cron tick. Production
+verification is recorded separately by the delivery task after deployment.
+
+The explicit live integration command above now bundles the actual backend
+module graph and exercises the real local asset binding. It needs local listening
+ports and outbound read access to NWS, and never substitutes a fixture when the
+provider is unavailable. Deterministic tests require neither cloud access nor
+any cloud mutation.

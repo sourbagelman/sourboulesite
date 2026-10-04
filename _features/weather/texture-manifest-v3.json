@@ -1,0 +1,93 @@
+{
+  "bank-day": {
+    "file": "bank-day.bb247df77ba0.webp",
+    "bytes": 22772,
+    "width": 512,
+    "height": 214,
+    "sha256": "bb247df77ba0a348d52e3a9c46d1f550e9c53240345b88cbe592738415219971"
+  },
+  "bank-detail-day": {
+    "file": "bank-detail-day.2dd4d150f7b0.webp",
+    "bytes": 37170,
+    "width": 512,
+    "height": 214,
+    "sha256": "2dd4d150f7b0f04ac3d669abb27414b91f1af965d4cc632ac60bccfa73fa6197"
+  },
+  "bank-detail-night": {
+    "file": "bank-detail-night.4c5519f55f15.webp",
+    "bytes": 37184,
+    "width": 512,
+    "height": 214,
+    "sha256": "4c5519f55f1542b69575f369450d144d4f4b06bc49d04e79f8671545020afb07"
+  },
+  "bank-detail-storm": {
+    "file": "bank-detail-storm.239fdd76a4a3.webp",
+    "bytes": 37430,
+    "width": 512,
+    "height": 214,
+    "sha256": "239fdd76a4a33109004cd472bc976b9d480907746c9fdea74fe125fff7f2e4da"
+  },
+  "bank-night": {
+    "file": "bank-night.c8a07ceec693.webp",
+    "bytes": 24360,
+    "width": 512,
+    "height": 214,
+    "sha256": "c8a07ceec6938f713bc4dbe9913340a163b02a4ade3e1d4eb7529015df07dbda"
+  },
+  "bank-storm": {
+    "file": "bank-storm.481404e98969.webp",
+    "bytes": 24540,
+    "width": 512,
+    "height": 214,
+    "sha256": "481404e98969ef3c41337511f557a8865c8b0b2e14b6ff9571ec9f6821c54c92"
+  },
+  "blanket-day": {
+    "file": "blanket-day.fa0c934cb85e.webp",
+    "bytes": 33698,
+    "width": 512,
+    "height": 214,
+    "sha256": "fa0c934cb85ee79801c4efa2dc9b01ae199de239fdbc6693878ccdd5acdbb9bb"
+  },
+  "blanket-night": {
+    "file": "blanket-night.c36cec0ac031.webp",
+    "bytes": 33814,
+    "width": 512,
+    "height": 214,
+    "sha256": "c36cec0ac0317f7c81b8935fc4826d8d1022ad7dd7e03fc610c9f7a62443e26f"
+  },
+  "blanket-storm": {
+    "file": "blanket-storm.509300e8a59a.webp",
+    "bytes": 34556,
+    "width": 512,
+    "height": 214,
+    "sha256": "509300e8a59a32f52186aee101306514f1549790b4e8415dc6b4fc78ea6fd6d4"
+  },
+  "cloud-light": {
+    "file": "cloud-light.67b22187a3e3.webp",
+    "bytes": 8108,
+    "width": 384,
+    "height": 176,
+    "sha256": "67b22187a3e3cd1303bea1e8aa3da4c958ed0c1b99523a308e17d887ad4ffddd"
+  },
+  "fog-day": {
+    "file": "fog-day.763caa05b34c.webp",
+    "bytes": 7840,
+    "width": 512,
+    "height": 144,
+    "sha256": "763caa05b34c7a0a83c7c0a24f60a47b186f0d909165c4e95e02558e9682c914"
+  },
+  "fog-night": {
+    "file": "fog-night.9637a88d71b7.webp",
+    "bytes": 7822,
+    "width": 512,
+    "height": 144,
+    "sha256": "9637a88d71b75f6d7411c1f494cab2bfbd7450bb0b45c63858584229ee80a53b"
+  },
+  "moon": {
+    "file": "moon.06e27bd6fb07.webp",
+    "bytes": 1880,
+    "width": 192,
+    "height": 192,
+    "sha256": "06e27bd6fb070eef43bf416c041ae6781184d25bea931d6a540262cb75da8d28"
+  }
+}

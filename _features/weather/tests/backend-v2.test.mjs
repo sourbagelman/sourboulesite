@@ -191,7 +191,7 @@ test('expansion and full kill switches, old records, fixed routes and CORS are f
   env.WEATHER_ENABLED = 'false';
   for (const prefix of ['/weather/', '/weather/v2/']) assert.equal((await worker.fetch(new Request(`https://weather.example${prefix}fort-worth`), env)).status, 503);
   let pending = false; await worker.scheduled({}, env, { waitUntil: () => { pending = true; } }); assert.equal(pending, false);
-  for (const route of ['/weather/v3/fort-worth', '/weather/v1/fort-worth', '/weather/v2/unknown', '/weather/v2/fort-worth/']) assert.equal((await worker.fetch(new Request(`https://weather.example${route}`), env)).status, 404);
+  for (const route of ['/weather/v4/fort-worth', '/weather/v1/fort-worth', '/weather/v2/unknown', '/weather/v2/fort-worth/']) assert.equal((await worker.fetch(new Request(`https://weather.example${route}`), env)).status, 404);
   assert.equal((await worker.fetch(new Request('https://weather.example/weather/v2/fort-worth?effect=rain'), env)).status, 400);
   assert.equal((await worker.fetch(new Request('https://weather.example/weather/v2/fort-worth', { headers: { Origin: 'https://evil.test' } }), env)).status, 403);
 });

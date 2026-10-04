@@ -1,9 +1,12 @@
 import { ALLOWED_ORIGINS, CRON_MINUTE, FUTURE_TOLERANCE, HOUR, LOCATIONS, MAX_AGE, TIMEZONE } from './config.mjs';
-import { fetchStation, timestamp } from './provider.mjs';
+import { conditionText, fetchStation, timestamp } from './provider.mjs';
 import { solarWindow } from './solar.mjs';
+import { validScene } from './components-v3.mjs';
+import textureManifest from './texture-manifest-v3.json' with { type: 'json' };
 const CONDITIONS = new Set(['rain', 'snow', 'wind', 'cloud', 'clear', 'none']);
 const EXPANSION_CONDITIONS = new Set([...CONDITIONS, 'fog', 'drizzle', 'storm']);
 const CACHE_ID = 'restaurant-weather-live-v1';
+const TEXTURE_PATHS = new Set(Object.values(textureManifest).map((entry) => `/textures/${entry.file}`));
 const json = (value, status = 200, headers = {}) => new Response(JSON.stringify(value), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', ...headers } });
 function nextChicagoMidnight(now) {
   const format = new Intl.DateTimeFormat('en-US', { timeZone: TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
@@ -65,6 +68,34 @@ export function publicSnapshotV2(snapshot, location, now, expansionEnabled = tru
   return { ...legacy, version: 2, condition: expanded.condition, effect, mist: expanded.mist,
     night: expanded.condition === 'fog' && afterDark, validUntil: new Date(until).toISOString() };
 }
+export function publicSnapshotV3(snapshot, location, now, controls = { enhanced: true, readout: true, lighting: false }, expansionEnabled = true) {
+  const previous = publicSnapshotV2(snapshot, location, now, expansionEnabled);
+  const suite = snapshot?.suite;
+  if (!previous || !suite || suite.version !== 3 || !Object.hasOwn(suite, 'components') ||
+      !Object.hasOwn(suite, 'temperatureF') || !Object.hasOwn(suite, 'conditionLabel') ||
+      (suite.temperatureF !== null && (typeof suite.temperatureF !== 'number' || !Number.isFinite(suite.temperatureF) || suite.temperatureF < -150 || suite.temperatureF > 150)) ||
+      (suite.conditionLabel !== null && conditionText(suite.conditionLabel) !== suite.conditionLabel) ||
+      !['enhanced', 'readout', 'lighting'].every((key) => typeof controls[key] === 'boolean')) return null;
+  const sunrise = timestamp(previous.sunrise), sunset = timestamp(previous.sunset);
+  const daypart = now >= sunrise && now < sunset ? 'day' : 'night';
+  const scene = suite.components === null ? null : { ...suite.components, daypart };
+  if (scene !== null && !validScene(scene)) return null;
+  const nextBoundary = [sunrise, sunset].find((boundary) => boundary > now);
+  const until = Math.min(timestamp(snapshot.validUntil), nextChicagoMidnight(now), nextBoundary ?? Infinity);
+  let icon = 'neutral';
+  if (scene) {
+    if (['snow', 'rain_snow', 'blowing_snow', 'drifting_snow'].includes(scene.precip)) icon = 'snow';
+    else if (['rain', 'drizzle', 'rain_hail'].includes(scene.precip)) icon = 'rain';
+    else if (scene.precip === 'none' && scene.mist !== 'none') icon = 'fog';
+    else if (scene.precip === 'none' && !scene.thunder && ['CLR', 'SKC', 'FEW'].includes(scene.sky)) icon = daypart === 'day' ? 'sun' : 'moon';
+    else if (scene.sky !== null && ['none', 'hail', 'ice_pellets'].includes(scene.precip)) icon = scene.precip === 'none' ? 'cloud' : 'neutral';
+  }
+  const { condition, effect, mist, night, version: _version, ...common } = previous;
+  const invalidReadout = ['incomplete-observation', 'invalid-intensity', 'invalid-sky', 'contradictory-observation'].includes(suite.reason);
+  return { ...common, version: 3, validUntil: new Date(until).toISOString(), scene,
+    temperatureF: invalidReadout ? null : suite.temperatureF, conditionLabel: invalidReadout ? null : suite.conditionLabel, icon,
+    fallback: { condition, effect, mist, night }, controls: { enhanced: controls.enhanced, readout: controls.readout, lighting: controls.lighting } };
+}
 // One named SQLite-backed object, two fixed snapshot keys. get/put are its tiny
 // cache API; no relational schema, business records, visitor data, or NYE binding.
 export class WeatherCache {
@@ -101,7 +132,7 @@ export class WeatherCache {
           history.push({ attemptedAt: new Date(now).toISOString(), source, results,
             stations: providerOutcomes.map((outcome) => {
               const report = stationReports.get(outcome.station);
-              return { ...outcome, ...(report ? { condition: report.condition, expansionCondition: report.expansion?.condition, classificationReason: report.classificationReason,
+              return { ...outcome, ...(report ? { condition: report.condition, expansionCondition: report.expansion?.condition, classificationReason: report.classificationReason, suiteReason: report.suite?.reason,
                 observedAt: report.observedAt, fetchedAt: report.fetchedAt, validUntil: report.validUntil } : {}) };
             }) });
           await this.ctx.storage.put('refresh-history', history);
@@ -118,10 +149,12 @@ export class WeatherCache {
         const snapshot = await this.ctx.storage.get(`snapshot:${location}`);
         const legacy = publicSnapshot(snapshot, location, now);
         const expanded = publicSnapshotV2(snapshot, location, now);
+        const suite = publicSnapshotV3(snapshot, location, now);
         snapshots[location] = { status: legacy ? 'fresh' : snapshot ? 'expired-or-invalid' : 'missing',
           expansionStatus: expanded ? 'fresh' : snapshot?.expansion ? 'expired-or-invalid' : 'not-yet-capable',
+          suiteStatus: suite ? 'fresh' : snapshot?.suite ? 'expired-or-invalid' : 'not-yet-capable',
           ...(snapshot ? { station: snapshot.station, observedAt: snapshot.observedAt, fetchedAt: snapshot.fetchedAt,
-            validUntil: snapshot.validUntil, condition: snapshot.condition, expansionCondition: snapshot.expansion?.condition, classificationReason: snapshot.classificationReason,
+            validUntil: snapshot.validUntil, condition: snapshot.condition, expansionCondition: snapshot.expansion?.condition, classificationReason: snapshot.classificationReason, suiteReason: snapshot.suite?.reason,
             refreshSource: snapshot.refreshSource } : {}) };
       }
       return json({ checkedAt: new Date(now).toISOString(), snapshots,
@@ -151,6 +184,18 @@ export default {
     if (origin && !ALLOWED_ORIGINS.has(origin)) return json({ error: 'Origin not allowed' }, 403);
     const cors = { Vary: 'Origin', ...(origin ? { 'Access-Control-Allow-Origin': origin } : {}) };
     if (url.search) return json({ error: 'Query parameters are not supported' }, 400, cors);
+    if (url.pathname.startsWith('/textures/')) {
+      if (!TEXTURE_PATHS.has(url.pathname) || !env.WEATHER_ASSETS) return json({ error: 'Not found' }, 404, cors);
+      if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...cors, 'Access-Control-Allow-Methods': 'GET, HEAD', 'Access-Control-Max-Age': '300' } });
+      if (!['GET', 'HEAD'].includes(request.method)) return json({ error: 'Method not allowed' }, 405, { ...cors, Allow: 'GET, HEAD' });
+      const asset = await env.WEATHER_ASSETS.fetch(new Request(request.url, { method: request.method }));
+      if (!asset.ok) return json({ error: 'Not found' }, 404, cors);
+      const headers = new Headers(asset.headers);
+      for (const [name, value] of Object.entries(cors)) headers.set(name, value);
+      headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+      headers.set('X-Content-Type-Options', 'nosniff');
+      return new Response(asset.body, { status: asset.status, headers });
+    }
     if (url.pathname === '/internal/status') {
       if (request.method !== 'GET' || origin || !(await authorized(request, env))) return json({ error: 'Not found' }, 404);
       try { return await cache(env).fetch(new Request('https://weather-cache/status')); }
@@ -162,16 +207,18 @@ export default {
       try { return await cache(env).fetch(new Request('https://weather-cache/refresh', { method: 'POST' })); }
       catch { return json({ refreshed: false, reason: 'unavailable' }, 503); }
     }
-    const match = /^\/weather\/(v2\/)?(fort-worth|willow-bend)$/.exec(url.pathname);
+    const match = /^\/weather\/(v[23]\/)?(fort-worth|willow-bend)$/.exec(url.pathname);
     if (!match) return json({ error: 'Not found' }, 404, cors);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...cors, 'Access-Control-Allow-Methods': 'GET', 'Access-Control-Max-Age': '300' } });
     if (request.method !== 'GET') return json({ error: 'Method not allowed' }, 405, { ...cors, Allow: 'GET' });
-    const version = match[1] ? 2 : 1, location = match[2];
+    const version = match[1] ? Number(match[1][1]) : 1, location = match[2];
     if (env.WEATHER_ENABLED !== 'true') return json({ version, location, effect: 'none', reason: 'disabled' }, 503, cors);
     try {
       const stored = await cache(env).fetch(new Request(`https://weather-cache/${location}`));
       const value = await stored.json();
-      const snapshot = version === 2 ? publicSnapshotV2(value, location, Date.now(), env.WEATHER_EXPANSION_ENABLED === 'true') : publicSnapshot(value, location, Date.now());
+      const snapshot = version === 3 ? publicSnapshotV3(value, location, Date.now(), {
+        enhanced: env.WEATHER_ENHANCED_ENABLED === 'true', readout: env.WEATHER_READOUT_ENABLED === 'true', lighting: env.WEATHER_LIGHTING_ENABLED === 'true'
+      }, env.WEATHER_EXPANSION_ENABLED === 'true') : version === 2 ? publicSnapshotV2(value, location, Date.now(), env.WEATHER_EXPANSION_ENABLED === 'true') : publicSnapshot(value, location, Date.now());
       if (!snapshot) return json({ version, location, effect: 'none', reason: 'unavailable' }, 503, cors);
       const maxAge = Math.max(0, Math.min(300, Math.floor((Date.parse(snapshot.validUntil) - Date.now()) / 1000)));
       return json(snapshot, 200, { ...cors, 'Cache-Control': `public, max-age=${maxAge}, must-revalidate`, 'Expires': new Date(snapshot.validUntil).toUTCString() });

@@ -1,4 +1,5 @@
 import { HOUR, MAX_AGE, FUTURE_TOLERANCE, NWS_AGENT } from './config.mjs';
+import { validScene } from './components-v3.mjs';
 const finite = (n) => typeof n === 'number' && Number.isFinite(n);
 export function timestamp(value) {
   if (typeof value !== 'string') return NaN;
@@ -166,7 +167,121 @@ export function observation(feature, station, fetchedAt, onInvalid = () => {}) {
   const identityAgrees = (p.station === undefined || p.station === `https://api.weather.gov/stations/${station}`) && (p.stationId === undefined || p.stationId === station);
   const classification = classifyExpansion(p);
   const expansion = identityAgrees ? { version: 2, condition: classification.condition, mist: classification.mist } : null;
-  return { station, condition: result.condition, expansion, classificationReason: identityAgrees ? classification.reason : 'invalid-station', observedAt: new Date(observedAt).toISOString(), fetchedAt: new Date(fetchedAt).toISOString(), validUntil: new Date(Math.min(observedAt + MAX_AGE, fetchedAt + HOUR)).toISOString() };
+  const suite = identityAgrees ? { version: 3, ...normalizeSuite(p) } : null;
+  return { station, condition: result.condition, expansion, suite, classificationReason: identityAgrees ? classification.reason : 'invalid-station', observedAt: new Date(observedAt).toISOString(), fetchedAt: new Date(fetchedAt).toISOString(), validUntil: new Date(Math.min(observedAt + MAX_AGE, fetchedAt + HOUR)).toISOString() };
+}
+const SUITE_SKY = { SKC: 0, CLR: 0, FEW: .18, SCT: .44, BKN: .77, OVC: 1, VV: 1 };
+const SKY_TEXT = new Map([['Fair', 'CLR'], ['Clear', 'CLR'], ['A Few Clouds', 'FEW'], ['Partly Cloudy', 'SCT'], ['Mostly Cloudy', 'BKN'], ['Overcast', 'OVC'], ['Cloudy', 'OVC'], ['Cloudy and Windy', 'OVC']]);
+const LABELS = { rain: 'Rain', drizzle: 'Drizzle', snow: 'Snow', fog: 'Fog', fog_mist: 'Mist', haze: 'Haze', thunderstorms: 'Thunderstorms', ice_pellets: 'Ice pellets', hail: 'Hail', snow_grains: 'Snow grains', ice_crystals: 'Ice crystals', snow_pellets: 'Snow pellets', unknown: 'Unidentified precipitation', smoke: 'Smoke', volcanic_ash: 'Volcanic ash', dust: 'Dust', sand: 'Sand', spray: 'Spray', dust_whirls: 'Dust whirls', squalls: 'Squalls', funnel_cloud: 'Funnel cloud', sand_storm: 'Sandstorm', dust_storm: 'Dust storm' };
+const SUITE_SUPPORTED = new Set(['rain', 'drizzle', 'snow', 'fog', 'fog_mist', 'haze', 'thunderstorms', 'ice_pellets', 'hail']);
+const INTENSITY = { light: 0, moderate: 1, heavy: 2 };
+const qualityOK = (q) => q === undefined || ['Z', 'C', 'S', 'V', 'G'].includes(q);
+export function temperatureF(measurement) {
+  if (!measurement || !finite(measurement.value) || !qualityOK(measurement.qualityControl)) return null;
+  const value = measurement.unitCode === 'wmoUnit:degC' ? measurement.value * 9 / 5 + 32 : measurement.unitCode === 'wmoUnit:degF' ? measurement.value : NaN;
+  return Number.isFinite(value) && value >= -150 && value <= 150 ? Math.round(value * 10) / 10 : null;
+}
+export function conditionText(value) {
+  if (typeof value !== 'string') return null;
+  const text = value.trim().replace(/\s+/g, ' ');
+  // Reject markup/control/oversize text rather than truncating a qualifier.
+  return text && text.length <= 120 && /^[\p{L}\p{N} ,.'’()\/&+\-–—]+$/u.test(text) ? text : null;
+}
+function fallbackPhenomena(description) {
+  const result = EXPANSION_DESCRIPTION.get(description);
+  if (!result || !['rain', 'drizzle', 'snow', 'fog', 'storm'].includes(result.condition)) return null;
+  const make = (weather, intensity = null) => ({ weather, intensity, modifier: null, rawString: description });
+  const intensity = description.startsWith('Light ') ? 'light' : description.startsWith('Heavy ') ? 'heavy' : null;
+  const items = result.condition === 'storm' ? [make('thunderstorms', intensity), make('rain', intensity)] : [make(result.condition, intensity)];
+  if (result.mist) items.push(make('fog_mist'));
+  return items;
+}
+export function normalizeSuite(p) {
+  const empty = (reason) => ({ components: null, temperatureF: null, conditionLabel: null, reason });
+  if (!p || typeof p !== 'object' || Array.isArray(p)) return empty('incomplete-observation');
+  const description = conditionText(p.textDescription);
+  const temp = temperatureF(p.temperature);
+  const result = (components, reason, label = description) => ({ components, temperatureF: temp, conditionLabel: label, reason });
+  if (p.presentWeather !== undefined && !Array.isArray(p.presentWeather)) return empty('incomplete-observation');
+  let entries = p.presentWeather || [];
+  const structured = entries.length > 0;
+  if (!structured) {
+    const fallback = fallbackPhenomena(description);
+    if (fallback) entries = fallback;
+    else if (description && !SKY_TEXT.has(description)) return result(null, 'unrecognized-condition');
+    else if (!Array.isArray(p.presentWeather) && !SKY_TEXT.has(description)) return empty('incomplete-observation');
+  }
+  const issues = new Set(), kinds = new Set(), precipitation = [], fogModifiers = new Set(), liquidModes = new Set(), snowModes = new Set();
+  for (const entry of entries) {
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry) || Object.keys(entry).some((key) => !PHENOMENON_KEYS.has(key)) ||
+        !['weather', 'intensity', 'modifier', 'rawString'].every((key) => Object.hasOwn(entry, key)) || typeof entry.rawString !== 'string' || !entry.rawString.trim() ||
+        (entry.inVicinity !== undefined && typeof entry.inVicinity !== 'boolean')) { issues.add('incomplete-observation'); continue; }
+    if (entry.intensity !== null && !['light', 'heavy'].includes(entry.intensity)) issues.add('invalid-intensity');
+    if (!Object.hasOwn(LABELS, entry.weather)) issues.add('unrecognized-condition');
+    else if (entry.weather === 'unknown') issues.add('unidentified-precipitation');
+    else if (!SUITE_SUPPORTED.has(entry.weather)) issues.add('recognized-unrendered');
+    kinds.add(entry.weather);
+    if (entry.inVicinity) issues.add('vicinity-only');
+    if (entry.modifier !== null) {
+      if (!KNOWN_MODIFIERS.has(entry.modifier)) issues.add('unrecognized-modifier');
+      else if (entry.modifier === 'showers' && ['rain', 'snow', 'hail', 'ice_pellets'].includes(entry.weather)) { /* Observed showers. */ }
+      else if (entry.modifier === 'freezing' && ['rain', 'drizzle'].includes(entry.weather)) { /* Liquid, not pellets. */ }
+      else if (['blowing', 'low_drifting'].includes(entry.modifier) && entry.weather === 'snow') { /* Ground snow. */ }
+      else if (['patches', 'shallow', 'partial'].includes(entry.modifier) && entry.weather === 'fog') fogModifiers.add(entry.modifier);
+      else issues.add('unsupported-modifier');
+    }
+    if (['rain', 'drizzle'].includes(entry.weather)) liquidModes.add(entry.modifier === 'freezing' ? 'freezing' : 'ordinary');
+    if (entry.weather === 'snow') snowModes.add(['blowing', 'low_drifting'].includes(entry.modifier) ? entry.modifier : 'falling');
+    if (['rain', 'drizzle', 'snow', 'hail', 'ice_pellets'].includes(entry.weather)) precipitation.push({ kind: entry.weather, intensity: entry.intensity || 'moderate' });
+  }
+  const derivedLabel = entries.map((entry) => {
+    if (!entry || !Object.hasOwn(LABELS, entry.weather)) return null;
+    const modifier = { freezing: 'Freezing', blowing: 'Blowing', low_drifting: 'Low drifting', patches: 'Patchy', shallow: 'Shallow', partial: 'Partial', showers: 'Showers of' }[entry.modifier];
+    return [entry.inVicinity ? 'Nearby' : null, modifier, entry.intensity, LABELS[entry.weather]].filter(Boolean).join(' ');
+  }).filter(Boolean).join(' and ');
+  // Retain a verified provider phrase when it describes this complete list.
+  // Otherwise decoded structured words preserve freezing, thunder, hail, snow,
+  // vicinity and other qualifiers that a shorter description might omit.
+  const signature = (list) => list.map((entry) => `${entry.weather}:${entry.modifier}:${entry.intensity}:${Boolean(entry.inVicinity)}`).sort().join('|');
+  const described = fallbackPhenomena(description);
+  const descriptionMatches = described && signature(described) === signature(entries);
+  const label = structured && !descriptionMatches ? (derivedLabel ? conditionText(derivedLabel) : description) : description || conditionText(derivedLabel);
+  for (const issue of ['incomplete-observation', 'invalid-intensity', 'unrecognized-condition', 'unrecognized-modifier', 'unidentified-precipitation', 'recognized-unrendered', 'vicinity-only', 'unsupported-modifier']) {
+    if (issues.has(issue)) return issue === 'incomplete-observation' || issue === 'invalid-intensity' ? empty(issue) : result(null, issue, ['unrecognized-condition', 'unrecognized-modifier'].includes(issue) ? null : label);
+  }
+  const has = (kind) => kinds.has(kind);
+  const rain = has('rain'), drizzle = has('drizzle'), snow = has('snow'), hail = has('hail'), ice = has('ice_pellets'), thunder = has('thunderstorms');
+  const fog = has('fog'), mist = has('fog_mist'), haze = has('haze'), freezing = liquidModes.has('freezing'), snowMode = [...snowModes][0] || 'falling';
+  if (fogModifiers.size > 1 || liquidModes.size > 1 || snowModes.size > 1 ||
+      (haze && (fog || mist || precipitation.length || thunder)) ||
+      (ice && (rain || drizzle || snow || hail || thunder)) || (hail && (snow || ice || drizzle || freezing)) ||
+      (snow && (drizzle || hail || ice || thunder || freezing)) || (snowMode !== 'falling' && (rain || drizzle || thunder)) ||
+      (freezing && (thunder || hail || snow || ice)) || (thunder && drizzle && !rain)) return result(null, 'unsupported-mixture', label);
+  const layers = Array.isArray(p.cloudLayers) ? p.cloudLayers.map((layer) => layer?.amount) : [];
+  const positiveWeather = entries.length > 0;
+  let sky = null;
+  const skyValid = layers.length && layers.every((amount) => Object.hasOwn(SUITE_SKY, amount)) &&
+    !((layers.includes('CLR') || layers.includes('SKC')) && layers.some((amount) => !['CLR', 'SKC'].includes(amount))) &&
+    (!layers.includes('VV') || fog || mist);
+  if (skyValid) sky = layers.reduce((a, b) => SUITE_SKY[a] >= SUITE_SKY[b] ? a : b);
+  else if (!layers.length && !positiveWeather && SKY_TEXT.has(description)) sky = SKY_TEXT.get(description);
+  // Optional unknown sky is omitted for positive weather, never replaced by
+  // inferred clear/overcast. A sky-only scene requires positive coherent sky.
+  if (!positiveWeather && layers.length && !skyValid) return result(null, 'invalid-sky', label);
+  if (!positiveWeather && sky && SKY_TEXT.has(description) && (SUITE_SKY[sky] < .3) !== (SUITE_SKY[SKY_TEXT.get(description)] < .3)) return result(null, 'contradictory-observation', label);
+  const measureWind = (q, max) => { const value = qualityOK(q?.qualityControl) ? windMph(q) : null; return value !== null && value <= max ? value : null; };
+  const wind = measureWind(p.windSpeed, 100), gust = measureWind(p.windGust, 120);
+  const visibility = p.visibility?.unitCode === 'wmoUnit:m' && finite(p.visibility.value) && p.visibility.value >= 0 && p.visibility.value <= 100000 && qualityOK(p.visibility.qualityControl) ? p.visibility.value : null;
+  let precip = rain && snow ? 'rain_snow' : rain && hail ? 'rain_hail' : hail ? 'hail' : ice ? 'ice_pellets' : rain ? 'rain' : drizzle ? 'drizzle' : snow ? 'snow' : 'none';
+  if (snow && snowMode !== 'falling') precip = snowMode === 'blowing' ? 'blowing_snow' : 'drifting_snow';
+  const modes = precip === 'rain_snow' ? ['rain', 'snow'] : precip === 'rain_hail' ? ['rain', 'hail'] : ['blowing_snow', 'drifting_snow'].includes(precip) ? ['snow'] : [precip];
+  const intensity = precip === 'none' ? 'moderate' : precipitation.filter((entry) => modes.includes(entry.kind)).reduce((current, entry) => INTENSITY[entry.intensity] > INTENSITY[current] ? entry.intensity : current, 'light');
+  const components = { sky, precip, intensity, mist: fog ? visibility !== null && visibility <= 400 ? 'dense_fog' : 'fog' : mist ? 'fog_mist' : haze ? 'haze' : 'none', wind, gust, thunder, visibility,
+    modifier: freezing ? 'freezing' : snowMode !== 'falling' ? snowMode : [...fogModifiers][0] || null };
+  if (sky === null && precip === 'none' && components.mist === 'none') return result(null, 'no-drawable-components', label);
+  if (!validScene({ ...components, daypart: 'day' })) return result(null, 'incomplete-observation', label);
+  const skyLabel = { CLR: 'Clear', SKC: 'Clear', FEW: 'A few clouds', SCT: 'Partly cloudy', BKN: 'Mostly cloudy', OVC: 'Overcast', VV: 'Obscured sky' }[sky];
+  return result(components, 'supported-condition', label || skyLabel || null);
 }
 export async function fetchStation(station, now, fetcher = fetch, onOutcome = () => {}) {
   if (!/^[A-Z0-9]{3,6}$/.test(station)) throw new Error('Invalid station');
