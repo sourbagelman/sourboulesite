@@ -69,7 +69,7 @@ test('readout preserves observed unsupported conditions, safe text and meaning-c
     assert.match(out.conditionLabel.toLowerCase(), new RegExp(weather === 'thunderstorms' ? 'thunderstorms' : weather));
   }
   assert.equal(normalizeSuite({ ...p, textDescription: '<script>x</script>', presentWeather: [wx('rain')] }).conditionLabel, 'Rain');
-  assert.equal(normalizeSuite({ ...p, textDescription: 'Rain', presentWeather: Array.from({ length: 20 }, () => wx('rain', { modifier: 'freezing' })) }).conditionLabel, null, 'Oversize decoded text must not fall back to a phrase that drops freezing');
+  for (const amount of ['CLR', 'OVC']) assert.equal(normalizeSuite({ ...p, cloudLayers: [{ amount }], textDescription: 'Rain', presentWeather: Array.from({ length: 20 }, () => wx('rain', { modifier: 'freezing' })) }).conditionLabel, null, 'Oversize decoded text must not fall back to a phrase that drops freezing');
   assert.equal(normalizeSuite({ ...p, presentWeather: [{ weather: 'rain' }], textDescription: 'Rain' }).conditionLabel, null);
   for (const presentWeather of [[wx('rain'), wx('unrecognized')], [wx('rain', { modifier: 'unrecognized' })]]) {
     const invalid = normalizeSuite({ ...p, presentWeather, textDescription: 'Rain' });

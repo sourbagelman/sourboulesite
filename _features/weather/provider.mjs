@@ -281,7 +281,9 @@ export function normalizeSuite(p) {
   if (sky === null && precip === 'none' && components.mist === 'none') return result(null, 'no-drawable-components', label);
   if (!validScene({ ...components, daypart: 'day' })) return result(null, 'incomplete-observation', label);
   const skyLabel = { CLR: 'Clear', SKC: 'Clear', FEW: 'A few clouds', SCT: 'Partly cloudy', BKN: 'Mostly cloudy', OVC: 'Overcast', VV: 'Obscured sky' }[sky];
-  return result(components, 'supported-condition', label || skyLabel || null);
+  // A deliberately omitted present-weather label must not become a sky-only
+  // claim that drops rain, freezing or another observed qualifier.
+  return result(components, 'supported-condition', label || (!positiveWeather ? skyLabel : null) || null);
 }
 export async function fetchStation(station, now, fetcher = fetch, onOutcome = () => {}) {
   if (!/^[A-Z0-9]{3,6}$/.test(station)) throw new Error('Invalid station');
