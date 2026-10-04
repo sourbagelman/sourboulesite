@@ -5,7 +5,7 @@
   "compatibility_date": "2026-09-01",
   "workers_dev": true,
   "preview_urls": false,
-  "vars": { "WEATHER_ENABLED": "true", "WEATHER_EXPANSION_ENABLED": "true", "WEATHER_ENHANCED_ENABLED": "true", "WEATHER_READOUT_ENABLED": "true", "WEATHER_LIGHTING_ENABLED": "false" },
+  "vars": { "WEATHER_ENABLED": "true", "WEATHER_EXPANSION_ENABLED": "true", "WEATHER_ENHANCED_ENABLED": "true", "WEATHER_READOUT_ENABLED": "true", "WEATHER_LIGHTING_ENABLED": "true" },
   "assets": { "directory": "./textures-v3", "binding": "WEATHER_ASSETS", "run_worker_first": true },
   "durable_objects": { "bindings": [{ "name": "WEATHER_CACHE", "class_name": "WeatherCache" }] },
   "migrations": [{ "tag": "weather-cache-v1", "new_sqlite_classes": ["WeatherCache"] }],

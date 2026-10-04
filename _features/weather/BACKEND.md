@@ -473,7 +473,7 @@ under the private `_features/weather/tests/` source directory and are not shippe
 - `WEATHER_ENHANCED_ENABLED=false`: use the compatible ordinary weather fallback.
 - `WEATHER_READOUT_ENABLED=false`: omit the homepage readout independently.
 - `WEATHER_LIGHTING_ENABLED=false`: suppress enhanced internal cloud lighting.
-  The source defaults false pending the separate rendered safety assessment.
+  The approved lighting is enabled after the rendered assessment below; saved off and reduced-motion gates remain independent.
 - `WEATHER_ENABLED=false`: existing full weather/readout kill; reads return 503
   and cron skips provider work. Previously cached JSON may last at most five
   minutes, capped by absolute freshness. The new effect ends within five seconds.
@@ -525,3 +525,21 @@ module graph and exercises the real local asset binding. It needs local listenin
 ports and outbound read access to NWS, and never substitutes a fixture when the
 provider is unavailable. Deterministic tests require neither cloud access nor
 any cloud mutation.
+
+### Rendered lighting assessment — October 4
+
+All eight thunder compositions at 320, 390 and 1440 pixels were sampled at
+60 frames/second across the full five seconds (301 samples each), comparing the
+actual lighting-on/off compositor over the current homepage backgrounds and
+black/cream/white backgrounds. Maximum opposing 0.1-luminance transitions in
+any second was four (two flash pairs), with no area above the three-pair
+frequency criterion. Separate saturated-red and actual-page CIE1976 testing
+found maximum chromaticity distance 0.0960, below 0.2, with no qualifying red
+transitions. The measured light contribution spans 1.5667–2.6667 seconds;
+there is no added pulse in the fifth second.
+
+These bounded engineering measurements support enabling the unchanged approved
+lighting under WCAG 2.3.1's tested frequency/red criteria. They are not a
+whole-site, clinical or physical-device safety certification. Reduced motion,
+weather-off and saved storm-lighting-off continue to suppress lighting.
+The reproducible assessment and evidence are recorded in TEST-RESULTS.md.
