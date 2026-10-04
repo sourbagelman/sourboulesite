@@ -191,13 +191,13 @@ test('expansion-disabled legacy projection works with one v2 request and no extr
     assert.deepEqual(t.counts, { weather: 1, renderer: 1 });
   } finally { await t.close(); }
 });
-test('three production includes activate only v2 and each bootstrap pins one compatible renderer', async () => {
+test('three production includes activate only v3 and retained v2/v1 bootstraps pin their compatible renderers', async () => {
   for (const page of ['index.html', 'fort-worth.html', 'willow-bend.html']) {
     const html = await readFile(new URL('../../../' + page, import.meta.url), 'utf8');
     const includes = html.match(/<script[^>]+data-sb-weather[^>]*>/g) || [];
     assert.equal(includes.length, 1, page);
-    assert.match(includes[0], /src="assets\/js\/weather-v2\.js"/);
-    assert.match(includes[0], /data-endpoint="https:\/\/sour-boule-weather\.lance-c84\.workers\.dev\/weather\/v2\/(fort-worth|willow-bend)"/);
+    assert.match(includes[0], /src="assets\/js\/weather-v3\.js"/);
+    assert.match(includes[0], /data-endpoint="https:\/\/sour-boule-weather\.lance-c84\.workers\.dev\/weather\/v3\/(fort-worth|willow-bend)"/);
   }
   assert.match(bootstrap, /\/assets\/js\/weather-renderer-v2\.js/);
   assert.doesNotMatch(bootstrap, /\/assets\/js\/weather-renderer\.js/);

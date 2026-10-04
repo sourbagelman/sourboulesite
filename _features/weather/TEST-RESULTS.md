@@ -340,3 +340,210 @@ the task's weather evidence directory. The final documentation-only receipt
 commit does not change the verified frontend or Worker artifact. No demonstrated
 ongoing deployment defect remains; historical incidents and the unperformed
 device checks remain explicitly unverified.
+
+## Final 64-scene suite and Home readout — October 4, 2026
+
+Starting live main: `e0c1b4bfba5f62c88630348a5f8d5d36ac48af72`.
+Starting Worker: `7681e71c-8553-46ad-b066-a2c2a7cc5006`.
+The controlling final instruction supersedes historical review-only package labels.
+All **184 manifest files** passed SHA-256 and length verification. The approved
+renderer is retained byte-for-byte, SHA-256
+`7008f4f85bef13e088d22cce3983988d0cc261e81b0c8e0684b5123e47878744`.
+No review HTML/video/fixture/sample-temperature interface is published.
+
+### Focused local checks actually performed
+
+- **119 backend + 26 retained renderer checks passed** (145/145, actual test exit
+  0), including all 64 production-adapter component mappings. A final regression
+  exposed a sky-label fallback when an oversized freezing-weather description
+  had been omitted; the fixed adapter now preserves the omission rather than
+  claiming clear weather. Known unsupported conditions retain accurate text;
+  unknown structured qualifiers cannot become shortened misleading descriptions.
+- **29/29 new renderer lifecycle/resource checks passed**. All four retained
+  v1/v2 assets and their drawing sources remain unchanged.
+- **59/59 v3 client/readout/lifecycle checks + 64/64 actual provider → v3 → built
+  renderer scene cases passed**. The latter use an accelerated private RAF clock
+  for functional checks, not for performance claims. They verify actual selected
+  textures, painted scenes, cleanup and persistent text.
+- **84/84 retained client/integration checks passed**, including 20 actual
+  four-second v1/v2 fixture playbacks on desktop/mobile. They confirm cached old
+  pages continue to work; their old duration is not the new v3 duration.
+- A final malformed fallback-array rejection adds no valid-path behavior change;
+  **4/4 focused pure contract/readout checks passed** against the final build.
+- **960/960 exact PNG comparisons passed**: all 64 supplied compositions ×
+  320/390/1440 pixels × 0.3/1.9/3.5/4.25/4.8 seconds. All **192** compositions
+  clear at 5.0 seconds. Retained rain/rain-mist/fog/storm fallback rendering also
+  remains visibly present at 4.25/4.8 seconds and clears at five seconds.
+- **576 renderer setup/drawing benchmarks passed**, with **192 selected-texture
+  decode measurements**. Maximum p95 draw was **0.2 / 0.9 / 1.4 ms** at
+  1×/4×/6× CPU; max setup **2.2 / 2.1 / 3.4 ms**. Worst individual callback was
+  **24.7 ms**, with no callback/setup ≥50 ms. Maximum individual asynchronous
+  decode measurement: **3.8 / 12.2 / 12.8 ms**. Asynchronous decode wall time is
+  not represented as a blocking JavaScript task.
+- Eight current-page layout cases passed at **320/390/768/1440** with ordinary
+  and long labels, navigation open/close and **200% CSS zoom**. The mobile slot
+  reserves space before loading and can grow for zoomed long text. At the
+  tablet breakpoint, a genuine ordering-button collision hides the card; normal
+  scrolling restores it when the space clears. No horizontal overflow occurred.
+- Real Chromium history restoration emitted **native `pageshow.persisted`** and
+  restored the same document identity, readout and session without replay or
+  an extra weather request. This is more than dispatching a simulated event.
+- Tests cover same-observation C/F units, QC, valid zero, null replacement,
+  unsupported artwork with neutral text, invalid/stale data, sunrise/sunset/
+  Chicago midnight, failed resources, saved off, reduced motion, connection and
+  storage gates, readout expiry/return, and immediate New Year priority.
+
+Environment: Chromium **151.0.7922.34**, Mac, local HTTPS fixture server. Only
+wall-clock Date is moved to the observation fixture; native Performance Timing,
+RAF and timers remain real during page measurements. Static assets/HTML are the
+actual current candidate with only the fixed Worker origin redirected privately.
+No production demo switch, provider override or live promotion pass is used.
+
+### Rendered light assessment
+
+All eight thunder scenes × three widths were sampled at **60 fps, 301 samples
+per composition**, using actual approved pixels with lighting on/off. Absolute
+linear-sRGB luminance contribution was assessed over the current Home screenshots
+and black/cream/white backgrounds; saturated-red and current-page backgrounds
+were separately assessed using CIE1976 chromaticity distance. Maximum opposing
+0.1-luminance transitions in any second: **4 (two flash pairs)**, with zero area
+above three pairs. Maximum qualifying red chromaticity difference: **0.0960**,
+below **0.2**, with no qualifying red transitions. Light contribution appears
+only at **1.5667–2.6667 seconds**, with no fifth-second pulse.
+
+The tested outputs meet the assessed [WCAG 2.3.1 frequency/red criteria](https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html).
+This bounded engineering assessment is not a whole-site, clinical or
+physical-device safety certification. The approved lighting is enabled; the
+independent saved lighting-off, weather-off and reduced-motion controls remain.
+
+### Repeated actual-page comparison
+
+**54 visits passed**: three repeats × three CPU/viewport profiles ×
+weather-disabled/current-v2/new-v3 × cold/consumed-session. Network was
+150 ms latency / 1.6 Mbps download / 0.75 Mbps upload. Profiles were desktop
+1440×900/DPR1/CPU1×, 390×844/DPR2/CPU4× and 320×568/DPR2/CPU6×.
+All ordering-disclosure/tap and scroll checks passed. Measured automated click/
+tap round trips were **18.4–78.5 ms**, not a claim of measured field INP.
+
+Medians of three cold runs, ms; columns are disabled / previous v2 / new v3:
+
+| Profile | FCP | LCP | Load |
+|---|---|---|---|
+| Desktop 1× | 536 / 504 / 500 | 4872 / 4852 / 4840 | 4913 / 4890 / 4905 |
+| 390px 4× | 536 / 532 / 560 | 536 / 532 / 560 | 3822 / 3748 / 3830 |
+| 320px 6× | 612 / 584 / 576 | 612 / 584 / 576 | 3853 / 3829 / 3839 |
+
+There was no weather-attributable ≥50 ms task and no layout shift during
+playback. New readout-enabled and weather-disabled versions had identical cold
+CLS in every repeat: **0.064526 desktop, 0.026647 at390, 0.034807 at320**;
+these are existing initial seasonal-content shifts before weather. Previous v2
+mobile CLS was 0.032061/0.048899; the new reserved readout space changes the
+viewport geometry. CLS was zero for all27 consumed-session visits.
+These measurements show variation and real overhead, not zero-cost decoration.
+
+Final runtime sizes (gzip, build measurements): bootstrap/readout **5,956 B**,
+enhanced renderer **7,392 B**, controlled fallback **5,955 B**; combined runtime
+JS **19,303 B**, below25KiB. Home-only CSS is **894 B gzip**. Largest selected
+catalog texture body is **104,634 B**, below128KiB. Logical decoded texture RGBA
+backing is at most **1,609,728 B**; canvas is capped at2million pixels/DPR1.5.
+Those are measured resource dimensions/allocations, not total browser/GPU memory.
+
+In the repeated rain/mist fixture, v3 used **8 weather resources / 114,396 B
+encoded bodies** (Brotli JS/CSS/JSON + already-compressed WebPs), versus previous
+v2's **3 / 8,326 B**. Browser Resource Timing transfer totals were116,796 versus
+9,226B, including reported response overhead, not packet/TLS accounting. Home
+static-only used three resources (bootstrap, CSS, shared JSON); no renderer or
+texture request. Consumed Home reused its HTTP-cached bootstrap/CSS/JSON with
+zero Resource Timing network-transfer bytes, and no replay/texture/renderer.
+
+### Actual deployed backend and unattended refresh
+
+Backend source was committed and published before its Worker deployment, while
+all public weather HTML/assets still pointed at v2. Stage1 old endpoint bodies
+were byte-identical to baseline; v3 safely returned503 until a compatible normal
+scheduled refresh. No manual refresh, storage reset, timestamp rewrite, new
+hostname or cron change was used.
+
+Final Worker revision: **`683e8e0e-86ae-4522-9e28-bbe3e4de3057`**, source at
+`2aba94e` with lighting enabled after the assessment. All13 deployed immutable
+WebPs passed exact local-byte hashes, MIME, exact-origin CORS and one-year
+immutable Cache-Control. The local actual-workerd assets binding also passed
+GET/HEAD, rejection, decoded-byte and hash checks before deployment.
+
+A Cloudflare tail captured the genuine **`47 * * * *`** event with outcome`ok`,
+`refreshed:true`, `source:scheduled` at **2026-10-04T15:47:26.749Z**.
+Both v3 endpoints then returned200 from **KFTW 15:30:00Z**, fetched15:47:26.749Z,
+valid until16:47:26.749Z; same source report, separate restaurant solar values.
+The exact NWS record matched **Light Rain**, structured light rain/-RA, OVC,
+**22°C, QC V →71.6°F**. V3 body sizes were **401/400 B Brotli** and under2KiB
+uncompressed. V1/v2 also remained200 with rain from that same actual report.
+This is live/provider/cron evidence; the 64 rare scenes remain controlled fixtures.
+
+### Reproduction, evidence and unavailable checks
+
+Evidence is retained outside the public tree in
+`work/weather-final-2026-10-04/`: baseline/readback JSON, redacted cron tail,
+source/asset hashes, exact observation, test logs and `qa/` PNG/results.
+Test-specific certificates, local databases, .wrangler state and browser profiles
+are never staged. The performance harness accepts `SB_QA_SECTION=comparison`,
+`scenes`, `cache`, `layout` or `a11y`, `SB_WEATHER_BASELINE` pointing at a private
+copy of the unchanged starting HTML/assets, and `SB_WEATHER_QA_OUTPUT` for evidence.
+The fixture origin rewriting exists only in the test harness, not shipped pages.
+
+**Unperformed:** no installed WebKit binary; physical iPhone/mobile Safari,
+VoiceOver, actual cellular, device thermal/GPU and whole-site accessibility
+certification were not tested or claimed. Chromium mobile/CPU/network emulation,
+CSS zoom, native BFCache and rendered-light analysis do not substitute for them.
+
+### Remaining page checks and publication hold
+
+The21 representative current-page scene runs passed, covering clear day,
+overcast night, rain/mist, heavy thunder/rain, hail storm, freezing rain and
+blowing snow under all three CPU/network profiles. Five-second lifetimes were
+5000.3–5002.2ms; maximum p95 callback0.7ms, individual callback4.8ms. Cold body
+bytes peaked at**117,571B**, across4/7/8 requests by scene, below160KiB. Native
+CDP whole-page JS heap peaked at4,798,604B while active and4,362,696B after
+cleanup; these include page/test instrumentation, with no forced GC, and exclude
+image/GPU allocations. They are not a weather-only heap attribution.
+
+All9 cold/warm-new-tab/consumed cache visits verified actual immutable texture
+reuse, static readout persistence, ordinary controls and no consumed-session
+replay. However, **one desktop warm-new-tab first weather callback took190.5ms**,
+with a matching194ms Long Task/196.6ms Long Animation Frame at88.7ms after
+navigation. The RAF wrapper loses script-URL attribution, so an empty
+`weatherLong` array is not evidence that this outlier is acceptable. The harness
+now also explicitly asserts the measured callback ceiling and saves evidence
+before that assertion. This original performance failure remains recorded in
+`qa/page-cache/cache-results.json`; it has not been averaged away or overwritten.
+
+Six focused desktop warm repeats (18 cold/warm/consumed visits) did not reproduce
+the outlier. Three omitted active heap sampling; their warm callback maxima were
+0.6/0.9/0.4ms. Three captured CPU profiles/native-call durations and inspector
+timestamps; maxima were0.8/0.8/0.5ms, with no slow native call or Long Task.
+First graphics initialization versus an inspector/host pause remains a hypothesis,
+not an established root cause. No speculative renderer rewrite, artificial
+production condition, safeguard relaxation or replay-policy change was made.
+
+Three actual-page keyboard/accessibility checks also passed on Home and both
+locations at320px: native buttons work with Space, minimum44px target height,
+correct saved preferences/pressed states, no horizontal overflow, no animation
+with reduced motion, and factual Home text remains. The readout is absent on
+location pages and is not a live region. These checks do not replace VoiceOver
+or physical Safari verification.
+
+**Release acceptance is incomplete because the recorded startup stall exceeds
+the50ms task ceiling and its cause is unresolved.** The frontend HTML/CSS/JS
+changes are saved in the local candidate, not pushed to main or published.
+The compatible production backend at revision
+`683e8e0e-86ae-4522-9e28-bbe3e4de3057` is live; the website still serves its
+previous v2 weather assets and has no new Home readout. Accordingly there is
+**no production v3 five-second playback or Home-readout claim**. Real new API
+observations/temperatures and the genuine cron event were verified separately;
+all five-second/64-scene/readout visual results above are controlled local tests.
+
+The protected business-content boundary remains intact: all150 existing tracked
+files outside weather and the three eligible pages are byte-identical to baseline.
+Removing only the exact weather additions from those three candidate pages
+reproduces their starting bytes. No menu, organic wording, price, hours, order
+URL, SEO, form, shared style/script, seasonal, New Year or release-control edit
+is included. All four retained weather assets remain byte-identical.

@@ -1,0 +1,55 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
+import { suitePlugin, fallbackPlugin } from '../build-client-v3.mjs';
+const require=createRequire(new URL('../../new-year/package.json',import.meta.url));
+const {build}=require(process.env.SB_ESBUILD||'esbuild');
+const bundle=async(entry,plugins)=>{const b=await build({entryPoints:[new URL(entry,import.meta.url).pathname],bundle:true,format:'esm',write:false,plugins});return import('data:text/javascript;base64,'+Buffer.from(b.outputFiles[0].text).toString('base64'));};
+const {prepareWeather,textureNames,WEATHER_TIMING}=await bundle('../renderer-v3.mjs',[suitePlugin]);
+const fallback=await bundle('../renderer.mjs',[fallbackPlugin]);
+const fixtures=JSON.parse(await readFile(new URL('./scene-fixtures-v3.json',import.meta.url)));
+const manifest=JSON.parse(await readFile(new URL('../texture-manifest-v3.json',import.meta.url)));
+const clear=fixtures[0].scene;
+function environment({width=390,height=844,dpr=2,unsupported=false}={}){
+ const previous=new Map(),canvases=[],raf=new Map(),timers=new Map(),events=new Map();let serial=0,now=0,gradients=0,shadows=0,draws=0,drawCost=0;
+ function install(key,value){previous.set(key,Object.getOwnPropertyDescriptor(globalThis,key));Object.defineProperty(globalThis,key,{configurable:true,value,writable:true});}
+ const listeners=(target)=>({addEventListener(name,fn){events.set(target+name,fn);},removeEventListener(name,fn){if(events.get(target+name)===fn)events.delete(target+name);}});
+ install('innerWidth',width);install('innerHeight',height);install('devicePixelRatio',dpr);
+ install('performance',{now:()=>now});install('requestAnimationFrame',fn=>{const id=++serial;raf.set(id,fn);return id;});install('cancelAnimationFrame',id=>raf.delete(id));
+ install('setTimeout',(fn,delay)=>{const id=++serial;timers.set(id,{fn,delay});return id;});install('clearTimeout',id=>timers.delete(id));
+ install('window',listeners('window'));
+ install('fetch',async()=>{throw Error('Unexpected texture request');});
+ const document={hidden:false,...listeners('document'),body:{append(c){c.attached=true;}},createElement(name){assert.equal(name,'canvas');const canvas={width:300,height:150,attached:false,style:{},attributes:{},setAttribute(k,v){this.attributes[k]=v;},remove(){this.attached=false;},getContext(){if(unsupported)return null;const context=new Proxy({globalAlpha:1,createLinearGradient(){gradients++;return {addColorStop(){}};},createRadialGradient(){gradients++;return {addColorStop(){}};},drawImage(){draws++;now+=drawCost;}},{get(o,k){return k in o?o[k]:()=>{};},set(o,k,v){if(k==='shadowBlur'||k==='filter')shadows++;o[k]=v;return true;}});return context;}};canvases.push(canvas);return canvas;}};install('document',document);
+ return {install,canvases,raf,timers,events,document,setDrawCost(value){drawCost=value;},stats:()=>({gradients,shadows,draws}),frame(t){now=t;const jobs=[...raf.values()];raf.clear();jobs.forEach(fn=>fn(now));},fire(key){events.get(key)?.();},dispose(){for(const[k,d]of previous)d?Object.defineProperty(globalThis,k,d):delete globalThis[k];}};
+}
+
+
+test('all64 selected texture sets stay below128KiB and use only approved bytes',()=>{
+ for(const{scene}of fixtures){const names=textureNames(scene,true);assert.equal(names.length,new Set(names).size);assert.ok(names.reduce((s,k)=>s+manifest[k].bytes,0)<=131072);}
+ assert.deepEqual(textureNames(clear),[]);assert.deepEqual(textureNames({...clear,daypart:'night'}),['moon']);
+ assert.ok(!textureNames({...clear,sky:'OVC',thunder:true},false).includes('cloud-light'));
+});
+test('shared duration is5s inclusive of .55s/4.1–5 fades',()=>assert.deepEqual(WEATHER_TIMING,{durationSeconds:5,durationMs:5000,fadeInSeconds:.55,fadeOutStartSeconds:4.1,fadeOutSeconds:.9}));
+test('preparation is detached; start alone begins one5s canvas/RAF and cleanup',async()=>{const e=environment();try{
+ const start=await prepareWeather({scene:clear});assert.equal(typeof start,'function');assert.equal(e.raf.size,0);assert.ok(e.canvases.every(c=>!c.attached));let reason;const stop=start({onFinish:r=>reason=r});assert.equal(typeof stop,'function');assert.equal(e.raf.size,1);assert.equal(e.canvases.filter(c=>c.attached).length,1);assert.match(e.canvases[0].style.cssText,/pointer-events:none/);assert.equal(e.canvases[0].attributes['aria-hidden'],'true');
+ const gradients=e.stats().gradients;for(const t of [300,1900,3500,4250,4800]){e.frame(t);e.frame(t+16);}assert.equal(e.stats().gradients,gradients);assert.equal(e.canvases[0].attached,true);e.frame(5000);assert.equal(reason,'complete');assert.equal(e.raf.size,0);assert.equal(e.events.size,0);assert.equal(e.timers.size,0);assert.ok(e.canvases.every(c=>c.width===0&&c.height===0));assert.equal(start(),null);stop();
+ }finally{e.dispose();}});
+for(const action of ['pagehide','hidden','resize','cancelled','aborted'])test(action+': no resume or leaked resources',async()=>{const e=environment();try{const controller=new AbortController();const start=await prepareWeather({scene:clear,signal:controller.signal});const stop=start();e.frame(16);if(action==='hidden'){e.document.hidden=true;e.fire('documentvisibilitychange');}else if(action==='cancelled')stop();else if(action==='aborted')controller.abort();else e.fire('window'+action);e.document.hidden=false;e.fire('windowpageshow');e.fire('windowresize');e.frame(32);assert.equal(e.raf.size,0);assert.equal(e.timers.size,0);assert.equal(e.events.size,0);assert.ok(e.canvases.every(c=>!c.attached&&c.width===0));}finally{e.dispose();}});
+test('prepared run is discarded on abort or viewport change without playback',async()=>{const e=environment();try{const controller=new AbortController();const start=await prepareWeather({scene:clear,signal:controller.signal});controller.abort();assert.equal(start(),null);const next=await prepareWeather({scene:clear});globalThis.innerWidth++;assert.equal(next(),null);assert.equal(e.raf.size,0);assert.ok(e.canvases.every(c=>c.width===0));}finally{e.dispose();}});
+test('two million backing pixels and DPR1.5 at oversized viewports',async()=>{const e=environment({width:3840,height:2160,dpr:3});try{const start=await prepareWeather({scene:clear});assert.equal(typeof start,'function');assert.ok(e.canvases[0].width*e.canvases[0].height<=2000000);start()();}finally{e.dispose();}});
+test('consecutivebusyRAF still stops; isolated gaps reset',async()=>{const e=environment();try{const start=await prepareWeather({scene:clear});let reason;start({onFinish:r=>reason=r});for(const t of [100,200,216,316,416,432])e.frame(t);assert.equal(reason,undefined);for(const t of [532,632,732])e.frame(t);assert.equal(reason,'busy');assert.equal(e.raf.size,0);}finally{e.dispose();}});
+test('invalid/hidden/noCanvas/failedtextures do not consume or attach playback',async()=>{const e=environment({unsupported:true});try{assert.equal(await prepareWeather({scene:clear}),null);assert.equal(await prepareWeather({scene:{...clear,sky:'BAD'}}),null);assert.equal(await prepareWeather({scene:{...clear,daypart:'night'}}),null);e.document.hidden=true;assert.equal(await prepareWeather({scene:clear}),null);assert.equal(e.raf.size,0);assert.equal(e.events.size,0);assert.equal(e.timers.size,0);}finally{e.dispose();}});
+test('unknown sky supports observed precipitation without celestial textures',()=>assert.deepEqual(textureNames({...clear,sky:null,precip:'rain',wind:null,gust:null}),[]));
+for(const effect of ['rain','snow','wind','cloud','sun','night','fog','drizzle','storm'])test('controlled lightweight5s fallback '+effect,()=>{const e=environment();try{let reason;const stop=fallback.startWeather({effect,onFinish:r=>reason=r});assert.equal(typeof stop,'function');e.frame(4250);e.frame(4800);assert.equal(reason,undefined);e.frame(5000);assert.equal(reason,'complete');assert.equal(e.raf.size,0);assert.ok(e.canvases.every(c=>c.width===0));}finally{e.dispose();}});
+function imageEnvironment(e,{decode=()=>Promise.resolve(),bytes=1880,width=192}={}){
+ const revoked=[],images=[];e.install('URL',{createObjectURL:()=> 'blob:test-weather',revokeObjectURL:u=>revoked.push(u)});
+ e.install('Image',class{constructor(){this.naturalWidth=width;this.naturalHeight=192;images.push(this);}decode(){return decode();}});
+ e.install('fetch',async()=>({ok:true,headers:new Map([['content-type','image/webp']]),blob:async()=>({size:bytes})}));return{revoked,images};
+}
+test('selected image decode completes before playback; stop clears image and blob resources',async()=>{const e=environment();try{const r=imageEnvironment(e);const starter=await prepareWeather({scene:{...clear,daypart:'night'}});assert.equal(typeof starter,'function');assert.equal(e.raf.size,0);const stop=starter();e.frame(1900);stop();assert.deepEqual(r.revoked,['blob:test-weather']);assert.equal(r.images[0].src,'');assert.equal(e.events.size,0);}finally{e.dispose();}});
+test('abort during decode and late resolution can never attach canvas',async()=>{const e=environment();try{let resolve;const r=imageEnvironment(e,{decode:()=>new Promise(r=>resolve=r)});const controller=new AbortController();const pending=prepareWeather({scene:{...clear,daypart:'night'},signal:controller.signal});await new Promise(r=>setImmediate(r));controller.abort();assert.equal(await pending,null);resolve();await Promise.resolve();assert.equal(r.images[0].src,'');assert.equal(e.raf.size,0);assert.equal(e.canvases.length,0);assert.deepEqual(r.revoked,['blob:test-weather']);}finally{e.dispose();}});
+test('bounded3s decode preparation timeout releases resources without playback',async()=>{const e=environment();try{const r=imageEnvironment(e,{decode:()=>new Promise(()=>{})});const pending=prepareWeather({scene:{...clear,daypart:'night'}});await new Promise(r=>setImmediate(r));const timeout=[...e.timers.values()].find(v=>v.delay===3000);assert.ok(timeout);timeout.fn();assert.equal(await pending,null);assert.equal(r.images[0].src,'');assert.equal(e.raf.size,0);assert.equal(e.canvases.length,0);assert.equal(e.timers.size,0);}finally{e.dispose();}});
+for(const patch of [{bytes:1881},{width:193}])test('wrong texture '+JSON.stringify(patch)+' fails closed',async()=>{const e=environment();try{imageEnvironment(e,patch);assert.equal(await prepareWeather({scene:{...clear,daypart:'night'}}),null);assert.equal(e.raf.size,0);assert.equal(e.canvases.length,0);}finally{e.dispose();}});
+test('missing sky never creates an invented cloud-internal light',async()=>{const e=environment();try{assert.deepEqual(textureNames({...clear,sky:null,thunder:true},true),[]);assert.equal(await prepareWeather({scene:{...clear,sky:null,thunder:true},lighting:true}),null);}finally{e.dispose();}});
+test('controlled fallback cap also applies to expanded renderer on extreme displays',()=>{const e=environment({width:10000,height:10000,dpr:3});try{const stop=fallback.startWeather({effect:'fog'});assert.equal(typeof stop,'function');assert.ok(e.canvases[0].width*e.canvases[0].height<=2000000);stop();}finally{e.dispose();}});
