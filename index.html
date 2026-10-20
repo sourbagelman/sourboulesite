@@ -61,6 +61,19 @@
 }
 </script>
 <link rel="stylesheet" href="assets/css/weather-v3.css">
+<style>
+/* Thanksgiving preorder: homepage-only, independent of seasonal effects. */
+.thanksgiving-preorder { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem 2rem; padding:clamp(20px,3vw,30px); border:1px solid #d9c9b7; border-left:5px solid #a45d30; border-radius:20px; background:#faf5ef; }
+.thanksgiving-preorder__copy { flex:1 1 26rem; min-width:0; }
+.thanksgiving-preorder .eyebrow { margin:0 0 6px; color:#586044; font-size:.75rem; }
+.thanksgiving-preorder h2 { margin:0 0 8px; color:#32291f; font-size:clamp(1.65rem,3vw,2.25rem); line-height:1.15; }
+.thanksgiving-preorder p { margin:0; color:#574c40; font-size:.95rem; line-height:1.5; }
+.thanksgiving-preorder__action { display:flex; flex:0 1 auto; flex-direction:column; align-items:center; gap:8px; max-width:100%; }
+.thanksgiving-preorder .btn { background:#854421; border-color:#854421; color:#fff; text-align:center; }
+.thanksgiving-preorder .btn:hover { background:#653319; border-color:#653319; color:#fff; }
+.thanksgiving-preorder__deadline { color:#586044; font-size:.8rem; font-weight:700; }
+@media (max-width:43.75rem) { .thanksgiving-preorder__action { width:100%; align-items:stretch; text-align:center; } }
+</style>
 <link rel="stylesheet" href="assets/css/seasonal.css">
 <script src="assets/js/seasonal-config.js" defer></script>
 <script src="assets/js/seasonal.js" data-seasonal-controller defer></script>
@@ -109,6 +122,18 @@
 
 <main id="main-content" class="site-main home-main">
   <div class="container stack home-main__stack">
+    <section class="thanksgiving-preorder" aria-labelledby="thanksgiving-title">
+      <div class="thanksgiving-preorder__copy">
+        <span class="eyebrow">A little help with the holiday</span>
+        <h2 id="thanksgiving-title">Thanksgiving, made by The Sour Boule.</h2>
+        <p>Breakfast favorites, holiday sides, pies &amp; sourdough breads.<br>Pickup available in Fort Worth &amp; Aledo.</p>
+      </div>
+      <div class="thanksgiving-preorder__action">
+        <a class="btn" href="https://pci.jotform.com/form/262637807887071" target="_blank" rel="noopener">Order Thanksgiving <span class="sr-only">(opens in a new tab)</span><span aria-hidden="true">&nbsp;↗</span></a>
+        <span class="thanksgiving-preorder__deadline">Preorders close November 17</span>
+      </div>
+    </section>
+
     <section class="page-intro home-opening" aria-labelledby="home-title" data-seasonal-anchor>
 <div data-seasonal-art hidden aria-hidden="true"></div>
       <div class="page-intro__content">
