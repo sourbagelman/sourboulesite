@@ -1,0 +1,59 @@
+/* Included only on pages with the Fort Worth temporary-closure notice. */
+.fw-closure-notice {
+  padding: 1.1rem 1.35rem;
+  border: 1px solid #d6ba8c;
+  border-inline-start: 5px solid #8c5428;
+  border-radius: 16px;
+  background: #fff4df;
+  color: #382819;
+}
+
+.fw-closure-notice > strong {
+  display: block;
+  font-size: 1.1rem;
+  line-height: 1.45;
+}
+
+.fw-closure-notice > p {
+  margin: 0.4rem 0 0;
+  color: inherit;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.fw-closure-status {
+  font-weight: 800;
+}
+
+.fw-order-unavailable {
+  cursor: not-allowed;
+  text-align: center;
+  white-space: normal;
+}
+
+.btn.fw-order-unavailable,
+.btn.fw-order-unavailable:hover {
+  background: #eee7dc !important;
+  border-color: #b9ad9a !important;
+  color: #51473a !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.site-nav__popover > .fw-order-unavailable--nav,
+.mobile-nav__panel > .fw-order-unavailable--nav {
+  display: flex;
+  min-height: 46px;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: #eee7dc;
+  color: #51473a;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-align: start;
+}
+
+.site-nav__popover > .fw-order-unavailable--nav {
+  max-width: 17rem;
+}
